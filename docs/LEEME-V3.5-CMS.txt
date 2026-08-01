@@ -1,0 +1,19 @@
+WATCH MOVIES PLUS V3.5 — CMS CLOUDFARE
+
+NOVEDAD
+- Agrega, edita, publica, oculta y elimina películas y series desde gestor-contenido.html.
+- El catálogo se guarda en D1. Ya no necesitas editar content-data.js para contenido nuevo.
+- El sitio consulta /api/content y usa content-data.js solo como respaldo si la API no responde.
+- Busca películas y series por nombre usando la clave configurada en assets/js/config.js.
+- En series carga temporadas y episodios y permite pegar un MP4 por capítulo.
+
+INSTALACIÓN
+1. En Cloudflare reemplaza el código de watch-movies-plus-api por cloudflare/worker.js y pulsa Implementar.
+2. Comprueba /api/health. Debe indicar version 3.0-cms.
+3. En GitHub sube todos los archivos del paquete.
+4. Abre gestor-contenido.html e inicia sesión.
+5. La primera vez pulsa “Importar catálogo local” para subir Río y Loki a D1.
+6. Para agregar contenido pulsa “Agregar contenido”, busca el título, selecciónalo, pega los MP4 y guarda.
+
+IMPORTANTE
+La clave de consulta pública está en una web estática y puede verse desde el navegador. Para una instalación privada, mueve esas consultas al Worker.

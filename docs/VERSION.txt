@@ -1,0 +1,2 @@
+Watch Movies Plus V3.7.1
+Corrección: conserva releaseDate al crear y actualizar contenido.

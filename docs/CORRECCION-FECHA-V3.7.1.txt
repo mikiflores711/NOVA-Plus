@@ -1,0 +1,10 @@
+CORRECCIÓN DE FECHA DE ESTRENO
+
+El Worker eliminaba releaseDate durante la normalización antes de guardar data_json.
+
+INSTALACIÓN:
+1. Reemplaza el código del Worker con cloudflare/worker.js.
+2. Pulsa Implementar.
+3. Abre cada contenido sin fecha, búscalo en TMDB y pulsa Actualizar película/serie una sola vez.
+
+No es necesario modificar la base D1 ni ejecutar SQL.

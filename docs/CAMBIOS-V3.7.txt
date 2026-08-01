@@ -1,0 +1,11 @@
+WATCH MOVIES PLUS V3.7 - ACTUALIZACION DE CONTENIDO
+
+- El gestor distingue entre crear y actualizar.
+- Al seleccionar una película aparece el botón “Actualizar película”.
+- Al seleccionar una serie aparece el botón “Actualizar serie”.
+- Nuevo botón “Actualizar enlaces” para ir directamente al MP4 de la película o a los episodios.
+- Ya no es necesario eliminar el contenido para cambiar enlaces caídos.
+- La actualización conserva el mismo ID, portada, datos y posición del catálogo.
+
+INSTALACION
+Reemplaza únicamente gestor-contenido.html en GitHub. No es necesario modificar Cloudflare Worker.

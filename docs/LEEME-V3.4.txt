@@ -1,0 +1,20 @@
+WATCH MOVIES PLUS V3.4
+
+NOVEDADES
+- El panel muestra el enlace MP4 reportado con botones Copiar y Probar MP4.
+- "Reparar enlace" permite guardar un MP4 nuevo y marcar el reporte como Reparado.
+- La web consulta /api/resolve antes de reproducir. Si existe una corrección, usa el enlace nuevo sin regenerar HTML ni volver a subir las plantillas.
+- Los reportes repetidos continúan agrupándose por contenido, episodio, servidor y enlace.
+- Dashboard con reportes recibidos, enlaces administrados, contenido más reportado, servidores con fallos y actividad diaria.
+- Se puede desactivar un enlace administrado para volver al MP4 original.
+
+INSTALACIÓN
+1. En Cloudflare, reemplaza el código de watch-movies-plus-api con cloudflare/worker.js y pulsa Implementar.
+2. Conserva la vinculación D1 llamada DB y las variables ADMIN_USER y ADMIN_PASSWORD.
+3. En GitHub reemplaza admin.html y assets/js/detail.js. Se recomienda reemplazar todos los archivos del paquete.
+4. Prueba /api/health. Debe indicar versión 2.0.
+
+USO
+- Desde admin.html pulsa "Reparar enlace".
+- Pega el MP4 nuevo, pruébalo y guarda.
+- Desde ese momento, Río o el episodio correspondiente reproducirá automáticamente el enlace corregido.

@@ -1,0 +1,16 @@
+CORRECCIÓN V3.5.1
+
+Problema corregido:
+Las páginas Home, Catálogo de películas, Catálogo de series y Favoritos no cargaban assets/js/config.js. Por eso app.js consultaba /api/content dentro de GitHub Pages y terminaba usando el catálogo local de respaldo. El contenido nuevo guardado en Cloudflare no podía aparecer.
+
+Reemplaza en GitHub:
+- index.html
+- catalogo-de-peliculas.html
+- catalogo-de-series.html
+- favoritos.html
+- detalle.html
+- assets/js/app.js
+
+Después recarga con Ctrl+F5.
+
+Comprueba que el contenido esté marcado como Publicado en gestor-contenido.html.

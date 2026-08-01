@@ -1,0 +1,9 @@
+WATCH MOVIES PLUS V3.7.2
+
+Cambio único solicitado:
+- Los resultados de búsqueda del gestor ahora aparecen como una lista vertical.
+- Cada resultado muestra portada, título y año.
+- Se mejoró el área táctil y la legibilidad en móvil, tableta y PC.
+
+Instalación:
+Reemplaza únicamente gestor-contenido.html en GitHub.

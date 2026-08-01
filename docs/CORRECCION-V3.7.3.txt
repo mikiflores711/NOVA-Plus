@@ -1,0 +1,1 @@
+Corrección: se agregó PUT a Access-Control-Allow-Methods del Worker. Esto permite actualizar películas y series desde GitHub Pages sin que el navegador bloquee la solicitud CORS.

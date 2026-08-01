@@ -1,0 +1,26 @@
+{
+  "name": "NOVA+ · TV en Vivo",
+  "short_name": "NOVA+ TV",
+  "description": "Televisión en vivo dentro de NOVA+",
+  "lang": "es-MX",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#171720",
+  "theme_color": "#181821",
+  "icons": [
+    {
+      "src": "./icons/nova-plus-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icons/nova-plus-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

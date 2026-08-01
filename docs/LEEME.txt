@@ -1,0 +1,40 @@
+WATCH MOVIES PLUS V3
+
+Cambios principales:
+- Fondo unificado en Home, catálogos, favoritos y fichas.
+- Una sola plantilla dinámica: detalle.html?id=...
+- Río: detalle.html?id=rio-2011
+- Loki: detalle.html?id=loki-2021
+- Las páginas antiguas redirigen automáticamente.
+- Datos y enlaces centralizados en assets/js/content-data.js.
+- Un cambio visual en detalle.html o app.css se aplica a todas las películas y series.
+- Favoritos, ajustes, buscadores, reportes y reproductor permanecen integrados.
+- generador-v3.html crea bloques JSON para agregar nuevos títulos.
+
+INSTALACIÓN
+Sube todos los archivos y carpetas a la raíz de GitHub Pages reemplazando los anteriores.
+Después usa Ctrl+F5.
+
+IMPORTANTE
+La clave de consulta incluida en assets/js/config.js queda visible porque GitHub Pages es estático.
+
+CAMBIO V3.1 — REPORTES CON CLOUDFLARE
+=====================================
+1. En películas, el botón Reportar aparece junto a Mi lista.
+2. En series, cada episodio tiene:
+   - botón central para reproducir;
+   - botón superior derecho para reportar ese episodio.
+3. El reproductor ya no muestra botón de reporte.
+4. Los reportes se envían por POST JSON a Cloudflare y contienen película/serie, temporada, episodio, título del episodio, servidor y enlace MP4.
+
+INSTALAR LA API DE REPORTES
+===========================
+1. Crea un Worker llamado watch-movies-plus-api.
+2. Copia el contenido de cloudflare-worker-watch-movies-plus.js.
+3. Crea o usa una base D1 y vincúlala al Worker con el nombre exacto DB.
+4. Agrega el secreto ADMIN_PASSWORD y, opcionalmente, ADMIN_USERNAME.
+5. Implementa el Worker.
+6. Verifica que assets/js/config.js apunte a:
+   https://watch-movies-plus-api.mikimc-business.workers.dev
+
+La tabla se crea automáticamente al recibir la primera solicitud.

@@ -1,0 +1,11 @@
+WATCH MOVIES PLUS V3.6
+
+- Home muestra máximo 15 elementos por carrusel horizontal.
+- Banner rotativo con hasta 7 recomendaciones (películas o series).
+- Catálogos ordenados por fecha completa de estreno, de más reciente a más antigua.
+- El gestor incluye el campo Fecha de estreno y lo completa automáticamente desde TMDB.
+- Nuevas secciones de Acción, Ciencia ficción, Comedia, Drama y Terror para películas y series.
+- Cada sección incluye Ver más y abre el catálogo filtrado por categoría.
+
+IMPORTANTE:
+Para contenido ya guardado anteriormente, entra al Gestor, abre cada título, vuelve a buscarlo en TMDB y guarda para registrar su fecha completa. Si no tiene fecha completa, el sistema usa el año como respaldo.

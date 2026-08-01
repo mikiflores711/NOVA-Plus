@@ -1,0 +1,43 @@
+WATCH MOVIES PLUS V3.2 — INSTALACIÓN CLOUDFLARE
+
+1. WORKER
+- Abre watch-movies-plus-api.
+- Pulsa Editar código.
+- Copia todo el contenido de cloudflare/worker.js.
+- Pégalo sustituyendo el código existente.
+- Pulsa Implementar.
+
+2. BASE D1
+- Vinculación: Base de datos D1.
+- Nombre de variable obligatorio: DB
+- Selecciona tu base watch-movies-db.
+
+3. CONTRASEÑA
+Configuración > Variables y secretos > Agregar secreto:
+- ADMIN_PASSWORD: tu contraseña
+Opcional:
+- ADMIN_USER: admin
+  (también se acepta ADMIN_USERNAME por compatibilidad)
+- ALLOWED_ORIGINS: https://mikiflores711.github.io
+
+4. PRUEBA
+Visita:
+https://watch-movies-plus-api.mikimc-business.workers.dev/api/health
+Debe responder con ok:true.
+También puedes abrir cloudflare/prueba-api.html desde un servidor web.
+
+5. PANEL
+Sube admin.html a la raíz de tu repositorio.
+Abre:
+https://mikiflores711.github.io/Watch-Movies-Plus-Online/admin.html
+Usuario predeterminado: admin
+Contraseña: la configurada en ADMIN_PASSWORD.
+
+6. WEB
+El archivo assets/js/config.js ya apunta a:
+https://watch-movies-plus-api.mikimc-business.workers.dev
+
+7. DATOS ENVIADOS
+Película: título, año, ID, servidor, MP4, problema, comentario y página.
+Serie: además temporada, episodio y título del episodio.
+Los reportes repetidos se agrupan automáticamente.

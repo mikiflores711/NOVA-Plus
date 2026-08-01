@@ -65,7 +65,11 @@
       fallback.classList.add('hidden');
     }
     overview.textContent = details.overview || item.description || 'Sin descripción disponible.';
-    if (item.type === 'movie') {
+  
+  function renderSimilar(){const rail=$('#similarRail');if(!rail)return;const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();const genres=norm(item.genre).split(/[·,|/]/).map(x=>x.trim()).filter(Boolean);const candidates=(window.WMP_RUNTIME_CONTENT||window.WMP_CONTENT||[]).filter(x=>x.id!==item.id&&x.published!==false).map(x=>({x,score:genres.filter(g=>norm(x.genre).includes(g)).length+(x.type===item.type?1:0)})).filter(v=>v.score>0).sort((a,b)=>b.score-a.score).slice(0,12).map(v=>v.x);rail.innerHTML=candidates.map(x=>`<article class="card"><a href="detalle.html?id=${encodeURIComponent(x.id)}"><div class="poster"><img src="${x.poster||''}" alt="${x.title||''}" loading="lazy"></div><h3>${x.title||''}</h3><p>${x.year||''}${x.genre?' · '+x.genre:''}</p></a></article>`).join('');if(!candidates.length)rail.closest('.similar-section')?.classList.add('hidden')}
+  renderSimilar();
+
+  if (item.type === 'movie') {
       meta.innerHTML = `<span>${(details.release_date || String(item.year)).slice(0, 4)}</span><span>${details.runtime || ''} min</span><span>${(details.genres || []).map(g => g.name).join(' · ') || item.genre}</span>`;
       credits.innerHTML = `<strong>Elenco:</strong> ${people.slice(0, 5).map(person => person.name).join(', ')}`;
     } else {
@@ -175,8 +179,18 @@
 
   async function playResolved(media) {
     const resolved = await resolveManagedMedia(media);
+    try {
+      const key='nova_continue_v1';
+      const list=JSON.parse(localStorage.getItem(key)||'[]').filter(x=>x.contentId!==media.contentId);
+      list.unshift({contentId:media.contentId,season:media.season||0,episode:media.episode||0,title:media.title||item.title,updatedAt:Date.now()});
+      localStorage.setItem(key,JSON.stringify(list.slice(0,15)));
+    } catch (_) {}
     openWmpPlayer(resolved);
   }
+
+
+  function renderSimilar(){const rail=$('#similarRail');if(!rail)return;const norm=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();const genres=norm(item.genre).split(/[·,|/]/).map(x=>x.trim()).filter(Boolean);const candidates=(window.WMP_RUNTIME_CONTENT||window.WMP_CONTENT||[]).filter(x=>x.id!==item.id&&x.published!==false).map(x=>({x,score:genres.filter(g=>norm(x.genre).includes(g)).length+(x.type===item.type?1:0)})).filter(v=>v.score>0).sort((a,b)=>b.score-a.score).slice(0,12).map(v=>v.x);rail.innerHTML=candidates.map(x=>`<article class="card"><a href="detalle.html?id=${encodeURIComponent(x.id)}"><div class="poster"><img src="${x.poster||''}" alt="${x.title||''}" loading="lazy"></div><h3>${x.title||''}</h3><p>${x.year||''}${x.genre?' · '+x.genre:''}</p></a></article>`).join('');if(!candidates.length)rail.closest('.similar-section')?.classList.add('hidden')}
+  renderSimilar();
 
   if (item.type === 'movie') {
     $('#movieActions').classList.remove('hidden');

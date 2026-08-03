@@ -1,0 +1,71 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="canela-001" tvg-name="Canela.TV Novelas y Dramas" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-telenovelas-16x9_0.jpg" group-title="Novelas" provider="canela",Canela.TV Novelas y Dramas
+https://amg00658-amg00658c99-canelatv-international-7218.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-pasionlatina-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-002" tvg-name="Canela.TV Novelas Turcas" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-novelasturcas-16x9_1.jpg" group-title="Novelas" provider="canela",Canela.TV Novelas Turcas
+https://amg00658-amg00658c100-canelatv-international-7939.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-pasionturca-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-003" tvg-name="Hercai, Amor y Venganza" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-hercai-16x9.jpg" group-title="Novelas" provider="canela",Hercai, Amor y Venganza
+https://amg00658-amg00658c12-canelatv-international-7977.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-hercaiapp-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-004" tvg-name="El Secreto de Feriha" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-novelasturcas-16x9_1.jpg" group-title="Novelas" provider="canela",El Secreto de Feriha
+https://amg00658-amg00658c101-canelatv-international-7942.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-novelasturcassecretosdeferiha-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-005" tvg-name="Novelas Turcas Vive Kanal D Drama" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/vive_kdd_canela_media-1920x1080.jpg" group-title="Novelas" provider="canela",Novelas Turcas Vive Kanal D Drama
+https://amg01602-amg01602c2-canelatv-international-5561.playouts.now.amagi.tv/playlist/amg01602-themahqfrancefast-themavivekanalddrama-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-006" tvg-name="Todo Novelas, Mas Pasiones" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-telenovelas-16x9_0.jpg" group-title="Novelas" provider="canela",Todo Novelas, Mas Pasiones
+https://amg00658-amg00658c93-canelatv-international-6082.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-todonovelasta-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-007" tvg-name="Novelisima" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/w1snMhKwik97IWj_ZJLGraHMgzDwxGnkmiBkywhSCrI.jpg" group-title="Novelas" provider="canela",Novelisima
+https://amg00658-amg00658c60-canelatv-international-5442.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-novelisimaappta-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-008" tvg-name="Corazón" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/corazon_c_1920x1080.png" group-title="Novelas" provider="canela",Corazón
+https://amg00658-amg00658c57-canelatv-international-5437.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-corazontvaztecaappta-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-009" tvg-name="Tastemade Viajes" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/apk2nzj-fw95sa2rrnrub3hg-xtq1x9rgg.jpg" group-title="Novelas" provider="canela",Tastemade Viajes
+https://amg27441-amg27441c2-canelatv-international-10410.playouts.now.amagi.tv/playlist/amg27441-tastemadelatam-tastemadeviajes-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-010" tvg-name="Tastemade Hogar" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/apk2nzj-fw95sa2rrnrub3hg-xtq1x9rgg.jpg" group-title="Novelas" provider="canela",Tastemade Hogar
+https://amg27441-amg27441c1-canelatv-international-10411.playouts.now.amagi.tv/playlist/amg27441-tastemadelatam-tastemadehogar-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-011" tvg-name="Tastemade" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/apk2nzj-fw95sa2rrnrub3hg-xtq1x9rgg.jpg" group-title="Novelas" provider="canela",Tastemade
+https://amg27441-amg27441c6-canelatv-international-10423.playouts.now.amagi.tv/playlist/amg27441-tastemadelatam-tastemadeenespanol-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-012" tvg-name="Canela.TV" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-canelatv-16x9_4.jpg" group-title="Películas" provider="canela",Canela.TV
+https://amg00658-amg00658c108-canelatv-international-7664.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-canelatvlatamapp-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-013" tvg-name="Canela.TV Hollywood y Más" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-cinema-16x9_1.jpg" group-title="Películas" provider="canela",Canela.TV Hollywood y Más
+https://aka-live1050.delivery.roku.com/d3e3a6dc-08c9-4433-bf93-3bc874abffcc/t2-origin/out/v1/live.m3u8
+#EXTINF:-1 tvg-id="canela-014" tvg-name="Canela.TV Narco-Drama" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-narcodrama-16x9.jpg" group-title="Películas" provider="canela",Canela.TV Narco-Drama
+https://aka-live1050.delivery.roku.com/45344e4f-128c-43b0-9925-2ffc5daebba8/t2-origin/out/v1/live.m3u8
+#EXTINF:-1 tvg-id="canela-015" tvg-name="Cine Picante" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-picante-16x9_3.jpg" group-title="Películas" provider="canela",Cine Picante
+https://amg00658-amg00658c106-canelatv-international-7979.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-cinepicanteltus-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-016" tvg-name="Canela Clásicos" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-clasicos-16x9_8.jpg" group-title="Películas" provider="canela",Canela Clásicos
+https://amg00658-amg00658c9-canelatv-international-7219.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-clasicosuslt-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-017" tvg-name="Cine Romántico" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/linear-cine-romantico.png" group-title="Películas" provider="canela",Cine Romántico
+https://amg00658-amg00658c66-canelatv-international-5554.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-cineromanticoappta-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-018" tvg-name="Acción Mexicana" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-accion_mexicana-16x9_0.jpg" group-title="Películas" provider="canela",Acción Mexicana
+https://amg00658-amg00658c104-canelatv-international-7980.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-accionmexicana-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-019" tvg-name="Pelimex" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/pelimex-v2.jpg" group-title="Películas" provider="canela",Pelimex
+https://amg00658-amg00658c95-canelatv-international-6696.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-pelimexta-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-020" tvg-name="CLIC" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/1920_x_1080_0_2.png" group-title="Películas" provider="canela",CLIC
+https://amg00658-amg00658c59-canelatv-international-5440.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-clictvaztecaappta-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-021" tvg-name="The Walking Dead by AMC" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-the_walking_dead-16x9.jpg" group-title="Películas" provider="canela",The Walking Dead by AMC
+https://amg01822-amg01822c2-canelatv-international-8551.playouts.now.amagi.tv/playlist/amg01822-amcnetworkslatinamericallcfast-thewalkingdeadbyamcmx-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-022" tvg-name="RCN Mas" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/horizontal_logo_rcn_mas_-_4_novelas_copy.jpg" group-title="Películas" provider="canela",RCN Mas
+https://amg00658-amg00658c96-canelatv-international-6695.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-rcnmasta-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-023" tvg-name="Azteca Internacional" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/64NBu8-mrE2KlvXq282kDdxm8GStzrb7lcAS7HuUlr0.jpg" group-title="Películas" provider="canela",Azteca Internacional
+https://amg00658-amg00658c54-canelatv-international-5364.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-mundotvaztecaappta-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-024" tvg-name="Caracol Mix" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/caracol_mix_1920x1080.jpg" group-title="Películas" provider="canela",Caracol Mix
+https://amg01433-amg01433c1-canelatv-international-8611.playouts.now.amagi.tv/playlist/amg01433-caracolmix-caracolmix-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-025" tvg-name="Plato del Dia by El Gourmet" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/plato_del_dia_by_el_gourmet_1920x1080.jpg" group-title="Películas" provider="canela",Plato del Dia by El Gourmet
+https://amg01822-amg01822c4-canelatv-international-8788.playouts.now.amagi.tv/playlist/amg01822-amcnetworkslatinamericallcfast-platodeldiabyelgourmet-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-026" tvg-name="JTV Español" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/jtv_espanol_1920x1080.jpg" group-title="Películas" provider="canela",JTV Español
+https://amg01579-amg01579c4-canelatv-international-8745.playouts.now.amagi.tv/index.m3u8
+#EXTINF:-1 tvg-id="canela-027" tvg-name="Dulce by El Gourmet" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/dulce_by_el_gourmet_1920x1080.jpg" group-title="Películas" provider="canela",Dulce by El Gourmet
+https://amg01822-amg01822c3-canelatv-international-8783.playouts.now.amagi.tv/playlist/amg01822-amcnetworkslatinamericallcfast-dulcebyelgourmet-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-028" tvg-name="Azteca Uno" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/aztecauno_c_1920x1080.png" group-title="Noticias" provider="canela",Azteca Uno
+https://amg00658-amg00658c58-canelatv-international-5438.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-aztecaunotvaztecamxappta-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-029" tvg-name="TeleFormula" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/pantalla_teleformula.jpg" group-title="Noticias" provider="canela",TeleFormula
+https://amg00658-amg00658c68-canelatv-international-5556.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-teleformulaltappta-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-030" tvg-name="Comercio TV" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/comercio_tv_1920x1080.jpg" group-title="Noticias" provider="canela",Comercio TV
+https://amg00082-amg00082c1-canelatv-international-9166.playouts.now.amagi.tv/playlist/amg00082-tarima-comercio-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-031" tvg-name="Canela.TV Deportes" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/blanco_02_16x9.jpg" group-title="Deportes" provider="canela",Canela.TV Deportes
+https://aka-live1050.delivery.roku.com/bdbab233-2aff-42f9-b16f-2722fad6ed5f/t2-origin/out/v1/live.m3u8
+#EXTINF:-1 tvg-id="canela-032" tvg-name="PowerNation en Español" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/canelatv_thumbnail_1920x1080_v3.png" group-title="Deportes" provider="canela",PowerNation en Español
+https://amg01258-amg01258c3-canelatv-international-5546.playouts.now.amagi.tv/playlist/amg01258-raycomsportsfast-powernationspanish-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-033" tvg-name="ITV Deportes" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/CNv4Q30IOM7-ZUnfOeACh_4eGtl-2Whey5zBt4afg20.jpg" group-title="Deportes" provider="canela",ITV Deportes
+https://amg01602-amg01602c3-canelatv-international-8324.playouts.now.amagi.tv/playlist/amg01602-themahqfrancefast-itvdeportes-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-034" tvg-name="World Poker Tour en Español" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/wpt_espanol_1920x1080.jpg" group-title="Deportes" provider="canela",World Poker Tour en Español
+https://amg00218-amg00218c2-canelatv-international-5827.playouts.now.amagi.tv/playlist/amg00218-wptenterprisesfast-worldpokertourespanol-canelatvinternational/playlist.m3u8
+#EXTINF:-1 tvg-id="canela-035" tvg-name="Toon Goggles en Español" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/WhxvMJFFonzITVAqe_rRm5A0xXxTbfDi_bIM829jH6A.jpg" group-title="Infantil" provider="canela",Toon Goggles en Español
+https://amg00658-amg00658c76-canelatv-international-5648.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-toongooglesenespanolappta-canelatvinternational/playlist.m3u8

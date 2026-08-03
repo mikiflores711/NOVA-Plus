@@ -1,4 +1,4 @@
-const CACHE_NAME = "nova-plus-tv-shell-v1";
+const CACHE_NAME = "nova-plus-tv-shell-v2-canela";
 const SHELL_FILES = [
   "./",
   "./index.html",

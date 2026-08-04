@@ -1002,6 +1002,10 @@ html,body{background:#050706}
 .channel-page-controls{position:absolute;right:7px;top:50%;transform:translateY(-50%);z-index:30;display:grid;gap:10px}
 .channel-page-btn{width:44px;height:54px;border:1px solid rgba(255,255,255,.16);border-radius:11px;background:rgba(7,10,9,.94);color:#fff;font-size:25px;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.4)}
 @media(max-width:600px){.tv-strip-shell{padding:0 42px}.tv-strip-btn{width:36px}.channel-list-shell .channel-list{padding-right:50px}.channel-page-btn{width:40px;height:48px}}
+
+/* Navegación espacial Smart TV: sin botones de desplazamiento */
+.tv-strip-shell{padding-left:0!important;padding-right:0!important}.tv-strip-btn,.channel-page-controls{display:none!important}.channel-list-shell .channel-list{padding-right:0!important}.scroll-tabs,.channel-list{scrollbar-width:none!important;scroll-behavior:smooth}.scroll-tabs::-webkit-scrollbar,.channel-list::-webkit-scrollbar{display:none!important}
+.remote-navigation :focus-visible,[data-navigation-mode="tv"] :focus-visible{outline:4px solid #7b8cff!important;outline-offset:3px!important;box-shadow:0 0 0 7px rgba(92,113,255,.25),0 18px 44px rgba(0,0,0,.55)!important;transform:scale(1.035);position:relative;z-index:20}
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
@@ -1063,14 +1067,14 @@ html,body{background:#050706}
     <button class="main-tab" id="favoritesMainTab" type="button">Favoritos</button>
   </nav>
 
-  <div class="tv-strip-shell"><button class="tv-strip-btn prev" id="providersPrev" type="button" aria-label="Listas anteriores">‹</button><nav class="scroll-tabs provider-tabs" id="sectionTabs" aria-label="Servicios de TV"></nav><button class="tv-strip-btn next" id="providersNext" type="button" aria-label="Más listas">›</button></div>
-  <div class="tv-strip-shell"><button class="tv-strip-btn prev" id="categoriesPrev" type="button" aria-label="Categorías anteriores">‹</button><nav class="scroll-tabs category-tabs" id="categoryTabs" aria-label="Categorías"></nav><button class="tv-strip-btn next" id="categoriesNext" type="button" aria-label="Más categorías">›</button></div>
+  <div class="tv-strip-shell"><nav class="scroll-tabs provider-tabs" id="sectionTabs" aria-label="Servicios de TV"></nav></div>
+  <div class="tv-strip-shell"><nav class="scroll-tabs category-tabs" id="categoryTabs" aria-label="Categorías"></nav></div>
 <div class="list-head">
     <span id="sectionInfo">Cargando canales...</span>
     <span id="countPill">0</span>
   </div>
 
-  <div class="channel-list-shell"><main class="channel-list" id="channelList"><div class="empty">Cargando canales...</div></main><div class="channel-page-controls"><button class="channel-page-btn" id="channelsUp" type="button" aria-label="Canales anteriores">↑</button><button class="channel-page-btn" id="channelsDown" type="button" aria-label="Más canales">↓</button></div></div>
+  <div class="channel-list-shell"><main class="channel-list" id="channelList"><div class="empty">Cargando canales...</div></main></div>
 </div>
 
 <div class="legal-modal" id="legalModal" aria-hidden="true">
@@ -2533,5 +2537,5 @@ function escapeHtml(text){return String(text || "").replaceAll("&","&amp;").repl
 
 init();
 </script>
-</body>
+<script src="../assets/js/spatial-navigation.js?v=5.0"></script></body>
 </html>

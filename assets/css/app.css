@@ -39,3 +39,28 @@
 .recommend-reason{display:inline-block;margin-top:6px;padding:4px 7px;border-radius:999px;background:rgba(83,104,244,.16);color:#aeb8ff;font-size:10px;font-weight:800}
 @media(max-width:700px){.rail-shell .rail{padding-left:45px;padding-right:45px}.tv-scroll-btn.horizontal{width:40px}.catalog-tv-controls button{width:48px;height:48px}.cast-rail-wrap .cast-grid,.recommend-rail{padding-left:45px;padding-right:45px}}
 @media(pointer:coarse), (min-width:900px){.tv-scroll-btn{opacity:1}}
+
+
+/* NOVA+ 5.0 — navegación espacial para Smart TV y tarjetas simplificadas */
+html{scroll-behavior:smooth}
+.rail,.recommend-rail,.cast-grid,.episode-rail{scrollbar-width:none!important;scroll-behavior:smooth}
+.rail::-webkit-scrollbar,.recommend-rail::-webkit-scrollbar,.cast-grid::-webkit-scrollbar,.episode-rail::-webkit-scrollbar{display:none!important}
+.rail-shell{display:contents!important}.rail-shell .rail{padding-left:2px!important;padding-right:2px!important}
+.tv-scroll-btn,.catalog-tv-controls,.rail-arrow{display:none!important}
+.card{position:relative;min-width:0}
+.card .card-link{display:block;color:inherit;text-decoration:none;border-radius:14px}
+.card .poster,.recommend-card .poster{position:relative;overflow:hidden;border-radius:14px;background:#111;aspect-ratio:2/3}
+.card .poster img,.recommend-card .poster img{width:100%;height:100%;object-fit:cover;display:block}
+.poster-year{position:absolute;top:8px;right:8px;z-index:3;padding:4px 8px;border-radius:999px;background:rgba(5,8,7,.82);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px);color:#fff;font-size:12px;font-weight:900;line-height:1;box-shadow:0 4px 12px rgba(0,0,0,.35)}
+.card h3,.recommend-card h3{margin:9px 2px 0!important;color:#fff;font-size:15px;line-height:1.25;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;text-overflow:ellipsis;min-height:2.5em}
+.card p,.recommend-card p,.recommend-reason{display:none!important}
+.card-favorite{left:8px!important;right:auto!important;top:8px!important}
+.catalog-grid .card{width:100%}
+.remote-navigation :focus-visible,[data-navigation-mode="tv"] :focus-visible{outline:4px solid #7b8cff!important;outline-offset:4px!important;box-shadow:0 0 0 7px rgba(92,113,255,.24),0 18px 45px rgba(0,0,0,.55)!important;transform:scale(1.055);z-index:20;transition:transform .14s ease,box-shadow .14s ease,outline-color .14s ease}
+.remote-navigation .card:has(:focus-visible),[data-navigation-mode="tv"] .card:has(:focus-visible){z-index:25}
+.remote-navigation .card-link:focus-visible,[data-navigation-mode="tv"] .card-link:focus-visible{border-radius:14px}
+.remote-navigation .tab-chip:focus-visible,.remote-navigation .channel-row:focus-visible,.remote-navigation .channel-item:focus-visible{transform:scale(1.025)}
+[data-device-class="tv"] body,[data-navigation-mode="tv"] body{font-size:17px}
+[data-device-class="tv"] .bottom-nav,[data-navigation-mode="tv"] .bottom-nav{min-height:76px}
+[data-device-class="tv"] .bottom-nav a,[data-device-class="tv"] .bottom-nav button,[data-navigation-mode="tv"] .bottom-nav a,[data-navigation-mode="tv"] .bottom-nav button{min-height:64px}
+@media(min-width:1000px){[data-device-class="tv"] .rail .card,[data-navigation-mode="tv"] .rail .card{flex-basis:205px}.catalog-grid{grid-template-columns:repeat(auto-fill,minmax(185px,1fr))}}

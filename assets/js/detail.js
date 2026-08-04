@@ -80,7 +80,7 @@
 
 
   function scrollRail(id,direction){const rail=$(id);if(rail)rail.scrollBy({left:direction*Math.max(rail.clientWidth*.82,300),behavior:'smooth'})}
-  $('#prevCast').onclick=()=>scrollRail('#cast',-1);$('#nextCast').onclick=()=>scrollRail('#cast',1);
+  $('#prevCast')?.addEventListener('click',()=>scrollRail('#cast',-1));$('#nextCast')?.addEventListener('click',()=>scrollRail('#cast',1));
 
   const cleanText=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   const genreWords=value=>new Set(cleanText(value).split(/[·,|/]+/).map(v=>v.trim()).filter(Boolean));
@@ -105,10 +105,10 @@
     $('#recommendTitle').textContent=item.type==='movie'?'Películas recomendadas':'Series recomendadas';
     rail.innerHTML=recommendations.map(({candidate,score})=>{
       const sameFranchise=score>=100;const reason=sameFranchise?'De la misma franquicia':'Géneros similares';
-      return `<article class="recommend-card"><a href="detalle.html?id=${encodeURIComponent(candidate.id)}"><div class="poster"><img src="${candidate.poster||candidate.backdrop||''}" alt="${candidate.title||''}" loading="lazy"></div><h3>${candidate.title||''}</h3><p>${candidate.year||''}${candidate.genre?' · '+candidate.genre:''}</p><span class="recommend-reason">${reason}</span></a></article>`;
+      const recommendationYear=String(candidate.releaseDate||candidate.release_date||candidate.firstAirDate||candidate.first_air_date||candidate.year||'').slice(0,4);return `<article class="recommend-card"><a href="detalle.html?id=${encodeURIComponent(candidate.id)}" data-focus-label="${String(candidate.title||'').replace(/"/g,'&quot;')}"><div class="poster"><img src="${candidate.poster||candidate.backdrop||''}" alt="${candidate.title||''}" loading="lazy">${recommendationYear?`<span class="poster-year">${recommendationYear}</span>`:''}</div><h3 title="${String(candidate.title||'').replace(/"/g,'&quot;')}">${candidate.title||''}</h3></a></article>`;
     }).join('');
     $('#recommendSection').classList.remove('hidden');
-    $('#prevRecommendations').onclick=()=>scrollRail('#recommendRail',-1);$('#nextRecommendations').onclick=()=>scrollRail('#recommendRail',1);
+    $('#prevRecommendations')?.addEventListener('click',()=>scrollRail('#recommendRail',-1));$('#nextRecommendations')?.addEventListener('click',()=>scrollRail('#recommendRail',1));
   }
 
   const reportDialog = $('#reportDialog');
@@ -263,8 +263,6 @@
     }
 
     select.onchange = () => renderSeason(select.value);
-    $('#prevEpisodes').onclick = () => $('#episodeGrid').scrollBy({ left: -$('#episodeGrid').clientWidth * .86, behavior: 'smooth' });
-    $('#nextEpisodes').onclick = () => $('#episodeGrid').scrollBy({ left: $('#episodeGrid').clientWidth * .86, behavior: 'smooth' });
     renderSeason(Object.keys(item.seasons)[0]);
   }
 })();

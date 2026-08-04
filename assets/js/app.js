@@ -14,7 +14,8 @@ const sortNewest=list=>[...list].sort((a,b)=>dateValue(b)-dateValue(a)||Number(b
 const formatDate=x=>{const d=releaseDate(x);if(/^\d{4}-\d{2}-\d{2}$/.test(d)){const [y,m,day]=d.split('-');return `${day}/${m}/${y}`}return x.year?String(x.year):''};
 const hasGenre=(x,g)=>normalize(x.genre).includes(normalize(g));
 const typeLabel=x=>x.type==='tv'?'Serie':'Película';
-function card(x){const a=document.createElement('article');a.className='card';const active=favs().has(x.id);a.innerHTML=`<a href="${href(x)}"><div class="poster"><img src="${x.poster||''}" alt="${x.title||''}" loading="lazy"></div><h3>${x.title||''}</h3><p>${formatDate(x)}${x.genre?' · '+x.genre:''}</p></a><button class="card-favorite ${active?'active':''}" aria-label="Favoritos"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"></path></svg></button>`;a.querySelector('button').onclick=e=>{e.preventDefault();const s=favs();s.has(x.id)?s.delete(x.id):s.add(x.id);save(s);renderFavorites();renderHomeRails();renderCatalog()};return a}
+function displayYear(x){const d=releaseDate(x);return /^\d{4}-/.test(d)?d.slice(0,4):String(x.year||'')}
+function card(x){const a=document.createElement('article');a.className='card';const active=favs().has(x.id);const year=displayYear(x);a.innerHTML=`<a class="card-link" href="${href(x)}" data-focus-label="${String(x.title||'').replace(/"/g,'&quot;')}"><div class="poster"><img src="${x.poster||''}" alt="${x.title||''}" loading="lazy">${year?`<span class="poster-year">${year}</span>`:''}</div><h3 title="${String(x.title||'').replace(/"/g,'&quot;')}">${x.title||''}</h3></a><button class="card-favorite ${active?'active':''}" aria-label="${active?'Quitar de favoritos':'Agregar a favoritos'}"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"></path></svg></button>`;a.querySelector('button').onclick=e=>{e.preventDefault();const s=favs();s.has(x.id)?s.delete(x.id):s.add(x.id);save(s);renderFavorites();renderHomeRails();renderCatalog()};return a}
 function fill(el,list,limit=Infinity){if(!el)return;el.innerHTML='';list.slice(0,limit).forEach(x=>el.appendChild(card(x)))}
 const movies=sortNewest(all.filter(x=>x.type==='movie'));
 const series=sortNewest(all.filter(x=>x.type==='tv'));
@@ -30,35 +31,6 @@ if(dots){dots.innerHTML=featured.map((_,i)=>`<button type="button" aria-label="R
 const restart=()=>{clearInterval(timer);timer=setInterval(()=>show(index+1),6500)};document.getElementById('heroPrev')?.addEventListener('click',()=>{show(index-1);restart()});document.getElementById('heroNext')?.addEventListener('click',()=>{show(index+1);restart()});hero.addEventListener('mouseenter',()=>clearInterval(timer));hero.addEventListener('mouseleave',restart);show(0);restart()}
 setupHero();
 
-function setupTvNavigation(){
-  document.querySelectorAll('.section > .rail').forEach((rail,index)=>{
-    if(rail.parentElement?.classList.contains('rail-shell'))return;
-    const shell=document.createElement('div');shell.className='rail-shell';
-    rail.parentNode.insertBefore(shell,rail);shell.appendChild(rail);
-    const prev=document.createElement('button'),next=document.createElement('button');
-    prev.type=next.type='button';prev.className='tv-scroll-btn horizontal prev';next.className='tv-scroll-btn horizontal next';
-    prev.innerHTML='‹';next.innerHTML='›';prev.setAttribute('aria-label','Desplazar hacia la izquierda');next.setAttribute('aria-label','Desplazar hacia la derecha');
-    shell.append(prev,next);
-    const move=direction=>rail.scrollBy({left:direction*Math.max(rail.clientWidth*.82,320),behavior:'smooth'});
-    prev.onclick=()=>move(-1);next.onclick=()=>move(1);
-    const update=()=>{prev.disabled=rail.scrollLeft<5;next.disabled=rail.scrollLeft+rail.clientWidth>=rail.scrollWidth-5};
-    rail.addEventListener('scroll',update,{passive:true});window.addEventListener('resize',update);setTimeout(update,80);
-  });
-  if(document.getElementById('catalogGrid')&&!document.querySelector('.catalog-tv-controls')){
-    const controls=document.createElement('div');controls.className='catalog-tv-controls';
-    controls.innerHTML='<button type="button" data-page-up aria-label="Subir catálogo">↑</button><button type="button" data-page-down aria-label="Bajar catálogo">↓</button>';
-    document.body.appendChild(controls);
-    controls.querySelector('[data-page-up]').onclick=()=>window.scrollBy({top:-Math.max(innerHeight*.78,420),behavior:'smooth'});
-    controls.querySelector('[data-page-down]').onclick=()=>window.scrollBy({top:Math.max(innerHeight*.78,420),behavior:'smooth'});
-  }
-}
-setupTvNavigation();
-document.addEventListener('keydown',event=>{
-  const active=document.activeElement;
-  const shell=active?.closest?.('.rail-shell');
-  if(shell&&(event.key==='ArrowLeft'||event.key==='ArrowRight')){event.preventDefault();shell.querySelector(event.key==='ArrowLeft'?'.prev':'.next')?.click();return}
-  if(document.getElementById('catalogGrid')&&(event.key==='PageDown'||event.key==='PageUp')){event.preventDefault();document.querySelector(event.key==='PageUp'?'[data-page-up]':'[data-page-down]')?.click()}
-});
 
 document.getElementById('catalogSearch')?.addEventListener('input',e=>{query=e.target.value;renderCatalog()});
 document.querySelector('[data-back]')?.addEventListener('click',()=>history.length>1?history.back():location.assign('index.html'));

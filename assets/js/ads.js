@@ -4,23 +4,34 @@ const cfg=window.NOVA_ADS_CONFIG||{};
 const bannerCfg=cfg.banners||{};
 const prerollCfg=cfg.preroll||{};
 
-function recreateScripts(root){
-  root.querySelectorAll('script').forEach(old=>{
-    const s=document.createElement('script');
-    [...old.attributes].forEach(a=>s.setAttribute(a.name,a.value));
-    s.text=old.textContent;
-    old.replaceWith(s);
-  });
+function createBannerFrame(){
+  const frame=document.createElement('iframe');
+  frame.className='nova-ad-frame';
+  frame.width='300';
+  frame.height='250';
+  frame.setAttribute('title','Publicidad');
+  frame.setAttribute('scrolling','no');
+  frame.setAttribute('frameborder','0');
+  frame.setAttribute('loading','lazy');
+  frame.setAttribute('referrerpolicy','no-referrer-when-downgrade');
+  frame.setAttribute('sandbox','allow-scripts allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation');
+  const adHtml=String(bannerCfg.html||'');
+  frame.srcdoc=`<!doctype html><html><head><meta charset="utf-8"><meta name="referrer" content="no-referrer-when-downgrade"><style>html,body{margin:0;width:300px;height:250px;overflow:hidden;background:transparent}body{display:flex;align-items:center;justify-content:center}iframe,img,video{max-width:300px!important;max-height:250px!important}</style></head><body>${adHtml}</body></html>`;
+  return frame;
 }
 
 function renderBanner(container){
   if(!cfg.enabled||!bannerCfg.enabled||!bannerCfg.html||!container||container.dataset.adRendered==='1')return false;
   container.dataset.adRendered='1';
   container.classList.add('nova-ad-slot');
-  container.innerHTML='<div class="nova-ad-label-inline">Publicidad</div><div class="nova-ad-content"></div>';
-  const content=container.querySelector('.nova-ad-content');
-  content.innerHTML=bannerCfg.html;
-  recreateScripts(content);
+  container.replaceChildren();
+  const label=document.createElement('div');
+  label.className='nova-ad-label-inline';
+  label.textContent='Publicidad';
+  const content=document.createElement('div');
+  content.className='nova-ad-content';
+  content.appendChild(createBannerFrame());
+  container.append(label,content);
   return true;
 }
 
@@ -95,59 +106,124 @@ function loadIma(){
   });
 }
 
+// Precarga el SDK para que la inicialización ocurra dentro del clic del usuario.
+if(cfg.enabled&&prerollCfg.enabled&&prerollCfg.vastTagUrl){
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',()=>loadIma().catch(()=>{}),{once:true});
+  }else{
+    loadIma().catch(()=>{});
+  }
+}
+
 let prerollPromise=null;
 async function playPreroll(){
-  if(!cfg.enabled||!prerollCfg.enabled||!prerollCfg.vastTagUrl)return {shown:false};
+  if(!cfg.enabled||!prerollCfg.enabled||!prerollCfg.vastTagUrl)return {shown:false,reason:'disabled'};
   if(prerollPromise)return prerollPromise;
+
   prerollPromise=new Promise(async resolve=>{
-    const overlay=document.createElement('div');
-    overlay.className='nova-preroll';
-    overlay.innerHTML='<div class="nova-preroll-stage"><video playsinline muted></video><div class="nova-ima-container"></div><div class="nova-ad-label">Publicidad</div><div class="nova-ad-wait">El contenido comenzará al finalizar el anuncio</div></div>';
-    document.body.appendChild(overlay);
-    const video=overlay.querySelector('video');
-    const adContainer=overlay.querySelector('.nova-ima-container');
-    let done=false,adsManager=null;
+    let overlay=null;
+    let adsManager=null;
+    let adsLoader=null;
+    let done=false;
+    let visible=false;
+    let startTimer=null;
+    let hardTimer=null;
+
     const finish=result=>{
       if(done)return;
       done=true;
+      clearTimeout(startTimer);
+      clearTimeout(hardTimer);
       try{adsManager?.destroy()}catch{}
-      overlay.remove();
+      try{adsLoader?.destroy?.()}catch{}
+      overlay?.remove();
       prerollPromise=null;
       resolve(result);
     };
-    const timeout=setTimeout(()=>finish({shown:true,timeout:true}),Math.max(8,Number(prerollCfg.maxWaitSeconds)||25)*1000);
+
+    const showOverlay=()=>{
+      if(visible||!overlay)return;
+      visible=true;
+      overlay.classList.add('is-visible');
+      overlay.setAttribute('aria-hidden','false');
+    };
+
     try{
       await loadIma();
-      const display=new google.ima.AdDisplayContainer(adContainer,video);
+      if(!window.google?.ima)throw new Error('Google IMA no disponible');
+
+      overlay=document.createElement('div');
+      overlay.className='nova-preroll';
+      overlay.setAttribute('aria-hidden','true');
+      overlay.innerHTML='<div class="nova-preroll-stage"><video class="nova-ad-content-video" playsinline></video><div class="nova-ima-container"></div><div class="nova-ad-label">Publicidad</div><div class="nova-ad-wait">El contenido comenzará al finalizar el anuncio</div></div>';
+      document.body.appendChild(overlay);
+
+      const contentVideo=overlay.querySelector('.nova-ad-content-video');
+      const adContainer=overlay.querySelector('.nova-ima-container');
+      const display=new google.ima.AdDisplayContainer(adContainer,contentVideo);
+
+      // Debe ejecutarse como consecuencia directa del clic del usuario.
       display.initialize();
-      const loader=new google.ima.AdsLoader(display);
-      loader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR,e=>{
-        clearTimeout(timeout);
-        console.warn('VAST:',e.getError());
-        finish({shown:true,error:true});
+      adsLoader=new google.ima.AdsLoader(display);
+
+      adsLoader.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR,event=>{
+        console.warn('HilltopAds VAST:',event.getError());
+        finish({shown:false,error:true,code:event.getError()?.getErrorCode?.()});
       },false);
-      loader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,e=>{
-        adsManager=e.getAdsManager(video);
-        const end=()=>{clearTimeout(timeout);finish({shown:true})};
-        [google.ima.AdEvent.Type.ALL_ADS_COMPLETED,google.ima.AdEvent.Type.COMPLETE,google.ima.AdEvent.Type.SKIPPED].forEach(type=>adsManager.addEventListener(type,end));
+
+      adsLoader.addEventListener(google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,event=>{
         try{
-          adsManager.init(Math.max(320,window.innerWidth),Math.max(180,window.innerHeight),google.ima.ViewMode.NORMAL);
+          const settings=new google.ima.AdsRenderingSettings();
+          settings.restoreCustomPlaybackStateOnAdBreakComplete=true;
+          adsManager=event.getAdsManager(contentVideo,settings);
+
+          const complete=()=>finish({shown:visible,completed:true});
+          const failed=event=>{
+            console.warn('HilltopAds VAST manager:',event.getError?.()||event);
+            finish({shown:visible,error:true});
+          };
+
+          adsManager.addEventListener(google.ima.AdErrorEvent.Type.AD_ERROR,failed);
+          [
+            google.ima.AdEvent.Type.CONTENT_RESUME_REQUESTED,
+            google.ima.AdEvent.Type.ALL_ADS_COMPLETED,
+            google.ima.AdEvent.Type.COMPLETE,
+            google.ima.AdEvent.Type.SKIPPED
+          ].forEach(type=>adsManager.addEventListener(type,complete));
+
+          [google.ima.AdEvent.Type.LOADED,google.ima.AdEvent.Type.STARTED].forEach(type=>{
+            adsManager.addEventListener(type,showOverlay);
+          });
+
+          const width=Math.max(320,window.innerWidth||320);
+          const height=Math.max(180,window.innerHeight||180);
+          adsManager.init(width,height,google.ima.ViewMode.NORMAL);
           adsManager.start();
-        }catch(err){clearTimeout(timeout);console.warn('VAST start:',err);finish({shown:true,error:true})}
+        }catch(error){
+          console.warn('HilltopAds VAST start:',error);
+          finish({shown:false,error:true});
+        }
       },false);
+
       const request=new google.ima.AdsRequest();
-      request.adTagUrl=prerollCfg.vastTagUrl;
-      request.linearAdSlotWidth=Math.max(320,window.innerWidth);
-      request.linearAdSlotHeight=Math.max(180,window.innerHeight);
-      request.nonLinearAdSlotWidth=Math.max(320,window.innerWidth);
-      request.nonLinearAdSlotHeight=Math.max(90,Math.round(window.innerHeight/3));
-      loader.requestAds(request);
-    }catch(err){
-      clearTimeout(timeout);
-      console.warn('IMA:',err);
-      finish({shown:true,error:true});
+      request.adTagUrl=String(prerollCfg.vastTagUrl).trim();
+      request.linearAdSlotWidth=Math.max(320,window.innerWidth||320);
+      request.linearAdSlotHeight=Math.max(180,window.innerHeight||180);
+      request.nonLinearAdSlotWidth=Math.max(320,window.innerWidth||320);
+      request.nonLinearAdSlotHeight=Math.max(90,Math.round((window.innerHeight||540)/3));
+      try{request.setAdWillAutoPlay(true)}catch{}
+      try{request.setAdWillPlayMuted(false)}catch{}
+
+      // Si no hay inventario, continúa sin mostrar pantalla negra.
+      startTimer=setTimeout(()=>finish({shown:false,timeout:true}),6500);
+      hardTimer=setTimeout(()=>finish({shown:visible,timeout:true}),Math.max(12,Number(prerollCfg.maxWaitSeconds)||25)*1000);
+      adsLoader.requestAds(request);
+    }catch(error){
+      console.warn('Google IMA:',error);
+      finish({shown:false,error:true});
     }
   });
+
   return prerollPromise;
 }
 

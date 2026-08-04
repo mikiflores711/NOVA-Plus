@@ -971,6 +971,23 @@ html,body{background:#050706}
   .back-home-btn{width:36px;height:36px;flex-basis:36px}
 }
 
+
+/* Reportes 2.0: modal integrado, sin abandonar ni recargar el canal */
+.channel-report-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.72);backdrop-filter:blur(8px)}
+.channel-report-modal.open{display:flex}
+.channel-report-card{position:relative;width:min(520px,100%);max-height:min(760px,calc(100vh - 36px));overflow:auto;background:#151b19;border:1px solid rgba(255,255,255,.12);border-radius:20px;box-shadow:0 28px 90px rgba(0,0,0,.55);padding:22px}
+.channel-report-close{position:absolute;right:14px;top:12px;width:36px;height:36px;border:0;border-radius:50%;background:#27302d;color:#fff;font-size:26px;line-height:1;cursor:pointer}
+.channel-report-card h2{margin:0 44px 16px 0;font-size:24px}
+.channel-report-summary{display:flex;gap:14px;align-items:center;padding:14px;margin-bottom:18px;border-radius:14px;background:#202825;border:1px solid rgba(255,255,255,.08)}
+.channel-report-logo{flex:0 0 58px;width:58px;height:58px;border-radius:12px;background:#30383d;display:grid;place-items:center;overflow:hidden;font-weight:900}.channel-report-logo img{width:100%;height:100%;object-fit:contain}
+.channel-report-name{font-weight:900;font-size:18px}.channel-report-meta{margin-top:4px;color:#aeb9b5;font-size:13px}
+.channel-report-card label{display:block;margin:14px 0 7px;font-weight:800}
+.channel-report-card select,.channel-report-card textarea,.channel-report-card input{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:#202825;color:#fff;padding:12px 13px;font:inherit;outline:none}
+.channel-report-card textarea{min-height:105px;resize:vertical}
+.channel-report-actions{display:flex;gap:10px;margin-top:18px}.channel-report-actions button{flex:1;border:0;border-radius:12px;padding:13px 16px;font-weight:900;cursor:pointer}.channel-report-cancel{background:#303735;color:#fff}.channel-report-send{background:#4f78ff;color:#fff}
+.channel-report-send:disabled{opacity:.65;cursor:wait}.channel-report-status{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;font-size:14px}.channel-report-status.show{display:block}.channel-report-status.ok{background:rgba(40,180,105,.16);color:#9cf0bd}.channel-report-status.error{background:rgba(226,70,88,.16);color:#ffadb9}
+@media(max-width:600px){.channel-report-modal{align-items:flex-end;padding:0}.channel-report-card{width:100%;max-height:92vh;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom))}}
+
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
@@ -1105,6 +1122,30 @@ html,body{background:#050706}
   </section>
 </div>
 
+
+<div class="channel-report-modal" id="channelReportModal" aria-hidden="true">
+  <section class="channel-report-card" role="dialog" aria-modal="true" aria-labelledby="channelReportTitle">
+    <button class="channel-report-close" id="channelReportClose" type="button" aria-label="Cerrar">×</button>
+    <h2 id="channelReportTitle">Reportar canal</h2>
+    <div class="channel-report-summary">
+      <div class="channel-report-logo" id="channelReportLogo">TV</div>
+      <div><div class="channel-report-name" id="channelReportName">Canal</div><div class="channel-report-meta" id="channelReportMeta"></div></div>
+    </div>
+    <form id="channelReportForm">
+      <label for="channelReportReason">Problema</label>
+      <select id="channelReportReason">
+        <option>Canal no reproduce</option><option>Audio sin imagen</option><option>Imagen sin audio</option><option>Señal equivocada</option><option>Se corta constantemente</option><option>Otro problema</option>
+      </select>
+      <label for="channelReportDetails">Detalles (opcional)</label>
+      <textarea id="channelReportDetails" maxlength="800" placeholder="Describe el problema..."></textarea>
+      <label for="channelReportContact">Correo (opcional)</label>
+      <input id="channelReportContact" type="email" maxlength="160" autocomplete="email" placeholder="correo@ejemplo.com">
+      <div class="channel-report-actions"><button class="channel-report-cancel" id="channelReportCancel" type="button">Cancelar</button><button class="channel-report-send" id="channelReportSend" type="submit">Enviar reporte</button></div>
+      <div class="channel-report-status" id="channelReportStatus" aria-live="polite"></div>
+    </form>
+  </section>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="./config.js"></script>
@@ -1224,8 +1265,8 @@ const PLAYLISTS = [
   { id:"plex", label:"Plex TV", file:"./listas/plex_mx.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Plex%20TV.png" },
   { id:"roku", label:"Roku Channel", file:"./listas/roku_all.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Roku%20Channel.png" },
   { id:"rakuten", label:"Rakuten TV", file:"./listas/rakutentv.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Rakuten%20TV.png" },
-  { id:"espanol", label:"Español", file:"./listas/espanol.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Espa%C3%B1ol.png" },
-  { id:"canela", label:"Canela.TV", file:"./listas/canela-tv.m3u", logo:"./logos/canela/canela-tv.png" }
+  { id:"canela", label:"Canela.TV", file:"./listas/canela-tv.m3u", logo:"https://www.canela.tv/favicon.ico" },
+  { id:"espanol", label:"Español", file:"./listas/espanol.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Espa%C3%B1ol.png" }
 ];
 
 const playerStage = document.getElementById("playerStage");
@@ -1257,6 +1298,13 @@ const playerChannelLogo = document.getElementById("playerChannelLogo");
 const playerChannelTitle = document.getElementById("playerChannelTitle");
 const playerChannelNumber = document.getElementById("playerChannelNumber");
 const playerChannelMeta = document.getElementById("playerChannelMeta");
+const channelReportModal = document.getElementById("channelReportModal");
+const channelReportForm = document.getElementById("channelReportForm");
+const channelReportClose = document.getElementById("channelReportClose");
+const channelReportCancel = document.getElementById("channelReportCancel");
+const channelReportSend = document.getElementById("channelReportSend");
+const channelReportStatus = document.getElementById("channelReportStatus");
+let channelReportTarget = null;
 
 let player = null;
 let currentChannel = null;
@@ -1318,6 +1366,11 @@ function bindEvents(){
   legalClose.addEventListener("click", closeLegalModal);
   legalAccept.addEventListener("click", closeLegalModal);
   legalModal.querySelectorAll("[data-close-legal]").forEach(element => element.addEventListener("click", closeLegalModal));
+
+  channelReportClose.addEventListener("click",closeChannelReport);
+  channelReportCancel.addEventListener("click",closeChannelReport);
+  channelReportModal.addEventListener("click",event=>{if(event.target===channelReportModal)closeChannelReport()});
+  channelReportForm.addEventListener("submit",sendChannelReport);
 
   channelsMainTab.addEventListener("click", () => {
     if(activeSection === "favorites") setSection(lastNormalSection || "mexico");
@@ -1830,20 +1883,44 @@ document.addEventListener("visibilitychange",() => {
 });
 
 function openChannelReport(channel,displayNumber){
-  const params = new URLSearchParams();
-
-  params.set("canal", channel.name || "Canal sin nombre");
-  params.set("numero", displayNumber || "---");
-  params.set("seccion", channel.sectionLabel || "TV");
-  params.set("categoria", channel.category || "General");
-
-  if(channel.logo) params.set("logo", channel.logo);
-  if(channel.id) params.set("id", channel.id);
-  if(channel.url) params.set("stream", channel.url);
-
-  params.set("volver", location.href);
-
-  location.href = `./reportar-canal.html?${params.toString()}`;
+  channelReportTarget = {channel,displayNumber};
+  document.getElementById("channelReportName").textContent = channel.name || "Canal sin nombre";
+  document.getElementById("channelReportMeta").textContent = `Número ${displayNumber || "---"} · ${channel.sectionLabel || "TV"} · ${channel.category || "General"}`;
+  const logoBox=document.getElementById("channelReportLogo");
+  logoBox.textContent="TV";
+  if(channel.logo){const img=document.createElement("img");img.src=channel.logo;img.alt="";img.referrerPolicy="no-referrer";img.onerror=()=>{logoBox.textContent="TV"};logoBox.textContent="";logoBox.appendChild(img)}
+  document.getElementById("channelReportReason").selectedIndex=0;
+  document.getElementById("channelReportDetails").value="";
+  document.getElementById("channelReportContact").value="";
+  channelReportStatus.className="channel-report-status";
+  channelReportStatus.textContent="";
+  channelReportModal.classList.add("open");
+  channelReportModal.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+}
+function closeChannelReport(){
+  channelReportModal.classList.remove("open");
+  channelReportModal.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+  channelReportTarget=null;
+}
+function setChannelReportStatus(message,type){channelReportStatus.textContent=message;channelReportStatus.className=`channel-report-status show ${type}`}
+async function sendChannelReport(event){
+  event.preventDefault();
+  if(!channelReportTarget)return;
+  const {channel,displayNumber}=channelReportTarget;
+  channelReportSend.disabled=true;channelReportSend.textContent="Enviando…";channelReportStatus.className="channel-report-status";
+  try{
+    const response=await fetch(REPORT_API_URL+"/api/report",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({canal:channel.name||"Canal sin nombre",numero:displayNumber||"---",seccion:channel.sectionLabel||"TV",categoria:channel.category||"General",logo:channel.logo||"",canalId:channel.id||"",stream:channel.url||"",motivo:document.getElementById("channelReportReason").value,detalles:document.getElementById("channelReportDetails").value.trim(),contacto:document.getElementById("channelReportContact").value.trim(),pagina:location.href,userAgent:navigator.userAgent})});
+    let result={};try{result=await response.json()}catch(_){throw new Error(`El servidor respondió ${response.status}.`)}
+    if(!response.ok||!result.ok)throw new Error(result.error||"No se pudo enviar el reporte.");
+    setChannelReportStatus(result.grouped?`Reporte recibido. Este canal suma ${result.cantidad} reportes.`:"Reporte enviado correctamente.","ok");
+    await loadPublicReportStates();
+    setTimeout(closeChannelReport,1400);
+  }catch(error){
+    const msg=error instanceof TypeError?"No se pudo conectar con el servidor. Revisa que novaplus.website esté autorizado en CORS.":(error.message||"No se pudo enviar el reporte.");
+    setChannelReportStatus(msg,"error");
+  }finally{channelReportSend.disabled=false;channelReportSend.textContent="Enviar reporte"}
 }
 
 function loadChannel(channel){

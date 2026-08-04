@@ -48,5 +48,5 @@ body.onclick=async e=>{const b=e.target.closest("button[data-state],button[data-
 searchInput.oninput=renderReports;statusFilter.onchange=renderReports;clearBtn.onclick=()=>{searchInput.value="";statusFilter.value="";renderReports()};refreshBtn.onclick=loadDashboard;
 if(token){showDashboard();loadDashboard()}else showLogin();setInterval(()=>{if(token&&document.visibilityState==="visible")loadDashboard()},30000);
 </script>
-</body>
+<a href="../admin.html" title="Volver a reportes de películas y series" style="position:fixed;left:16px;bottom:16px;z-index:9999;padding:10px 14px;border-radius:10px;background:#5473ff;color:#fff;text-decoration:none;font:800 13px system-ui;box-shadow:0 8px 28px #0008">← Reportes de películas/series</a></body>
 </html>

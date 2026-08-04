@@ -1,0 +1,55 @@
+NOVA+ — CMS Y REPORTES
+======================
+
+RUTAS DEL PANEL
+---------------
+Centro de administración:
+https://novaplus.website/panel-admin.html
+
+Gestor de películas y series:
+https://novaplus.website/gestor-contenido.html
+
+Reportes de películas y series:
+https://novaplus.website/admin.html
+
+Reportes de TV:
+https://novaplus.website/tv/admin.html
+
+PASO OBLIGATORIO: WORKER DE PELÍCULAS
+--------------------------------------
+El gestor necesita estas rutas:
+/api/content
+/api/admin/content
+/api/content/import
+/api/content/:id
+/api/login
+/api/dashboard
+/api/report
+
+1. Abre el Worker watch-movies-plus-api.
+2. Editar código.
+3. Reemplaza todo con cloudflare/worker-movies-api.js.
+4. Implementar.
+5. Confirma que la vinculación D1 se llame DB.
+6. Mantén ADMIN_USER y ADMIN_PASSWORD.
+
+PASO OBLIGATORIO: WORKER DE TV
+------------------------------
+1. Abre el Worker watch-tv-plus-api.
+2. Reemplaza el código con cloudflare/worker-tv-reportes.js.
+3. Implementar.
+4. Confirma que su D1 esté vinculada como DB.
+
+ORÍGENES PERMITIDOS
+-------------------
+Los dos Workers ya contienen:
+https://mikiflores711.github.io
+https://novaplus.website
+https://www.novaplus.website
+
+Si existe una variable ALLOWED_ORIGINS, usa:
+https://mikiflores711.github.io,https://novaplus.website,https://www.novaplus.website
+
+IMPORTANTE
+----------
+Subir el ZIP a GitHub por sí solo no instala las rutas del Worker. Debes desplegar ambos archivos JS en Cloudflare.

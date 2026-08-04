@@ -1,0 +1,19 @@
+NOVA+ — Corrección de catálogo y Reportes 2.0
+
+QUÉ CAMBIÓ
+- TV: el reporte abre en una ventana modal, sin salir del canal ni recargar la lista.
+- Películas/series: conservan su modal actual.
+- Se agregó Canela.TV y su lista M3U si no estaba presente.
+- Se incluyen los Workers actualizados para aceptar el dominio nuevo.
+
+PASO OBLIGATORIO EN CLOUDFLARE
+La web solo volverá a cargar todas las películas/series y enviar reportes cuando ambos Workers acepten el dominio nuevo.
+
+1) Worker watch-movies-plus-api: reemplaza el código por cloudflare/worker-movies-api.js y despliega.
+2) Worker watch-tv-plus-api: reemplaza el código por cloudflare/worker-tv-reportes.js y despliega.
+3) Si existe una variable ALLOWED_ORIGINS en cada Worker, configúrala exactamente así (separada por comas):
+https://mikiflores711.github.io,https://novaplus.website,https://www.novaplus.website
+4) Implementa/Deploy y luego recarga la web con Ctrl+F5.
+
+IMPORTANTE
+El inicio mostraba solo Loki y Río porque eran el respaldo local. El catálogo completo vive en D1 y el navegador no podía leerlo por CORS después del cambio de dominio. No se perdieron las películas.

@@ -78,6 +78,39 @@
 
   cast.innerHTML = people.map(person => `<article class="cast-card"><img src="${TMDB.image(person.profile_path, 'w300') || ''}" alt="${person.name}"><div class="cast-copy"><strong>${person.name}</strong><small>${person.character || ''}</small></div></article>`).join('');
 
+
+  function scrollRail(id,direction){const rail=$(id);if(rail)rail.scrollBy({left:direction*Math.max(rail.clientWidth*.82,300),behavior:'smooth'})}
+  $('#prevCast').onclick=()=>scrollRail('#cast',-1);$('#nextCast').onclick=()=>scrollRail('#cast',1);
+
+  const cleanText=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const genreWords=value=>new Set(cleanText(value).split(/[·,|/]+/).map(v=>v.trim()).filter(Boolean));
+  const stopWords=new Set(['el','la','los','las','un','una','de','del','y','en','the','a','an','of','and','parte','temporada','pelicula','movie','serie']);
+  function franchiseWords(title){return cleanText(title).replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(w=>w.length>2&&!stopWords.has(w)&&!/^(19|20)\d{2}$/.test(w)&&!/^\d+$/.test(w)).slice(0,4)}
+  const currentGenres=genreWords(item.genre);
+  const currentFranchise=franchiseWords(item.title);
+  function recommendationScore(candidate){
+    const candidateGenres=genreWords(candidate.genre);let shared=0;currentGenres.forEach(g=>{if(candidateGenres.has(g))shared++});
+    const words=franchiseWords(candidate.title);let franchise=0;currentFranchise.forEach(w=>{if(words.includes(w))franchise++});
+    const exactStem=currentFranchise.length>0&&currentFranchise.slice(0,2).every(w=>words.includes(w));
+    return (exactStem?180:franchise*48)+(shared*22)+(candidate.featured?4:0)+(Number(candidate.year||0)/10000);
+  }
+  const recommendations=[...runtimeContent]
+    .filter(candidate=>candidate&&candidate.published!==false&&candidate.id!==item.id&&candidate.type===item.type)
+    .map(candidate=>({candidate,score:recommendationScore(candidate)}))
+    .filter(entry=>entry.score>0)
+    .sort((a,b)=>b.score-a.score||Number(b.candidate.year||0)-Number(a.candidate.year||0))
+    .slice(0,7);
+  if(recommendations.length){
+    const rail=$('#recommendRail');
+    $('#recommendTitle').textContent=item.type==='movie'?'Películas recomendadas':'Series recomendadas';
+    rail.innerHTML=recommendations.map(({candidate,score})=>{
+      const sameFranchise=score>=100;const reason=sameFranchise?'De la misma franquicia':'Géneros similares';
+      return `<article class="recommend-card"><a href="detalle.html?id=${encodeURIComponent(candidate.id)}"><div class="poster"><img src="${candidate.poster||candidate.backdrop||''}" alt="${candidate.title||''}" loading="lazy"></div><h3>${candidate.title||''}</h3><p>${candidate.year||''}${candidate.genre?' · '+candidate.genre:''}</p><span class="recommend-reason">${reason}</span></a></article>`;
+    }).join('');
+    $('#recommendSection').classList.remove('hidden');
+    $('#prevRecommendations').onclick=()=>scrollRail('#recommendRail',-1);$('#nextRecommendations').onclick=()=>scrollRail('#recommendRail',1);
+  }
+
   const reportDialog = $('#reportDialog');
   const reportContext = $('#reportContext');
   const reportStatus = $('#reportStatus');

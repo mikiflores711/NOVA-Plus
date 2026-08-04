@@ -29,6 +29,37 @@ const show=i=>{index=(i+featured.length)%featured.length;const x=featured[index]
 if(dots){dots.innerHTML=featured.map((_,i)=>`<button type="button" aria-label="Recomendación ${i+1}"></button>`).join('');dots.querySelectorAll('button').forEach((b,i)=>b.onclick=()=>{show(i);restart()})}
 const restart=()=>{clearInterval(timer);timer=setInterval(()=>show(index+1),6500)};document.getElementById('heroPrev')?.addEventListener('click',()=>{show(index-1);restart()});document.getElementById('heroNext')?.addEventListener('click',()=>{show(index+1);restart()});hero.addEventListener('mouseenter',()=>clearInterval(timer));hero.addEventListener('mouseleave',restart);show(0);restart()}
 setupHero();
+
+function setupTvNavigation(){
+  document.querySelectorAll('.section > .rail').forEach((rail,index)=>{
+    if(rail.parentElement?.classList.contains('rail-shell'))return;
+    const shell=document.createElement('div');shell.className='rail-shell';
+    rail.parentNode.insertBefore(shell,rail);shell.appendChild(rail);
+    const prev=document.createElement('button'),next=document.createElement('button');
+    prev.type=next.type='button';prev.className='tv-scroll-btn horizontal prev';next.className='tv-scroll-btn horizontal next';
+    prev.innerHTML='‹';next.innerHTML='›';prev.setAttribute('aria-label','Desplazar hacia la izquierda');next.setAttribute('aria-label','Desplazar hacia la derecha');
+    shell.append(prev,next);
+    const move=direction=>rail.scrollBy({left:direction*Math.max(rail.clientWidth*.82,320),behavior:'smooth'});
+    prev.onclick=()=>move(-1);next.onclick=()=>move(1);
+    const update=()=>{prev.disabled=rail.scrollLeft<5;next.disabled=rail.scrollLeft+rail.clientWidth>=rail.scrollWidth-5};
+    rail.addEventListener('scroll',update,{passive:true});window.addEventListener('resize',update);setTimeout(update,80);
+  });
+  if(document.getElementById('catalogGrid')&&!document.querySelector('.catalog-tv-controls')){
+    const controls=document.createElement('div');controls.className='catalog-tv-controls';
+    controls.innerHTML='<button type="button" data-page-up aria-label="Subir catálogo">↑</button><button type="button" data-page-down aria-label="Bajar catálogo">↓</button>';
+    document.body.appendChild(controls);
+    controls.querySelector('[data-page-up]').onclick=()=>window.scrollBy({top:-Math.max(innerHeight*.78,420),behavior:'smooth'});
+    controls.querySelector('[data-page-down]').onclick=()=>window.scrollBy({top:Math.max(innerHeight*.78,420),behavior:'smooth'});
+  }
+}
+setupTvNavigation();
+document.addEventListener('keydown',event=>{
+  const active=document.activeElement;
+  const shell=active?.closest?.('.rail-shell');
+  if(shell&&(event.key==='ArrowLeft'||event.key==='ArrowRight')){event.preventDefault();shell.querySelector(event.key==='ArrowLeft'?'.prev':'.next')?.click();return}
+  if(document.getElementById('catalogGrid')&&(event.key==='PageDown'||event.key==='PageUp')){event.preventDefault();document.querySelector(event.key==='PageUp'?'[data-page-up]':'[data-page-down]')?.click()}
+});
+
 document.getElementById('catalogSearch')?.addEventListener('input',e=>{query=e.target.value;renderCatalog()});
 document.querySelector('[data-back]')?.addEventListener('click',()=>history.length>1?history.back():location.assign('index.html'));
 function dialog(){let o=document.getElementById('appDialog');if(o)return o;o=document.createElement('div');o.id='appDialog';o.className='app-dialog';o.innerHTML='<section class="app-dialog-card"><button class="dialog-close">×</button><div id="dialogBody"></div></section>';document.body.appendChild(o);const close=()=>o.classList.remove('open');o.querySelector('.dialog-close').onclick=close;o.onclick=e=>{if(e.target===o)close()};return o}

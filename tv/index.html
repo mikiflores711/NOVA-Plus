@@ -988,6 +988,20 @@ html,body{background:#050706}
 .channel-report-send:disabled{opacity:.65;cursor:wait}.channel-report-status{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;font-size:14px}.channel-report-status.show{display:block}.channel-report-status.ok{background:rgba(40,180,105,.16);color:#9cf0bd}.channel-report-status.error{background:rgba(226,70,88,.16);color:#ffadb9}
 @media(max-width:600px){.channel-report-modal{align-items:flex-end;padding:0}.channel-report-card{width:100%;max-height:92vh;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom))}}
 
+
+
+/* Smart TV directional controls v4.2 */
+.tv-strip-shell{position:relative;padding:0 48px;background:#111714}
+.tv-strip-shell .scroll-tabs{overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;white-space:nowrap}
+.tv-strip-shell .scroll-tabs::-webkit-scrollbar{display:none}
+.tv-strip-btn{position:absolute;z-index:25;border:1px solid rgba(255,255,255,.16);background:rgba(7,10,9,.92);color:#fff;display:grid;place-items:center;cursor:pointer}
+.tv-strip-btn:hover,.tv-strip-btn:focus-visible,.channel-page-btn:hover,.channel-page-btn:focus-visible{background:#5368f4;outline:3px solid rgba(113,134,255,.34)}
+.tv-strip-btn.prev{left:4px}.tv-strip-btn.next{right:4px}.tv-strip-btn{top:5px;bottom:5px;width:40px;border-radius:10px;font-size:28px}
+.channel-list-shell{position:relative}
+.channel-list-shell .channel-list{padding-right:58px}
+.channel-page-controls{position:absolute;right:7px;top:50%;transform:translateY(-50%);z-index:30;display:grid;gap:10px}
+.channel-page-btn{width:44px;height:54px;border:1px solid rgba(255,255,255,.16);border-radius:11px;background:rgba(7,10,9,.94);color:#fff;font-size:25px;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.4)}
+@media(max-width:600px){.tv-strip-shell{padding:0 42px}.tv-strip-btn{width:36px}.channel-list-shell .channel-list{padding-right:50px}.channel-page-btn{width:40px;height:48px}}
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
@@ -1049,16 +1063,14 @@ html,body{background:#050706}
     <button class="main-tab" id="favoritesMainTab" type="button">Favoritos</button>
   </nav>
 
-  <nav class="scroll-tabs provider-tabs" id="sectionTabs" aria-label="Servicios de TV"></nav>
-  <nav class="scroll-tabs category-tabs" id="categoryTabs" aria-label="Categorías"></nav>
+  <div class="tv-strip-shell"><button class="tv-strip-btn prev" id="providersPrev" type="button" aria-label="Listas anteriores">‹</button><nav class="scroll-tabs provider-tabs" id="sectionTabs" aria-label="Servicios de TV"></nav><button class="tv-strip-btn next" id="providersNext" type="button" aria-label="Más listas">›</button></div>
+  <div class="tv-strip-shell"><button class="tv-strip-btn prev" id="categoriesPrev" type="button" aria-label="Categorías anteriores">‹</button><nav class="scroll-tabs category-tabs" id="categoryTabs" aria-label="Categorías"></nav><button class="tv-strip-btn next" id="categoriesNext" type="button" aria-label="Más categorías">›</button></div>
 <div class="list-head">
     <span id="sectionInfo">Cargando canales...</span>
     <span id="countPill">0</span>
   </div>
 
-  <main class="channel-list" id="channelList">
-    <div class="empty">Cargando canales...</div>
-  </main>
+  <div class="channel-list-shell"><main class="channel-list" id="channelList"><div class="empty">Cargando canales...</div></main><div class="channel-page-controls"><button class="channel-page-btn" id="channelsUp" type="button" aria-label="Canales anteriores">↑</button><button class="channel-page-btn" id="channelsDown" type="button" aria-label="Más canales">↓</button></div></div>
 </div>
 
 <div class="legal-modal" id="legalModal" aria-hidden="true">
@@ -1165,6 +1177,19 @@ const PLAYER_UI_HIDE_DELAY = 3500;
 const IS_IPHONE = /iPhone|iPod/i.test(navigator.userAgent);
 const PLAYER_FIX_VERSION = "2026-07-28-hls-proxy-v2";
 const STREAM_DEVICE_KEY = "watch_tv_plus_stream_device_id_v1";
+
+function setupSmartTvScrollControls(){
+  const bindHorizontal=(prevId,nextId,targetId)=>{const target=document.getElementById(targetId);document.getElementById(prevId)?.addEventListener('click',()=>target?.scrollBy({left:-Math.max(target.clientWidth*.78,260),behavior:'smooth'}));document.getElementById(nextId)?.addEventListener('click',()=>target?.scrollBy({left:Math.max(target.clientWidth*.78,260),behavior:'smooth'}))};
+  bindHorizontal('providersPrev','providersNext','sectionTabs');bindHorizontal('categoriesPrev','categoriesNext','categoryTabs');
+  document.getElementById('channelsUp')?.addEventListener('click',()=>channelList?.scrollBy({top:-Math.max(channelList.clientHeight*.78,280),behavior:'smooth'}));
+  document.getElementById('channelsDown')?.addEventListener('click',()=>channelList?.scrollBy({top:Math.max(channelList.clientHeight*.78,280),behavior:'smooth'}));
+  document.addEventListener('keydown',event=>{
+    const active=document.activeElement;
+    if(active?.closest?.('.tv-strip-shell')&&(event.key==='ArrowLeft'||event.key==='ArrowRight')){event.preventDefault();active.closest('.tv-strip-shell').querySelector(event.key==='ArrowLeft'?'.prev':'.next')?.click()}
+    if(active?.closest?.('.channel-list-shell')&&(event.key==='PageUp'||event.key==='PageDown')){event.preventDefault();document.getElementById(event.key==='PageUp'?'channelsUp':'channelsDown')?.click()}
+  });
+}
+
 
 function getStreamDeviceId(){
   let value = localStorage.getItem(STREAM_DEVICE_KEY);
@@ -1287,6 +1312,7 @@ const legalAccept = document.getElementById("legalAccept");
 const toast = document.getElementById("toast");
 const searchInput = document.getElementById("searchInput");
 const channelList = document.getElementById("channelList");
+setupSmartTvScrollControls();
 const sectionTabs = document.getElementById("sectionTabs");
 const categoryTabs = document.getElementById("categoryTabs");
 const sectionInfo = document.getElementById("sectionInfo");

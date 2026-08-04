@@ -22,9 +22,9 @@ const series=sortNewest(all.filter(x=>x.type==='tv'));
 const genreSections=[['accion','Acción'],['ciencia-ficcion','Ciencia ficción'],['comedia','Comedia'],['drama','Drama'],['terror','Terror']];
 function renderHomeRails(){fill(document.getElementById('movieRail'),movies,15);fill(document.getElementById('seriesRail'),series,15);for(const [slug,label] of genreSections){fill(document.getElementById(`movie-${slug}`),movies.filter(x=>hasGenre(x,label)),15);fill(document.getElementById(`series-${slug}`),series.filter(x=>hasGenre(x,label)),15)}}
 let query='';
-function renderCatalog(){const grid=document.getElementById('catalogGrid');if(!grid)return;const type=document.body.dataset.catalog==='tv'?'tv':'movie';let list=type==='tv'?series:movies;const params=new URLSearchParams(location.search);const category=params.get('categoria')||'';if(category)list=list.filter(x=>hasGenre(x,category.replace(/-/g,' ')));list=list.filter(x=>`${x.title} ${x.year} ${releaseDate(x)} ${x.genre}`.toLowerCase().includes(query.toLowerCase()));fill(grid,list);document.getElementById('empty')?.classList.toggle('hidden',list.length>0);const heading=document.getElementById('catalogTitle');if(heading)heading.textContent=category?`${type==='tv'?'Series':'Películas'} de ${category.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}`:(type==='tv'?'Series':'Películas')}
+function renderCatalog(){const grid=document.getElementById('catalogGrid');if(!grid)return;const type=document.body.dataset.catalog==='tv'?'tv':'movie';let list=type==='tv'?series:movies;const params=new URLSearchParams(location.search);const category=params.get('categoria')||'';if(category)list=list.filter(x=>hasGenre(x,category.replace(/-/g,' ')));list=list.filter(x=>`${x.title} ${x.year} ${releaseDate(x)} ${x.genre}`.toLowerCase().includes(query.toLowerCase()));fill(grid,list);setTimeout(()=>window.NOVA_ADS?.refresh?.(),80);document.getElementById('empty')?.classList.toggle('hidden',list.length>0);const heading=document.getElementById('catalogTitle');if(heading)heading.textContent=category?`${type==='tv'?'Series':'Películas'} de ${category.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}`:(type==='tv'?'Series':'Películas')}
 function renderFavorites(){const fg=document.getElementById('favoritesGrid');if(!fg)return;const s=favs();const list=sortNewest(all.filter(x=>s.has(x.id)));fill(fg,list);document.getElementById('favoritesEmpty')?.classList.toggle('hidden',list.length>0)}
-renderHomeRails();renderCatalog();renderFavorites();
+renderHomeRails();renderCatalog();renderFavorites();setTimeout(()=>window.NOVA_ADS?.placeBanners?.(),900);
 function setupHero(){const hero=document.querySelector('.hero');if(!hero)return;let featured=sortNewest(all.filter(x=>x.featured)).slice(0,7);if(featured.length<7){for(const x of sortNewest(all)){if(featured.length>=7)break;if(!featured.some(y=>y.id===x.id))featured.push(x)}}if(!featured.length)return;let index=0,timer;const bg=document.querySelector('.hero-bg'),title=document.getElementById('heroTitle'),desc=document.getElementById('heroDesc'),meta=document.getElementById('heroMeta'),play=document.getElementById('heroPlay'),info=document.getElementById('heroInfo'),dots=document.getElementById('heroDots');
 const show=i=>{index=(i+featured.length)%featured.length;const x=featured[index];bg?.style.setProperty('background-image',`url("${x.backdrop||x.poster||''}")`);if(title)title.textContent=x.title||'';if(desc)desc.textContent=x.description||'';if(meta)meta.textContent=`${typeLabel(x)} · ${formatDate(x)}${x.genre?' · '+x.genre:''}`;if(play)play.href=href(x);if(info)info.href=href(x);dots?.querySelectorAll('button').forEach((b,n)=>b.classList.toggle('active',n===index))};
 if(dots){dots.innerHTML=featured.map((_,i)=>`<button type="button" aria-label="Recomendación ${i+1}"></button>`).join('');dots.querySelectorAll('button').forEach((b,i)=>b.onclick=()=>{show(i);restart()})}
@@ -44,9 +44,21 @@ function settings(){
  <button data-device-mode="mobile" class="${current==='mobile'?'active':''}"><strong>📱 Móvil / Tablet / PC</strong><small>Control táctil o mouse, sin botones de desplazamiento.</small></button>
  <button data-device-mode="tv" class="${current==='tv'?'active':''}"><strong>📺 Smart TV</strong><small>Botones grandes para desplazar carruseles, catálogos y listas.</small></button>
  </div></div>
- <div class="settings-menu"><button data-info="about">Quiénes somos</button><button data-info="legal">Aviso legal</button><button data-info="terms">Términos y condiciones</button></div><div id="settingsText" class="settings-text hidden"></div>`;
+ <div class="settings-menu"><button id="installNovaApp" type="button"><strong>Instalar NOVA+</strong><small>Agregar el icono a la pantalla de inicio.</small></button><button data-info="about">Quiénes somos</button><button data-info="legal">Aviso legal</button><button data-info="terms">Términos y condiciones</button></div><div id="settingsText" class="settings-text hidden"></div>`;
  o.classList.add('open');
  o.querySelectorAll('[data-device-mode]').forEach(b=>b.onclick=()=>{window.NOVA_DEVICE?.setMode?.(b.dataset.deviceMode);o.querySelectorAll('[data-device-mode]').forEach(x=>x.classList.toggle('active',x===b));});
+ const installButton=o.querySelector('#installNovaApp');
+ if(installButton){
+  const standalone=window.NOVA_PWA?.isStandalone?.();
+  if(standalone){installButton.disabled=true;installButton.innerHTML='<strong>NOVA+ instalada</strong><small>Ya se está ejecutando como aplicación.</small>';}
+  installButton.onclick=async()=>{
+   const result=await window.NOVA_PWA?.install?.();
+   if(!result?.available){
+    const box=o.querySelector('#settingsText');
+    box.innerHTML='<h3>Instalar NOVA+</h3><p>En Android usa el menú del navegador y elige <b>Instalar aplicación</b> o <b>Agregar a pantalla de inicio</b>. En iPhone o iPad pulsa <b>Compartir</b> y después <b>Agregar a inicio</b>.</p>';box.classList.remove('hidden');
+   }
+  };
+ }
  const texts={about:'<h3>Quiénes somos</h3><p>NOVA+ es un sitio de entretenimiento pensado para organizar y presentar películas, series y TV en vivo en una interfaz adaptable.</p>',legal:'<h3>Aviso legal</h3><p>Los nombres, imágenes, personajes y obras pertenecen a sus respectivos titulares. Si consideras que algún contenido debe revisarse, utiliza el botón de reporte disponible en cada ficha.</p>',terms:'<h3>Términos y condiciones</h3><p>Al utilizar este sitio aceptas hacerlo responsablemente y conforme a las leyes aplicables. La disponibilidad del contenido puede cambiar sin previo aviso.</p>'};
  o.querySelectorAll('[data-info]').forEach(b=>b.onclick=()=>{const box=o.querySelector('#settingsText');box.innerHTML=texts[b.dataset.info];box.classList.remove('hidden');o.querySelectorAll('[data-info]').forEach(x=>x.classList.toggle('active',x===b))})
 }

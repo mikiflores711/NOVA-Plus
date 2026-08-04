@@ -1,0 +1,32 @@
+{
+  "id": "/",
+  "name": "NOVA+",
+  "short_name": "NOVA+",
+  "description": "Películas, series y TV en vivo en NOVA+.",
+  "lang": "es-MX",
+  "start_url": "/index.html?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#05080c",
+  "theme_color": "#090d0c",
+  "orientation": "any",
+  "categories": ["entertainment", "video"],
+  "icons": [
+    {"src":"/icons/icon-72.png","sizes":"72x72","type":"image/png"},
+    {"src":"/icons/icon-96.png","sizes":"96x96","type":"image/png"},
+    {"src":"/icons/icon-128.png","sizes":"128x128","type":"image/png"},
+    {"src":"/icons/icon-144.png","sizes":"144x144","type":"image/png"},
+    {"src":"/icons/icon-152.png","sizes":"152x152","type":"image/png"},
+    {"src":"/icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"/icons/icon-maskable-192.png","sizes":"192x192","type":"image/png","purpose":"maskable"},
+    {"src":"/icons/icon-384.png","sizes":"384x384","type":"image/png"},
+    {"src":"/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"/icons/icon-maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
+  ],
+  "shortcuts": [
+    {"name":"Películas","short_name":"Películas","url":"/catalogo-de-peliculas.html","icons":[{"src":"/icons/icon-192.png","sizes":"192x192"}]},
+    {"name":"Series","short_name":"Series","url":"/catalogo-de-series.html","icons":[{"src":"/icons/icon-192.png","sizes":"192x192"}]},
+    {"name":"TV en Vivo","short_name":"TV","url":"/tv/","icons":[{"src":"/icons/icon-192.png","sizes":"192x192"}]}
+  ]
+}

@@ -14,6 +14,8 @@
   }
 
   document.title = item.title;
+  document.body.classList.add(item.type === 'movie' ? 'detail-movie' : 'detail-series');
+  setTimeout(() => window.NOVA_ADS?.refresh?.(), 1000);
   const $ = selector => document.querySelector(selector);
   const bg = $('#heroBg');
   const logo = $('#titleLogo');

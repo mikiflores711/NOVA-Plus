@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<head><meta name="referrer" content="no-referrer-when-downgrade">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#181821">
@@ -1022,7 +1022,7 @@ html[data-device-mode="mobile"] .tv-strip-shell{padding-inline:0!important}html[
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
         crossorigin="anonymous"></script>
-<script src="../assets/js/device-mode.js?v=5.2"></script></head>
+<script src="../assets/js/device-mode.js?v=6.0"></script></head>
 
 <body>
 <div class="app-shell">
@@ -1959,11 +1959,25 @@ async function sendChannelReport(event){
   }finally{channelReportSend.disabled=false;channelReportSend.textContent="Enviar reporte"}
 }
 
-function loadChannel(channel){
+const TV_AD_CHANGE_KEY = "nova_tv_channel_changes_v1";
+async function loadChannel(channel){
+  const nextKey = getChannelKey(channel);
+  const isRealChange = Boolean(currentChannelKey && nextKey && nextKey !== currentChannelKey);
+  if(isRealChange && window.NOVA_ADS_CONFIG?.enabled && window.NOVA_ADS_CONFIG?.tv?.enabled){
+    const threshold = Math.max(1, Number(window.NOVA_ADS_CONFIG.tv.channelChangesPerAd) || 15);
+    let changes = Number(sessionStorage.getItem(TV_AD_CHANGE_KEY) || 0) + 1;
+    if(changes >= threshold){
+      sessionStorage.setItem(TV_AD_CHANGE_KEY,"0");
+      try{ await window.NOVA_ADS?.playPreroll?.(); }catch(error){ console.warn("Anuncio TV:",error); }
+    }else{
+      sessionStorage.setItem(TV_AD_CHANGE_KEY,String(changes));
+    }
+  }
+
   playerAttemptToken += 1;
   currentChannel = channel;
   currentUrl = channel.url;
-  currentChannelKey = getChannelKey(channel);
+  currentChannelKey = nextKey;
   updatePlayerChannelCard(channel);
   updatePlayerFavoriteButton();
   showPlayerUi();
@@ -2543,5 +2557,5 @@ function escapeHtml(text){return String(text || "").replaceAll("&","&amp;").repl
 
 init();
 </script>
-</body>
+<script src="/assets/js/pwa.js?v=6.0"></script><script src="/assets/js/ads-config.js?v=6.0"></script><script src="/assets/js/ads.js?v=6.0"></script></body>
 </html>

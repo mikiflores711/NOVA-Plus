@@ -42,6 +42,7 @@
 
   window.openWmpPlayer = async options => {
     if (!options?.src) return;
+    try { await window.NOVA_ADS?.playPreroll?.(); } catch (error) { console.warn('Pre-roll:', error); }
     title.textContent = options.title || '';
     player.setAttribute('title', options.title || '');
     player.setAttribute('src', options.src);

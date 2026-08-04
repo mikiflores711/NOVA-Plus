@@ -1,0 +1,14 @@
+.nova-ad-slot{width:min(970px,calc(100% - 32px));min-height:90px;margin:24px auto;display:grid;place-items:center;overflow:hidden;border-radius:14px;background:#0b1110}.catalog-ad{grid-column:1/-1}.nova-preroll{position:fixed;inset:0;z-index:100000;background:#000;display:grid;place-items:center}.nova-preroll-stage{position:relative;width:100%;height:100%;background:#000}.nova-preroll video,.nova-ima-container{position:absolute;inset:0;width:100%;height:100%}.nova-ad-label{position:absolute;top:18px;left:18px;z-index:3;padding:6px 10px;border-radius:999px;background:#000a;color:#fff;font:700 12px/1 system-ui}.nova-ad-close{position:absolute;top:14px;right:16px;z-index:5;width:42px;height:42px;border:1px solid #ffffff55;border-radius:50%;background:#000b;color:white;font-size:28px;cursor:pointer}
+
+.nova-ad-slot{width:100%;min-height:290px;margin:24px auto;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;clear:both}
+.nova-ad-content{width:300px;min-height:250px;display:flex;align-items:center;justify-content:center;max-width:100%}
+.nova-ad-label-inline{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#7f8986;margin-bottom:8px}
+.catalog-ad{grid-column:1/-1;width:100%;display:flex;justify-content:center}
+.detail-ad-slot{margin:28px auto}
+.nova-preroll{position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center}
+.nova-preroll-stage{position:relative;width:100%;height:100%;background:#000;display:flex;align-items:center;justify-content:center}
+.nova-ima-container{position:absolute;inset:0}
+.nova-preroll video{width:100%;height:100%;object-fit:contain}
+.nova-ad-label{position:absolute;z-index:3;top:16px;left:16px;padding:7px 10px;border-radius:999px;background:rgba(0,0,0,.72);color:#fff;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;pointer-events:none}
+.nova-ad-wait{position:absolute;z-index:3;bottom:18px;left:50%;transform:translateX(-50%);padding:8px 12px;border-radius:10px;background:rgba(0,0,0,.72);color:#ddd;font-size:13px;text-align:center;pointer-events:none}
+@media(max-width:520px){.nova-ad-slot{margin:18px auto;min-height:280px}.nova-ad-wait{width:calc(100% - 32px)}}

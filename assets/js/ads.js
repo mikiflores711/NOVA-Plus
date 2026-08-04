@@ -107,7 +107,7 @@ function loadIma(){
 }
 
 // Precarga el SDK para que la inicialización ocurra dentro del clic del usuario.
-if(cfg.enabled&&prerollCfg.enabled&&prerollCfg.vastTagUrl){
+if(cfg.enabled&&prerollCfg.enabled&&(prerollCfg.imaTagUrl||prerollCfg.vastTagUrl)){
   if(document.readyState==='loading'){
     document.addEventListener('DOMContentLoaded',()=>loadIma().catch(()=>{}),{once:true});
   }else{
@@ -117,7 +117,8 @@ if(cfg.enabled&&prerollCfg.enabled&&prerollCfg.vastTagUrl){
 
 let prerollPromise=null;
 async function playPreroll(){
-  if(!cfg.enabled||!prerollCfg.enabled||!prerollCfg.vastTagUrl)return {shown:false,reason:'disabled'};
+  const adTag=String(prerollCfg.imaTagUrl||prerollCfg.vastTagUrl||'').trim();
+  if(!cfg.enabled||!prerollCfg.enabled||!adTag)return {shown:false,reason:'disabled'};
   if(prerollPromise)return prerollPromise;
 
   prerollPromise=new Promise(async resolve=>{
@@ -206,16 +207,17 @@ async function playPreroll(){
       },false);
 
       const request=new google.ima.AdsRequest();
-      request.adTagUrl=String(prerollCfg.vastTagUrl).trim();
+      request.adTagUrl=adTag;
       request.linearAdSlotWidth=Math.max(320,window.innerWidth||320);
       request.linearAdSlotHeight=Math.max(180,window.innerHeight||180);
       request.nonLinearAdSlotWidth=Math.max(320,window.innerWidth||320);
       request.nonLinearAdSlotHeight=Math.max(90,Math.round((window.innerHeight||540)/3));
       try{request.setAdWillAutoPlay(true)}catch{}
       try{request.setAdWillPlayMuted(false)}catch{}
+      try{request.setContinuousPlayback(false)}catch{}
 
       // Si no hay inventario, continúa sin mostrar pantalla negra.
-      startTimer=setTimeout(()=>finish({shown:false,timeout:true}),6500);
+      startTimer=setTimeout(()=>finish({shown:false,timeout:true}),Math.max(8,Number(prerollCfg.initialWaitSeconds)||15)*1000);
       hardTimer=setTimeout(()=>finish({shown:visible,timeout:true}),Math.max(12,Number(prerollCfg.maxWaitSeconds)||25)*1000);
       adsLoader.requestAds(request);
     }catch(error){

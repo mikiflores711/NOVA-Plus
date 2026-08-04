@@ -26,10 +26,11 @@
   const cast = $('#cast');
   let details;
   let people = [];
-  let poster = item.backdrop;
+  let backdrop = item.backdrop || item.poster || '';
+  let poster = item.poster || item.backdrop || '';
   const episodeVideo = episode => typeof episode === 'string' ? episode : (episode?.video || episode?.url || '');
 
-  bg.style.backgroundImage = `url('${item.backdrop}')`;
+  bg.style.backgroundImage = backdrop ? `url('${backdrop}')` : 'none';
   fallback.textContent = item.title;
   overview.textContent = item.description || '';
 
@@ -58,8 +59,9 @@
     const data = item.type === 'movie' ? await TMDB.movie(item.tmdbId) : await TMDB.tv(item.tmdbId);
     details = data.details;
     people = (data.credits.cast || []).slice(0, 12);
-    poster = TMDB.image(details.backdrop_path || details.poster_path, 'original') || poster;
-    bg.style.backgroundImage = `url('${poster}')`;
+    backdrop = TMDB.image(details.backdrop_path, 'original') || backdrop || TMDB.image(details.poster_path, 'original');
+    poster = TMDB.image(details.poster_path, 'w780') || poster || backdrop;
+    bg.style.backgroundImage = backdrop ? `url('${backdrop}')` : 'none';
     const selectedLogo = TMDB.pickLogo(data.images);
     if (selectedLogo) {
       logo.src = TMDB.image(selectedLogo.file_path, 'w500');
@@ -216,7 +218,7 @@
 
   if (item.type === 'movie') {
     $('#movieActions').classList.remove('hidden');
-    const movieMedia = { src: item.video, poster, title: item.title, contentTitle: item.title, contentId: item.id, kind: 'película', server: 'Servidor principal' };
+    const movieMedia = { src: item.video, poster, backdrop, title: item.title, contentTitle: item.title, contentId: item.id, kind: 'película', server: 'Servidor principal' };
     $('#watchMovie').onclick = () => playResolved(movieMedia);
     $('#reportMovie').onclick = () => openReport(movieMedia);
   } else {
@@ -247,6 +249,7 @@
         const media = {
           src: card.dataset.src,
           poster: card.dataset.poster,
+          backdrop,
           title: card.dataset.title,
           contentTitle: item.title,
           contentId: item.id,

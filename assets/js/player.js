@@ -30,7 +30,8 @@
   async function closePlayer() {
     clearTimeout(hideTimer);
     try { player.pause(); } catch (_) {}
-    overlay.classList.remove('open');
+    overlay.classList.remove('open', 'is-loading-media', 'has-loading-artwork');
+    overlay.style.removeProperty('--player-loading-image');
     overlay.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('player-open');
     setHidden(false);
@@ -40,18 +41,29 @@
     } catch (_) {}
   }
 
+  function setLoadingArtwork(options = {}) {
+    const artwork = options.backdrop || options.poster || '';
+    overlay.style.setProperty('--player-loading-image', artwork ? `url(\"${String(artwork).replace(/\"/g, '%22')}\")` : 'none');
+    overlay.classList.toggle('has-loading-artwork', Boolean(artwork));
+    overlay.classList.add('is-loading-media');
+  }
+
+  function clearLoadingState() {
+    overlay.classList.remove('is-loading-media');
+  }
+
   window.openWmpPlayer = async options => {
     if (!options?.src) return;
-    try { await window.NOVA_ADS?.playPreroll?.(); } catch (error) { console.warn('Pre-roll:', error); }
+
     title.textContent = options.title || '';
     player.setAttribute('title', options.title || '');
-    player.setAttribute('src', options.src);
-    options.poster ? player.setAttribute('poster', options.poster) : player.removeAttribute('poster');
+    setLoadingArtwork(options);
     overlay.classList.add('open');
     overlay.setAttribute('aria-hidden', 'false');
     document.body.classList.add('player-open');
     showChrome();
 
+    // Solicitar pantalla completa inmediatamente desde el clic del usuario.
     try {
       if (isMobile() && overlay.requestFullscreen && !document.fullscreenElement) {
         await overlay.requestFullscreen();
@@ -59,6 +71,11 @@
     } catch (_) {}
     await lockLandscape();
 
+    // El fondo de TMDB permanece visible mientras se busca/reproduce el anuncio.
+    try { await window.NOVA_ADS?.playPreroll?.(); } catch (error) { console.warn('Pre-roll:', error); }
+
+    player.setAttribute('src', options.src);
+    options.poster ? player.setAttribute('poster', options.poster) : player.removeAttribute('poster');
     try { await player.play(); } catch (_) {}
   };
 
@@ -66,7 +83,9 @@
   overlay.addEventListener('mousemove', showChrome, { passive: true });
   overlay.addEventListener('touchstart', showChrome, { passive: true });
   overlay.addEventListener('click', showChrome);
-  player.addEventListener('play', showChrome);
+  player.addEventListener('play', () => { clearLoadingState(); showChrome(); });
+  player.addEventListener('can-play', clearLoadingState);
+  player.addEventListener('loaded-metadata', clearLoadingState);
   player.addEventListener('pause', () => setHidden(false));
   document.addEventListener('fullscreenchange', () => {
     if (!document.fullscreenElement && overlay.classList.contains('open') && isMobile()) closePlayer();

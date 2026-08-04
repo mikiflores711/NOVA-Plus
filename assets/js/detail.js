@@ -107,6 +107,7 @@
       const sameFranchise=score>=100;const reason=sameFranchise?'De la misma franquicia':'Géneros similares';
       const recommendationYear=String(candidate.releaseDate||candidate.release_date||candidate.firstAirDate||candidate.first_air_date||candidate.year||'').slice(0,4);return `<article class="recommend-card"><a href="detalle.html?id=${encodeURIComponent(candidate.id)}" data-focus-label="${String(candidate.title||'').replace(/"/g,'&quot;')}"><div class="poster"><img src="${candidate.poster||candidate.backdrop||''}" alt="${candidate.title||''}" loading="lazy">${recommendationYear?`<span class="poster-year">${recommendationYear}</span>`:''}</div><h3 title="${String(candidate.title||'').replace(/"/g,'&quot;')}">${candidate.title||''}</h3></a></article>`;
     }).join('');
+    [...rail.querySelectorAll('.recommend-card')].slice(7).forEach(card=>card.remove());
     $('#recommendSection').classList.remove('hidden');
     $('#prevRecommendations')?.addEventListener('click',()=>scrollRail('#recommendRail',-1));$('#nextRecommendations')?.addEventListener('click',()=>scrollRail('#recommendRail',1));
   }

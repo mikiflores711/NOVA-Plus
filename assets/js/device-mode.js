@@ -22,8 +22,8 @@ function wrapHorizontal(el){
   if(!shell?.classList.contains('nova-scroll-shell')){
     shell=document.createElement('div');shell.className='nova-scroll-shell';el.parentNode.insertBefore(shell,el);shell.appendChild(el);
   }
-  const prev=makeButton('nova-scroll-button nova-prev','Desplazar a la izquierda','‹',()=>el.scrollBy({left:-scrollAmount(el),behavior:'smooth'}));
-  const next=makeButton('nova-scroll-button nova-next','Desplazar a la derecha','›',()=>el.scrollBy({left:scrollAmount(el),behavior:'smooth'}));
+  const prev=makeButton('nova-scroll-button nova-prev','Desplazar a la izquierda','&#10094;',()=>el.scrollBy({left:-scrollAmount(el),behavior:'smooth'}));
+  const next=makeButton('nova-scroll-button nova-next','Desplazar a la derecha','&#10095;',()=>el.scrollBy({left:scrollAmount(el),behavior:'smooth'}));
   shell.append(prev,next);
 }
 function installCatalogControls(){

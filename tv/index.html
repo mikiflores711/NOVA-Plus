@@ -990,38 +990,39 @@ html,body{background:#050706}
 
 
 
-/* Smart TV directional controls v4.2 */
-.tv-strip-shell{position:relative;padding:0 48px;background:#111714}
-.tv-strip-shell .scroll-tabs{overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;white-space:nowrap}
+/* NOVA+ 5.2: controles Smart TV separados y lista horizontal */
+.tv-strip-shell{position:relative;margin:10px 0;padding:0 58px;background:#111714;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);min-height:58px;display:flex;align-items:center}
+.tv-strip-shell .scroll-tabs{flex:1;min-width:0;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;white-space:nowrap;padding-block:8px}
 .tv-strip-shell .scroll-tabs::-webkit-scrollbar{display:none}
-.tv-strip-btn{position:absolute;z-index:25;border:1px solid rgba(255,255,255,.16);background:rgba(7,10,9,.92);color:#fff;display:grid;place-items:center;cursor:pointer}
+.tv-strip-btn{display:none;position:absolute;z-index:25;top:7px;bottom:7px;width:44px;border:1px solid rgba(255,255,255,.16);border-radius:11px;background:#090d0c;color:#fff;place-items:center;cursor:pointer;font-size:0;box-shadow:0 8px 22px rgba(0,0,0,.38)}
+.tv-strip-btn::before{font-size:30px;line-height:1}.tv-strip-btn.prev::before{content:"\276E"}.tv-strip-btn.next::before{content:"\276F"}
+.tv-strip-btn.prev{left:7px}.tv-strip-btn.next{right:7px}
 .tv-strip-btn:hover,.tv-strip-btn:focus-visible,.channel-page-btn:hover,.channel-page-btn:focus-visible{background:#5368f4;outline:3px solid rgba(113,134,255,.34)}
-.tv-strip-btn.prev{left:4px}.tv-strip-btn.next{right:4px}.tv-strip-btn{top:5px;bottom:5px;width:40px;border-radius:10px;font-size:28px}
-.channel-list-shell{position:relative}
-.channel-list-shell .channel-list{padding-right:58px}
-.channel-page-controls{position:absolute;right:7px;top:50%;transform:translateY(-50%);z-index:30;display:grid;gap:10px}
-.channel-page-btn{width:44px;height:54px;border:1px solid rgba(255,255,255,.16);border-radius:11px;background:rgba(7,10,9,.94);color:#fff;font-size:25px;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.4)}
-@media(max-width:600px){.tv-strip-shell{padding:0 42px}.tv-strip-btn{width:36px}.channel-list-shell .channel-list{padding-right:50px}.channel-page-btn{width:40px;height:48px}}
-
-/* Navegación espacial Smart TV: sin botones de desplazamiento */
-.scroll-tabs,.channel-list{scrollbar-width:none!important;scroll-behavior:smooth}.scroll-tabs::-webkit-scrollbar,.channel-list::-webkit-scrollbar{display:none!important}
-.remote-navigation :focus-visible,[data-navigation-mode="tv"] :focus-visible{outline:4px solid #7b8cff!important;outline-offset:3px!important;box-shadow:0 0 0 7px rgba(92,113,255,.25),0 18px 44px rgba(0,0,0,.55)!important;transform:scale(1.035);position:relative;z-index:20}
-
-/* NOVA+ modo móvil / Smart TV */
-.tv-strip-btn,.channel-page-controls{display:none}
-html[data-device-mode="tv"] .tv-strip-shell{padding-left:48px!important;padding-right:48px!important}
-html[data-device-mode="tv"] .tv-strip-btn{display:grid!important;place-items:center;position:absolute;z-index:15;top:0;bottom:0;width:44px;border:0;background:rgba(5,9,8,.94);color:#fff;font-size:32px}
-html[data-device-mode="tv"] .tv-strip-btn.prev{left:0}html[data-device-mode="tv"] .tv-strip-btn.next{right:0}
-html[data-device-mode="tv"] .channel-list-shell .channel-list{padding-right:64px!important}
-html[data-device-mode="tv"] .channel-page-controls{display:flex!important;position:sticky;float:right;right:8px;top:8px;z-index:35;flex-direction:column;gap:8px;margin:8px 8px -112px 0}
-html[data-device-mode="tv"] .channel-page-btn{display:grid;place-items:center;width:48px;height:48px;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(8,12,11,.96);color:#fff;font-size:24px;box-shadow:0 8px 25px rgba(0,0,0,.45)}
-html[data-device-mode="mobile"] .tv-strip-shell{padding-left:0!important;padding-right:0!important}html[data-device-mode="mobile"] .tv-strip-btn,html[data-device-mode="mobile"] .channel-page-controls{display:none!important}html[data-device-mode="mobile"] .channel-list-shell .channel-list{padding-right:0!important}
-.tab-chip img{display:block;max-width:118px;width:auto;height:28px;object-fit:contain}.channel-logo img{display:block;width:100%;height:100%;object-fit:contain;border-radius:7px}
+.channel-list-shell{position:relative;margin-top:10px;padding:0 60px 14px;background:#0b100e}
+.channel-list-shell .channel-list{display:flex!important;grid-template-columns:none!important;gap:14px!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none!important;padding:14px 2px 18px!important;background:#0b100e!important}
+.channel-list-shell .channel-list::-webkit-scrollbar{display:none!important}
+.channel-row{position:relative;flex:0 0 180px;min-width:180px;display:flex!important;flex-direction:column;align-items:stretch;gap:0!important;padding:0!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:14px!important;overflow:hidden;background:#151b19!important;scroll-snap-align:start;min-height:250px}
+.channel-row:hover{background:#1c2421!important}.channel-row.active{box-shadow:0 0 0 3px #6f82ff!important;background:#151b19!important}
+.channel-row .channel-logo{width:100%!important;height:150px!important;min-height:150px!important;border:0!important;border-radius:0!important;background:#202825!important;display:grid!important;place-items:center!important;padding:12px!important}
+.channel-row .channel-logo img{display:block;width:100%!important;height:100%!important;object-fit:contain!important;border-radius:7px}
+.channel-row .channel-number{position:absolute;left:8px;top:8px;z-index:2;min-width:34px;height:25px;padding:0 7px;border-radius:999px;background:rgba(0,0,0,.78);display:grid;place-items:center;font-size:11px;font-weight:900;color:#fff}
+.channel-row .channel-copy{padding:12px 12px 14px!important;min-width:0!important;flex:1}
+.channel-row .channel-name{font-size:15px!important;font-weight:900;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px}
+.channel-row .program-text{font-size:11px!important;color:#aeb8b3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.channel-row .row-actions{position:absolute!important;right:7px!important;top:7px!important;display:flex!important;gap:5px!important}
+.channel-row .favorite-btn,.channel-row .report-btn{width:34px!important;height:34px!important;background:rgba(6,9,8,.85)!important;backdrop-filter:blur(5px)}
+.channel-page-controls{display:none;position:absolute;inset:0;pointer-events:none;z-index:30}
+.channel-page-btn{pointer-events:auto;position:absolute;top:50%;transform:translateY(-50%);width:46px;height:72px;border:1px solid rgba(255,255,255,.16);border-radius:12px;background:rgba(7,10,9,.94);color:#fff;font-size:0;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.4)}
+.channel-page-btn::before{font-size:31px;line-height:1}.channel-page-btn:first-child{left:7px}.channel-page-btn:last-child{right:7px}.channel-page-btn:first-child::before{content:"\276E"}.channel-page-btn:last-child::before{content:"\276F"}
+html[data-device-mode="tv"] .tv-strip-btn{display:grid!important}html[data-device-mode="tv"] .channel-page-controls{display:block!important}
+html[data-device-mode="mobile"] .tv-strip-shell{padding-inline:0!important}html[data-device-mode="mobile"] .tv-strip-btn,html[data-device-mode="mobile"] .channel-page-controls{display:none!important}html[data-device-mode="mobile"] .channel-list-shell{padding-inline:0!important}
+.tab-chip img{display:block;max-width:118px;width:auto;height:28px;object-fit:contain}
+@media(max-width:600px){.tv-strip-shell{padding-inline:50px}.channel-list-shell{padding-inline:52px}.channel-row{flex-basis:155px;min-width:155px}.channel-row .channel-logo{height:130px!important;min-height:130px!important}}
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
         crossorigin="anonymous"></script>
-<script src="../assets/js/device-mode.js?v=5.1"></script></head>
+<script src="../assets/js/device-mode.js?v=5.2"></script></head>
 
 <body>
 <div class="app-shell">
@@ -1085,7 +1086,7 @@ html[data-device-mode="mobile"] .tv-strip-shell{padding-left:0!important;padding
     <span id="countPill">0</span>
   </div>
 
-  <div class="channel-list-shell"><div class="channel-page-controls" aria-label="Desplazamiento de canales"><button id="channelsUp" class="channel-page-btn" type="button" aria-label="Canales anteriores">↑</button><button id="channelsDown" class="channel-page-btn" type="button" aria-label="Canales siguientes">↓</button></div><main class="channel-list" id="channelList"><div class="empty">Cargando canales...</div></main></div>
+  <div class="channel-list-shell"><div class="channel-page-controls" aria-label="Desplazamiento de canales"><button id="channelsUp" class="channel-page-btn" type="button" aria-label="Canales anteriores">&#10094;</button><button id="channelsDown" class="channel-page-btn" type="button" aria-label="Canales siguientes">&#10095;</button></div><main class="channel-list" id="channelList"><div class="empty">Cargando canales...</div></main></div>
 </div>
 
 <div class="legal-modal" id="legalModal" aria-hidden="true">
@@ -1196,13 +1197,8 @@ const STREAM_DEVICE_KEY = "watch_tv_plus_stream_device_id_v1";
 function setupSmartTvScrollControls(){
   const bindHorizontal=(prevId,nextId,targetId)=>{const target=document.getElementById(targetId);document.getElementById(prevId)?.addEventListener('click',()=>target?.scrollBy({left:-Math.max(target.clientWidth*.78,260),behavior:'smooth'}));document.getElementById(nextId)?.addEventListener('click',()=>target?.scrollBy({left:Math.max(target.clientWidth*.78,260),behavior:'smooth'}))};
   bindHorizontal('providersPrev','providersNext','sectionTabs');bindHorizontal('categoriesPrev','categoriesNext','categoryTabs');
-  document.getElementById('channelsUp')?.addEventListener('click',()=>channelList?.scrollBy({top:-Math.max(channelList.clientHeight*.78,280),behavior:'smooth'}));
-  document.getElementById('channelsDown')?.addEventListener('click',()=>channelList?.scrollBy({top:Math.max(channelList.clientHeight*.78,280),behavior:'smooth'}));
-  document.addEventListener('keydown',event=>{
-    const active=document.activeElement;
-    if(active?.closest?.('.tv-strip-shell')&&(event.key==='ArrowLeft'||event.key==='ArrowRight')){event.preventDefault();active.closest('.tv-strip-shell').querySelector(event.key==='ArrowLeft'?'.prev':'.next')?.click()}
-    if(active?.closest?.('.channel-list-shell')&&(event.key==='PageUp'||event.key==='PageDown')){event.preventDefault();document.getElementById(event.key==='PageUp'?'channelsUp':'channelsDown')?.click()}
-  });
+  document.getElementById('channelsUp')?.addEventListener('click',()=>channelList?.scrollBy({left:-Math.max(channelList.clientWidth*.78,520),behavior:'smooth'}));
+  document.getElementById('channelsDown')?.addEventListener('click',()=>channelList?.scrollBy({left:Math.max(channelList.clientWidth*.78,520),behavior:'smooth'}));
 }
 
 
@@ -1835,8 +1831,8 @@ function createChannelItem(channel,index){
     <div class="channel-logo">${logoMarkup}</div>
     <div class="channel-number">${escapeHtml(displayNumber)}</div>
     <div class="channel-copy">
-      <div class="channel-name">${escapeHtml(channel.name)}${getChannelReportBadge(channel)}</div>
-      <div class="program-text">${escapeHtml(channel.sectionLabel)} - ${escapeHtml(channel.category)}</div>
+      <div class="channel-name" title="${escapeHtml(channel.name)}">${escapeHtml(channel.name)}${getChannelReportBadge(channel)}</div>
+      <div class="program-text">${escapeHtml(channel.sectionLabel)} · ${escapeHtml(channel.category)}</div>
     </div>
     <div class="row-actions">
       ${channel.type === "video" ? `<button class="report-btn" type="button" aria-label="Reportar ${escapeHtml(channel.name)}" title="Reportar canal caído"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.5 2.7 17a2 2 0 0 0 1.8 3h15a2 2 0 0 0 1.8-3L13.7 3.5a2 2 0 0 0-3.4 0Z"></path></svg></button>` : ""}
@@ -1855,12 +1851,6 @@ function createChannelItem(channel,index){
   row.addEventListener("click",event => {
     if(event.target.closest(".favorite-btn,.report-btn")) return;
     loadChannel(channel);
-  });
-  row.addEventListener("keydown",event => {
-    if(event.key === "Enter" || event.key === " "){
-      event.preventDefault();
-      loadChannel(channel);
-    }
   });
 
   row.querySelector(".favorite-btn").addEventListener("click",event => {
@@ -2553,5 +2543,5 @@ function escapeHtml(text){return String(text || "").replaceAll("&","&amp;").repl
 
 init();
 </script>
-<script src="../assets/js/spatial-navigation.js?v=5.1"></script></body>
+</body>
 </html>

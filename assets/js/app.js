@@ -35,6 +35,20 @@ setupHero();
 document.getElementById('catalogSearch')?.addEventListener('input',e=>{query=e.target.value;renderCatalog()});
 document.querySelector('[data-back]')?.addEventListener('click',()=>history.length>1?history.back():location.assign('index.html'));
 function dialog(){let o=document.getElementById('appDialog');if(o)return o;o=document.createElement('div');o.id='appDialog';o.className='app-dialog';o.innerHTML='<section class="app-dialog-card"><button class="dialog-close">×</button><div id="dialogBody"></div></section>';document.body.appendChild(o);const close=()=>o.classList.remove('open');o.querySelector('.dialog-close').onclick=close;o.onclick=e=>{if(e.target===o)close()};return o}
-function settings(){const o=dialog();o.querySelector('#dialogBody').innerHTML='<h2>Ajustes</h2><div class="settings-menu"><button data-info="about">Quiénes somos</button><button data-info="legal">Aviso legal</button><button data-info="terms">Términos y condiciones</button></div><div id="settingsText" class="settings-text hidden"></div>';o.classList.add('open');const texts={about:'<h3>Quiénes somos</h3><p>Watch Movies Plus es un sitio de entretenimiento pensado para organizar y presentar películas y series en una interfaz rápida, sencilla y adaptable a cualquier dispositivo.</p>',legal:'<h3>Aviso legal</h3><p>Los nombres, imágenes, personajes y obras pertenecen a sus respectivos titulares. Si consideras que algún contenido debe revisarse, utiliza el botón de reporte disponible en cada ficha.</p>',terms:'<h3>Términos y condiciones</h3><p>Al utilizar este sitio aceptas hacerlo responsablemente y conforme a las leyes aplicables. La disponibilidad del contenido puede cambiar sin previo aviso.</p>'};o.querySelectorAll('[data-info]').forEach(b=>b.onclick=()=>{const box=o.querySelector('#settingsText');box.innerHTML=texts[b.dataset.info];box.classList.remove('hidden');o.querySelectorAll('[data-info]').forEach(x=>x.classList.toggle('active',x===b))})}
+function settings(){
+ const o=dialog();
+ const current=window.NOVA_DEVICE?.getMode?.()||localStorage.getItem('nova-device-mode-v1')||'mobile';
+ o.querySelector('#dialogBody').innerHTML=`<h2>Ajustes</h2>
+ <div class="device-mode-panel"><h3>Modo de navegación</h3><p>Selecciona cómo vas a utilizar NOVA+.</p>
+ <div class="device-mode-options">
+ <button data-device-mode="mobile" class="${current==='mobile'?'active':''}"><strong>📱 Móvil / Tablet / PC</strong><small>Control táctil o mouse, sin botones de desplazamiento.</small></button>
+ <button data-device-mode="tv" class="${current==='tv'?'active':''}"><strong>📺 Smart TV</strong><small>Botones grandes para desplazar carruseles, catálogos y listas.</small></button>
+ </div></div>
+ <div class="settings-menu"><button data-info="about">Quiénes somos</button><button data-info="legal">Aviso legal</button><button data-info="terms">Términos y condiciones</button></div><div id="settingsText" class="settings-text hidden"></div>`;
+ o.classList.add('open');
+ o.querySelectorAll('[data-device-mode]').forEach(b=>b.onclick=()=>{window.NOVA_DEVICE?.setMode?.(b.dataset.deviceMode);o.querySelectorAll('[data-device-mode]').forEach(x=>x.classList.toggle('active',x===b));});
+ const texts={about:'<h3>Quiénes somos</h3><p>NOVA+ es un sitio de entretenimiento pensado para organizar y presentar películas, series y TV en vivo en una interfaz adaptable.</p>',legal:'<h3>Aviso legal</h3><p>Los nombres, imágenes, personajes y obras pertenecen a sus respectivos titulares. Si consideras que algún contenido debe revisarse, utiliza el botón de reporte disponible en cada ficha.</p>',terms:'<h3>Términos y condiciones</h3><p>Al utilizar este sitio aceptas hacerlo responsablemente y conforme a las leyes aplicables. La disponibilidad del contenido puede cambiar sin previo aviso.</p>'};
+ o.querySelectorAll('[data-info]').forEach(b=>b.onclick=()=>{const box=o.querySelector('#settingsText');box.innerHTML=texts[b.dataset.info];box.classList.remove('hidden');o.querySelectorAll('[data-info]').forEach(x=>x.classList.toggle('active',x===b))})
+}
 document.querySelectorAll('[data-settings]').forEach(b=>b.onclick=settings);
 })();

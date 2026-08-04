@@ -1004,13 +1004,24 @@ html,body{background:#050706}
 @media(max-width:600px){.tv-strip-shell{padding:0 42px}.tv-strip-btn{width:36px}.channel-list-shell .channel-list{padding-right:50px}.channel-page-btn{width:40px;height:48px}}
 
 /* Navegación espacial Smart TV: sin botones de desplazamiento */
-.tv-strip-shell{padding-left:0!important;padding-right:0!important}.tv-strip-btn,.channel-page-controls{display:none!important}.channel-list-shell .channel-list{padding-right:0!important}.scroll-tabs,.channel-list{scrollbar-width:none!important;scroll-behavior:smooth}.scroll-tabs::-webkit-scrollbar,.channel-list::-webkit-scrollbar{display:none!important}
+.scroll-tabs,.channel-list{scrollbar-width:none!important;scroll-behavior:smooth}.scroll-tabs::-webkit-scrollbar,.channel-list::-webkit-scrollbar{display:none!important}
 .remote-navigation :focus-visible,[data-navigation-mode="tv"] :focus-visible{outline:4px solid #7b8cff!important;outline-offset:3px!important;box-shadow:0 0 0 7px rgba(92,113,255,.25),0 18px 44px rgba(0,0,0,.55)!important;transform:scale(1.035);position:relative;z-index:20}
+
+/* NOVA+ modo móvil / Smart TV */
+.tv-strip-btn,.channel-page-controls{display:none}
+html[data-device-mode="tv"] .tv-strip-shell{padding-left:48px!important;padding-right:48px!important}
+html[data-device-mode="tv"] .tv-strip-btn{display:grid!important;place-items:center;position:absolute;z-index:15;top:0;bottom:0;width:44px;border:0;background:rgba(5,9,8,.94);color:#fff;font-size:32px}
+html[data-device-mode="tv"] .tv-strip-btn.prev{left:0}html[data-device-mode="tv"] .tv-strip-btn.next{right:0}
+html[data-device-mode="tv"] .channel-list-shell .channel-list{padding-right:64px!important}
+html[data-device-mode="tv"] .channel-page-controls{display:flex!important;position:sticky;float:right;right:8px;top:8px;z-index:35;flex-direction:column;gap:8px;margin:8px 8px -112px 0}
+html[data-device-mode="tv"] .channel-page-btn{display:grid;place-items:center;width:48px;height:48px;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(8,12,11,.96);color:#fff;font-size:24px;box-shadow:0 8px 25px rgba(0,0,0,.45)}
+html[data-device-mode="mobile"] .tv-strip-shell{padding-left:0!important;padding-right:0!important}html[data-device-mode="mobile"] .tv-strip-btn,html[data-device-mode="mobile"] .channel-page-controls{display:none!important}html[data-device-mode="mobile"] .channel-list-shell .channel-list{padding-right:0!important}
+.tab-chip img{display:block;max-width:118px;width:auto;height:28px;object-fit:contain}.channel-logo img{display:block;width:100%;height:100%;object-fit:contain;border-radius:7px}
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
         crossorigin="anonymous"></script>
-</head>
+<script src="../assets/js/device-mode.js?v=5.1"></script></head>
 
 <body>
 <div class="app-shell">
@@ -1067,14 +1078,14 @@ html,body{background:#050706}
     <button class="main-tab" id="favoritesMainTab" type="button">Favoritos</button>
   </nav>
 
-  <div class="tv-strip-shell"><nav class="scroll-tabs provider-tabs" id="sectionTabs" aria-label="Servicios de TV"></nav></div>
-  <div class="tv-strip-shell"><nav class="scroll-tabs category-tabs" id="categoryTabs" aria-label="Categorías"></nav></div>
+  <div class="tv-strip-shell"><button id="providersPrev" class="tv-strip-btn prev" type="button" aria-label="Servicios anteriores">‹</button><nav class="scroll-tabs provider-tabs" id="sectionTabs" aria-label="Servicios de TV"></nav><button id="providersNext" class="tv-strip-btn next" type="button" aria-label="Servicios siguientes">›</button></div>
+  <div class="tv-strip-shell"><button id="categoriesPrev" class="tv-strip-btn prev" type="button" aria-label="Categorías anteriores">‹</button><nav class="scroll-tabs category-tabs" id="categoryTabs" aria-label="Categorías"></nav><button id="categoriesNext" class="tv-strip-btn next" type="button" aria-label="Categorías siguientes">›</button></div>
 <div class="list-head">
     <span id="sectionInfo">Cargando canales...</span>
     <span id="countPill">0</span>
   </div>
 
-  <div class="channel-list-shell"><main class="channel-list" id="channelList"><div class="empty">Cargando canales...</div></main></div>
+  <div class="channel-list-shell"><div class="channel-page-controls" aria-label="Desplazamiento de canales"><button id="channelsUp" class="channel-page-btn" type="button" aria-label="Canales anteriores">↑</button><button id="channelsDown" class="channel-page-btn" type="button" aria-label="Canales siguientes">↓</button></div><main class="channel-list" id="channelList"><div class="empty">Cargando canales...</div></main></div>
 </div>
 
 <div class="legal-modal" id="legalModal" aria-hidden="true">
@@ -1285,17 +1296,17 @@ function guessStreamMimeType(url){
 
 
 const PLAYLISTS = [
-  { id:"mexico", label:"México", file:"./listas/mexico.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Mexico.png" },
-  { id:"pluto", label:"Pluto TV", file:"./listas/pluto.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Pluto%20TV.png" },
-  { id:"lg", label:"LG Channels", file:"./listas/LG_Channels_mx.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20LG%20Channels.png" },
-  { id:"vix", label:"ViX", file:"./listas/vix.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Vix.png" },
-  { id:"tubi", label:"Tubi TV", file:"./listas/tubi.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Tubi.png" },
-  { id:"runtime", label:"Run Time", file:"./listas/runtime.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20RunTime.png" },
-  { id:"plex", label:"Plex TV", file:"./listas/plex_mx.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Plex%20TV.png" },
-  { id:"roku", label:"Roku Channel", file:"./listas/roku_all.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Roku%20Channel.png" },
-  { id:"rakuten", label:"Rakuten TV", file:"./listas/rakutentv.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Rakuten%20TV.png" },
-  { id:"canela", label:"Canela.TV", file:"./listas/canela-tv.m3u", logo:"https://www.canela.tv/favicon.ico" },
-  { id:"espanol", label:"Español", file:"./listas/espanol.m3u", logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Espa%C3%B1ol.png" }
+  { id:"mexico", label:"México", file:"./listas/mexico.m3u", logo:"./icons/providers/mexico.svg" },
+  { id:"pluto", label:"Pluto TV", file:"./listas/pluto.m3u", logo:"./icons/providers/pluto.svg" },
+  { id:"lg", label:"LG Channels", file:"./listas/LG_Channels_mx.m3u", logo:"./icons/providers/lg.svg" },
+  { id:"vix", label:"ViX", file:"./listas/vix.m3u", logo:"./icons/providers/vix.svg" },
+  { id:"tubi", label:"Tubi TV", file:"./listas/tubi.m3u", logo:"./icons/providers/tubi.svg" },
+  { id:"runtime", label:"Run Time", file:"./listas/runtime.m3u", logo:"./icons/providers/runtime.svg" },
+  { id:"plex", label:"Plex TV", file:"./listas/plex_mx.m3u", logo:"./icons/providers/plex.svg" },
+  { id:"roku", label:"Roku Channel", file:"./listas/roku_all.m3u", logo:"./icons/providers/roku.svg" },
+  { id:"rakuten", label:"Rakuten TV", file:"./listas/rakutentv.m3u", logo:"./icons/providers/rakuten.svg" },
+  { id:"canela", label:"Canela.TV", file:"./listas/canela-tv.m3u", logo:"./icons/providers/canela.svg" },
+  { id:"espanol", label:"Español", file:"./listas/espanol.m3u", logo:"./icons/providers/espanol.svg" }
 ];
 
 const playerStage = document.getElementById("playerStage");
@@ -1537,6 +1548,11 @@ async function loadAllPlaylists(){
   }
 }
 
+function normalizeLogoUrl(value){
+  let logo=String(value||"").trim().replace(/&amp;/g,"&");
+  if(!logo) return "";
+  try{return new URL(logo,location.href).href}catch(error){return logo.replace(/ /g,"%20")}
+}
 function parseM3U(text){
   const lines = String(text || "").replace(/\r/g,"").split("\n");
   const channels = [];
@@ -1571,7 +1587,7 @@ function parseM3U(text){
         name:parsed.name,
         quality:parsed.quality,
         note:parsed.note,
-        logo:attrs["tvg-logo"] || "",
+        logo:normalizeLogoUrl(attrs["tvg-logo"] || ""),
         category:attrs["group-title"] || guessCategory(rawName,attrs["tvg-id"] || ""),
         type:"video",
         url:"",
@@ -2537,5 +2553,5 @@ function escapeHtml(text){return String(text || "").replaceAll("&","&amp;").repl
 
 init();
 </script>
-<script src="../assets/js/spatial-navigation.js?v=5.0"></script></body>
+<script src="../assets/js/spatial-navigation.js?v=5.1"></script></body>
 </html>

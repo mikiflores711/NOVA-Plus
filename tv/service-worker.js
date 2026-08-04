@@ -1,4 +1,4 @@
-const CACHE_NAME = "nova-plus-tv-reportes-2-0-v1-smart-tv-v42";
+const CACHE_NAME = "nova-plus-tv-reportes-2-0-v1-smart-tv-v42-v5.1";
 const SHELL_FILES = [
   "./",
   "./index.html",

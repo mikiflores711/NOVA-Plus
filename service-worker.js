@@ -1,4 +1,4 @@
-const CACHE = 'nova-plus-shell-v6.1';
+const CACHE = 'nova-plus-shell-v6.1-ui62';
 const SHELL = [
   '/', '/index.html', '/catalogo-de-peliculas.html', '/catalogo-de-series.html',
   '/favoritos.html', '/detalle.html', '/assets/css/app.css?v=6.0',

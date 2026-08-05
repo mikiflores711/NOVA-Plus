@@ -1,4 +1,6 @@
-#EXTM3U
+#EXTM3U	
+#EXTINF:-1 tvg-id="PopcornCentral.mx@SD" tvg-name="Popcorn Central" tvg-logo="https://popcorncentraltv.com/wp-content/uploads/2025/08/logow-1024x665.png" group-title="Entretenimiento",Popcorn Central
+https://oly-ftvpc.otteravision.com/oly/ftvpc/ftvpc.m3u8
 #EXTINF:-1 tvg-id="8NTV.mx@SD" tvg-name="8NTV" tvg-logo="https://www.ntv.com.mx/8ntv/wp-content/uploads/2023/06/NTVlogo.png" group-title="General",8NTV
 https://60417ddeaf0d9.streamlock.net/ntv/videontv/playlist.m3u8
 #EXTINF:-1 tvg-id="ADN40.mx@SD" tvg-name="ADN 40" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/e/e4/Adn40_2022.png" group-title="Noticias",ADN 40
@@ -59,6 +61,7 @@ https://live-scjn.ovp-vivaro.digital/ovp-origin/638a22b47746d/playlist.m3u8
 https://channel01-onlymex.akamaized.net/hls/live/2022749/event01/index.m3u8
 #EXTINF:-1 tvg-id="LoboTV.mx@SD" tvg-name="Lobo TV" tvg-logo="https://www.lobotv.com.mx/images/lobo.png" group-title="Entretenimiento",Lobo TV
 https://5ca3e84a76d30.streamlock.net/tvlobo/videotvlobo/playlist.m3u8
+
 #EXTINF:-1 tvg-id="MariaVision.mx@SD" tvg-name="María Visión Mexico (360p)" tvg-logo="image.png" group-title="Religión",María Visión Mexico (360p) [Not 24/7]
 https://1601580044.rsc.cdn77.org/live/_jcn_/amlst:Mariavision/master.m3u8
 #EXTINF:-1 tvg-id="MexiquenseTV.mx@SD" tvg-name="Mexiquense TV (720p)" tvg-logo="image.png" group-title="General",Mexiquense TV (720p)

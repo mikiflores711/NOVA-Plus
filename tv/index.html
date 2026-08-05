@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="NOVA+ TV en Vivo">
 <title>TV en Vivo | NOVA+</title>
+<!-- NOVA+ TV UI 6.2 -->
 <link rel="manifest" href="./manifest.webmanifest">
 
 <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
@@ -1018,6 +1019,66 @@ html[data-device-mode="tv"] .tv-strip-btn{display:grid!important}html[data-devic
 html[data-device-mode="mobile"] .tv-strip-shell{padding-inline:0!important}html[data-device-mode="mobile"] .tv-strip-btn,html[data-device-mode="mobile"] .channel-page-controls{display:none!important}html[data-device-mode="mobile"] .channel-list-shell{padding-inline:0!important}
 .tab-chip img{display:block;max-width:118px;width:auto;height:28px;object-fit:contain}
 @media(max-width:600px){.tv-strip-shell{padding-inline:50px}.channel-list-shell{padding-inline:52px}.channel-row{flex-basis:155px;min-width:155px}.channel-row .channel-logo{height:130px!important;min-height:130px!important}}
+
+/* NOVA+ TV 6.2 — responsive header, pressed states and stable layout */
+.topbar{
+  min-height:72px;height:auto;padding:10px 14px;
+  display:grid;grid-template-columns:auto minmax(250px,1fr) auto;
+  align-items:center;gap:16px;position:sticky;top:0;z-index:120;
+  background:rgba(7,12,10,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.10)
+}
+.topbar-brand-group{display:flex;align-items:center;gap:10px;min-width:0}
+.top-main-tabs{position:static!important;display:flex!important;justify-content:center;align-items:stretch;gap:12px;border:0!important;background:transparent!important;min-width:0}
+.top-main-tabs .main-tab{flex:0 1 150px;min-height:48px;padding:0 18px;border:1px solid rgba(255,255,255,.06);border-radius:10px;background:#121916;color:#aeb8b3;font-size:18px;font-weight:900;transition:transform .12s ease,background .18s ease,color .18s ease,box-shadow .18s ease}
+.top-main-tabs .main-tab.active{color:#fff;background:#1b2420;box-shadow:inset 0 -3px #6f5cff,0 8px 24px rgba(0,0,0,.22)}
+.top-actions{min-width:48px}
+.player-stage{min-height:clamp(260px,38vw,440px);height:auto;aspect-ratio:16/9;max-height:calc(100dvh - 220px)}
+
+/* Every interactive control visibly reacts when pressed */
+button,a,.tab-chip,.channel-row{touch-action:manipulation}
+button,.icon-btn,.back-home-btn,.main-tab,.tab-chip,.tv-strip-btn,.channel-page-btn,.channel-row,.favorite-btn,.report-btn{
+  transition:transform .11s ease,filter .11s ease,box-shadow .14s ease,background-color .14s ease,border-color .14s ease!important
+}
+button:active,.icon-btn:active,.back-home-btn:active,.main-tab:active,.tab-chip:active,.tv-strip-btn:active,.channel-page-btn:active,.channel-row:active,.favorite-btn:active,.report-btn:active{
+  transform:scale(.94)!important;filter:brightness(1.18)!important
+}
+button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-tab:focus-visible,.tab-chip:focus-visible,.tv-strip-btn:focus-visible,.channel-page-btn:focus-visible,.channel-row:focus-visible{
+  outline:3px solid rgba(113,134,255,.72)!important;outline-offset:2px!important
+}
+
+/* Keep service/category controls and channel cards fully visible */
+.tv-strip-shell{margin-top:10px;min-height:62px;padding:7px 58px;display:flex;align-items:center;background:#0e1512;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
+.tv-strip-shell .scroll-tabs{min-width:0;flex:1}
+.channel-list-shell{min-height:292px;padding-bottom:max(20px,env(safe-area-inset-bottom))}
+.channel-list-shell .channel-list{min-height:275px}
+
+@media(max-width:760px){
+  .app-shell{min-height:100dvh}
+  .topbar{grid-template-columns:auto 1fr auto;gap:7px;padding:8px 8px 7px}
+  .topbar-brand-group{gap:5px}
+  .brand{min-width:0;width:132px;height:42px;padding:0 5px}
+  .brand img{max-width:100%;height:auto}
+  .back-home-btn{width:42px;height:42px;flex:0 0 42px}
+  .top-main-tabs{gap:4px;justify-content:flex-end}
+  .top-main-tabs .main-tab{flex:0 1 auto;min-width:70px;min-height:40px;padding:0 9px;font-size:13px;border-radius:8px}
+  .top-actions{gap:0}.icon-btn{width:42px;height:42px}
+  .top-search{position:fixed;left:10px;right:10px;top:calc(66px + env(safe-area-inset-top));z-index:160;box-shadow:0 18px 50px rgba(0,0,0,.55)}
+  .player-stage{aspect-ratio:16/9;min-height:0;max-height:none}
+  .tv-strip-shell{padding-left:50px;padding-right:50px;min-height:68px}
+  .channel-list-shell{padding-left:48px!important;padding-right:48px!important;min-height:315px}
+  .channel-list-shell .channel-list{min-height:300px;padding-bottom:calc(22px + env(safe-area-inset-bottom))!important}
+  .channel-row{flex-basis:158px!important;min-width:158px!important;min-height:232px!important}
+  .channel-row .channel-logo{height:136px!important;min-height:136px!important}
+}
+@media(max-width:430px){
+  .topbar{grid-template-columns:auto minmax(132px,1fr) auto}
+  .brand{width:118px}
+  .top-main-tabs .main-tab{min-width:61px;padding-inline:6px;font-size:12px}
+  .top-actions .icon-btn{width:38px;height:38px}
+  .player-channel-card{width:calc(100% - 76px)}
+}
+
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
@@ -1035,6 +1096,10 @@ html[data-device-mode="mobile"] .tv-strip-shell{padding-inline:0!important}html[
         <img src="../assets/images/nova-plus-logo-dark.png" alt="NOVA+">
       </a>
     </div>
+    <nav class="main-tabs top-main-tabs" aria-label="Vista principal">
+      <button class="main-tab active" id="channelsMainTab" type="button">Canales</button>
+      <button class="main-tab" id="favoritesMainTab" type="button">Favoritos</button>
+    </nav>
     <div class="top-actions" aria-label="Buscar canales">
       <div class="top-search" id="topSearchWrap" role="search">
         <input class="top-search-input" id="searchInput" type="search" placeholder="Buscar canal..." autocomplete="off" aria-label="Buscar canales">
@@ -1074,10 +1139,6 @@ html[data-device-mode="mobile"] .tv-strip-shell{padding-inline:0!important}html[
       disabled
     >☆</button>
   </section>
-  <nav class="main-tabs" aria-label="Vista principal">
-    <button class="main-tab active" id="channelsMainTab" type="button">Canales</button>
-    <button class="main-tab" id="favoritesMainTab" type="button">Favoritos</button>
-  </nav>
 
   <div class="tv-strip-shell"><button id="providersPrev" class="tv-strip-btn prev" type="button" aria-label="Servicios anteriores">‹</button><nav class="scroll-tabs provider-tabs" id="sectionTabs" aria-label="Servicios de TV"></nav><button id="providersNext" class="tv-strip-btn next" type="button" aria-label="Servicios siguientes">›</button></div>
   <div class="tv-strip-shell"><button id="categoriesPrev" class="tv-strip-btn prev" type="button" aria-label="Categorías anteriores">‹</button><nav class="scroll-tabs category-tabs" id="categoryTabs" aria-label="Categorías"></nav><button id="categoriesNext" class="tv-strip-btn next" type="button" aria-label="Categorías siguientes">›</button></div>
@@ -1716,6 +1777,8 @@ function setSection(section){
   renderChannels();
   requestAnimationFrame(() => {
     channelList.scrollTop = 0;
+    channelList.scrollLeft = 0;
+    channelList.scrollTo({left:0,top:0,behavior:"auto"});
   });
 }
 

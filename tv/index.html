@@ -1033,7 +1033,14 @@ html[data-device-mode="mobile"] .tv-strip-shell{padding-inline:0!important}html[
 .top-main-tabs .main-tab{flex:0 1 150px;min-height:48px;padding:0 18px;border:1px solid rgba(255,255,255,.06);border-radius:10px;background:#121916;color:#aeb8b3;font-size:18px;font-weight:900;transition:transform .12s ease,background .18s ease,color .18s ease,box-shadow .18s ease}
 .top-main-tabs .main-tab.active{color:#fff;background:#1b2420;box-shadow:inset 0 -3px #6f5cff,0 8px 24px rgba(0,0,0,.22)}
 .top-actions{min-width:48px}
-.player-stage{min-height:clamp(260px,38vw,440px);height:auto;aspect-ratio:16/9;max-height:calc(100dvh - 220px)}
+/* Reproductor compacto: conserva el video visible sin empujar los canales fuera de pantalla. */
+.player-stage{
+  width:100%;
+  height:clamp(180px,min(56.25vw,34dvh),330px);
+  min-height:180px;
+  max-height:330px;
+  aspect-ratio:auto;
+}
 
 /* Every interactive control visibly reacts when pressed */
 button,a,.tab-chip,.channel-row{touch-action:manipulation}
@@ -1064,7 +1071,12 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
   .top-main-tabs .main-tab{flex:0 1 auto;min-width:70px;min-height:40px;padding:0 9px;font-size:13px;border-radius:8px}
   .top-actions{gap:0}.icon-btn{width:42px;height:42px}
   .top-search{position:fixed;left:10px;right:10px;top:calc(66px + env(safe-area-inset-top));z-index:160;box-shadow:0 18px 50px rgba(0,0,0,.55)}
-  .player-stage{aspect-ratio:16/9;min-height:0;max-height:none}
+  .player-stage{
+    height:clamp(180px,min(56.25vw,32dvh),280px);
+    min-height:180px;
+    max-height:280px;
+    aspect-ratio:auto;
+  }
   .tv-strip-shell{padding-left:50px;padding-right:50px;min-height:68px}
   .channel-list-shell{padding-left:48px!important;padding-right:48px!important;min-height:315px}
   .channel-list-shell .channel-list{min-height:300px;padding-bottom:calc(22px + env(safe-area-inset-bottom))!important}
@@ -1077,6 +1089,13 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
   .top-main-tabs .main-tab{min-width:61px;padding-inline:6px;font-size:12px}
   .top-actions .icon-btn{width:38px;height:38px}
   .player-channel-card{width:calc(100% - 76px)}
+}
+
+@media(orientation:landscape) and (max-height:620px){
+  .player-stage{height:clamp(150px,31dvh,220px);min-height:150px;max-height:220px}
+  .tv-strip-shell{margin-top:6px;min-height:54px;padding-top:4px;padding-bottom:4px}
+  .channel-list-shell{min-height:220px}
+  .channel-list-shell .channel-list{min-height:205px}
 }
 
 </style>

@@ -1114,12 +1114,34 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
 @media(max-width:620px){.epg-now-panel.visible{grid-template-columns:1fr}.epg-guide-btn{width:100%}.epg-program{font-size:14px}.epg-guide-item{grid-template-columns:76px minmax(0,1fr)}}
 
 
-.player-action-stack{position:absolute;z-index:86;top:10px;right:10px;display:flex;gap:8px}.player-action-stack .player-favorite-btn,.player-action-stack .player-report-btn{position:static}.player-report-btn{width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(17,17,25,.8);color:#fff;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.2s}.player-stage.show-ui .player-report-btn{opacity:1;transform:none;pointer-events:auto}.player-report-btn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.player-report-btn:hover{background:#591724;border-color:#ff7184}.player-report-btn:disabled{opacity:.35!important;pointer-events:none!important}.channel-guide-btn{min-width:62px;height:34px;padding:0 9px;display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid rgba(255,255,255,.16);border-radius:50%;background:rgba(6,9,8,.86);color:#fff}.channel-guide-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.channel-guide-btn span{font-size:10px;font-weight:900}.channel-guide-btn:hover{background:#4c1018;border-color:#ff4c5d}.canela-guide-card{width:min(980px,96vw);max-height:min(88dvh,820px);background:#0d0b0c}.epg-guide-kicker{display:block;color:#ff4a57;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.canela-guide-layout{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:0;overflow:hidden}.canela-guide-channels{overflow:auto;border-right:1px solid rgba(255,255,255,.1);background:#120e10;padding:8px}.canela-guide-channel{width:100%;display:grid;grid-template-columns:48px minmax(0,1fr);gap:10px;align-items:center;padding:10px;border:0;border-radius:10px;background:transparent;color:#fff;text-align:left}.canela-guide-channel:hover,.canela-guide-channel.active{background:linear-gradient(90deg,rgba(193,15,30,.28),rgba(193,15,30,.08));outline:1px solid rgba(255,61,78,.38)}.canela-guide-channel-logo{width:48px;height:48px;border-radius:8px;background:#21181b;display:grid;place-items:center;overflow:hidden;font-size:11px;font-weight:900}.canela-guide-channel-logo img{width:100%;height:100%;object-fit:contain}.canela-guide-channel-name{display:block;font-size:12px;font-weight:800;line-height:1.2}.canela-guide-channel-now{display:block;margin-top:4px;color:#c9b9bc;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.canela-guide-schedule{display:flex;min-width:0;min-height:0;flex-direction:column;background:linear-gradient(180deg,#120d0f,#090809)}.canela-guide-date{padding:11px 15px;border-bottom:1px solid rgba(255,255,255,.1);color:#f3dadd;font-size:12px;font-weight:800}.canela-guide-schedule .epg-guide-item.active{background:linear-gradient(90deg,rgba(191,16,31,.30),rgba(191,16,31,.06));outline:1px solid rgba(255,52,70,.35);border-left:3px solid #ff3446}.canela-guide-schedule .epg-guide-time{color:#ff9ca6}@media(max-width:720px){.player-action-stack{top:8px;right:8px}.player-action-stack .player-favorite-btn,.player-action-stack .player-report-btn{width:39px;height:39px}.epg-guide-modal{align-items:end;padding:0}.canela-guide-card{width:100%;max-height:94dvh;border-radius:18px 18px 0 0}.canela-guide-layout{grid-template-columns:112px minmax(0,1fr)}.canela-guide-channel{grid-template-columns:1fr;padding:8px 5px;text-align:center}.canela-guide-channel-logo{margin:auto}.canela-guide-channel-now{display:none}.canela-guide-channel-name{font-size:10px}}
+.player-action-stack{position:absolute;z-index:86;top:10px;right:10px;display:flex;gap:8px}.player-action-stack .player-favorite-btn,.player-action-stack .player-report-btn,.player-action-stack .player-guide-btn{position:static}.player-guide-btn{width:46px;height:46px;display:none;place-items:center;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(17,17,25,.8);color:#fff;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.2s}.player-stage.show-ui .player-guide-btn.visible{display:grid;opacity:1;transform:none;pointer-events:auto}.player-guide-btn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.player-guide-btn:hover{background:#402052;border-color:#c05cff}.player-report-btn{width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(17,17,25,.8);color:#fff;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.2s}.player-stage.show-ui .player-report-btn{opacity:1;transform:none;pointer-events:auto}.player-report-btn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.player-report-btn:hover{background:#591724;border-color:#ff7184}.player-report-btn:disabled{opacity:.35!important;pointer-events:none!important}.channel-guide-btn{height:34px;padding:0 9px;display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:rgba(49,31,67,.95);color:#fff}.channel-guide-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.channel-guide-btn span{font-size:10px;font-weight:900}.channel-guide-btn:hover{background:#4c1018;border-color:#ff4c5d}.canela-guide-card{width:min(980px,96vw);max-height:min(88dvh,820px);background:#0d0b0c}.epg-guide-kicker{display:block;color:#ff4a57;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.canela-guide-layout{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:0;overflow:hidden}.canela-guide-channels{overflow:auto;border-right:1px solid rgba(255,255,255,.1);background:#120e10;padding:8px}.canela-guide-channel{width:100%;display:grid;grid-template-columns:48px minmax(0,1fr);gap:10px;align-items:center;padding:10px;border:0;border-radius:10px;background:transparent;color:#fff;text-align:left}.canela-guide-channel:hover,.canela-guide-channel.active{background:linear-gradient(90deg,rgba(193,15,30,.28),rgba(193,15,30,.08));outline:1px solid rgba(255,61,78,.38)}.canela-guide-channel-logo{width:48px;height:48px;border-radius:8px;background:#21181b;display:grid;place-items:center;overflow:hidden;font-size:11px;font-weight:900}.canela-guide-channel-logo img{width:100%;height:100%;object-fit:contain}.canela-guide-channel-name{display:block;font-size:12px;font-weight:800;line-height:1.2}.canela-guide-channel-now{display:block;margin-top:4px;color:#c9b9bc;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.canela-guide-schedule{display:flex;min-width:0;min-height:0;flex-direction:column;background:linear-gradient(180deg,#120d0f,#090809)}.canela-guide-date{padding:11px 15px;border-bottom:1px solid rgba(255,255,255,.1);color:#f3dadd;font-size:12px;font-weight:800}.canela-guide-schedule .epg-guide-item.active{background:linear-gradient(90deg,rgba(191,16,31,.30),rgba(191,16,31,.06));outline:1px solid rgba(255,52,70,.35);border-left:3px solid #ff3446}.canela-guide-schedule .epg-guide-time{color:#ff9ca6}@media(max-width:720px){.player-action-stack{top:8px;right:8px}.player-action-stack .player-favorite-btn,.player-action-stack .player-report-btn{width:39px;height:39px}.epg-guide-modal{align-items:end;padding:0}.canela-guide-card{width:100%;max-height:94dvh;border-radius:18px 18px 0 0}.canela-guide-layout{grid-template-columns:112px minmax(0,1fr)}.canela-guide-channel{grid-template-columns:1fr;padding:8px 5px;text-align:center}.canela-guide-channel-logo{margin:auto}.canela-guide-channel-now{display:none}.canela-guide-channel-name{font-size:10px}}
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
         crossorigin="anonymous"></script>
-<script src="../assets/js/device-mode.js?v=6.0"></script></head>
+<script src="../assets/js/device-mode.js?v=6.0"></script>
+<style id="nova-tv-guide-v72-css">
+/* NOVA+ TV 7.2 — guía universal */
+.topbar-brand-group{display:flex!important;align-items:center;gap:7px}
+.tv-menu-btn{width:42px;height:42px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.16);border-radius:50%;background:#151c1a;color:#fff;flex:0 0 auto;transition:transform .14s ease,background .14s ease,border-color .14s ease}
+.tv-menu-btn:active{transform:scale(.92)}.tv-menu-btn:hover,.tv-menu-btn:focus-visible{background:#222c29;border-color:#6b5cff}.tv-menu-btn svg{width:22px;height:22px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
+.provider-drawer{position:fixed;inset:0;z-index:10020;display:none}.provider-drawer.open{display:block}.provider-drawer-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(5px)}
+.provider-drawer-panel{position:absolute;left:0;top:0;bottom:0;width:min(340px,88vw);padding:18px 14px calc(18px + env(safe-area-inset-bottom));background:#0c1110;border-right:1px solid rgba(255,255,255,.14);box-shadow:22px 0 70px rgba(0,0,0,.55);overflow:auto;transform:translateX(-100%);animation:drawerIn .22s ease forwards}
+@keyframes drawerIn{to{transform:translateX(0)}}.provider-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.provider-drawer-head h2{font-size:20px}.provider-drawer-close{width:38px;height:38px;border:0;border-radius:50%;background:#1c2522;color:#fff;font-size:24px}
+.provider-drawer-list{display:grid;gap:8px}.provider-drawer-item{width:100%;min-height:56px;display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 10px;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:#131a18;color:#fff;text-align:left;transition:.15s ease}.provider-drawer-item:active{transform:scale(.97)}.provider-drawer-item:hover,.provider-drawer-item.active{background:#1d2825;border-color:#765dff}.provider-drawer-item img{width:38px;height:38px;object-fit:contain}.provider-drawer-item strong{font-size:14px}.provider-drawer-item span{color:#9ba6a1;font-size:11px}.provider-drawer-item i{font-style:normal;font-size:22px;color:#806dff}
+/* servicios ahora viven en el menú lateral */
+.tv-strip-shell:has(#sectionTabs){display:none!important}
+.epg-now-panel,.channel-list-shell,.list-head{display:none!important}
+.universal-guide{background:#0b0c0c;border-top:1px solid rgba(255,255,255,.08);min-height:360px;padding-bottom:max(24px,env(safe-area-inset-bottom))}
+.universal-guide-head{display:flex;align-items:end;justify-content:space-between;gap:12px;padding:14px 16px 10px}.universal-guide-kicker{display:block;color:#ff6579;font-size:11px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.universal-guide-title{font-size:24px;line-height:1.05;margin-top:3px}.universal-guide-count{color:#9da6a2;font-size:12px}
+.guide-scroll{overflow:auto;scrollbar-color:#464a48 #111;scrollbar-width:thin}.guide-grid{min-width:900px;position:relative}.guide-time-row,.guide-channel-row{display:grid;grid-template-columns:180px repeat(3,minmax(220px,1fr));border-top:1px solid rgba(255,255,255,.09)}.guide-time-row{position:sticky;top:0;z-index:5;background:#252526;color:#babfbd}.guide-day{display:flex;align-items:center;justify-content:center;min-height:54px;background:#fff;color:#111;font-weight:900}.guide-time-slot{display:flex;align-items:center;padding:0 18px;border-left:1px solid rgba(255,255,255,.16);font-size:14px;font-weight:800}
+.guide-channel-row{min-height:118px;background:#121212}.guide-channel-row:nth-child(even){background:#151515}.guide-channel-cell{display:grid;grid-template-columns:82px minmax(0,1fr);gap:10px;align-items:center;padding:12px;border-right:1px solid rgba(255,255,255,.12);background:#0f1110}.guide-logo-btn{width:82px;height:82px;padding:5px;border:1px solid rgba(255,255,255,.14);border-radius:7px;background:#191d1b;display:grid;place-items:center;overflow:hidden;transition:.15s ease}.guide-logo-btn:active{transform:scale(.94)}.guide-logo-btn:hover,.guide-logo-btn:focus-visible{border-color:#806bff;box-shadow:0 0 0 3px rgba(108,88,255,.18)}.guide-logo-btn img{width:100%;height:100%;object-fit:contain}.guide-channel-name{font-size:12px;font-weight:900;line-height:1.22}.guide-channel-meta{margin-top:5px;color:#929b97;font-size:10px}
+.guide-program{position:relative;padding:16px 18px;border-right:1px solid rgba(255,255,255,.12);min-width:0;display:flex;flex-direction:column;justify-content:center}.guide-program.current{background:linear-gradient(90deg,rgba(112,22,34,.38),rgba(50,20,26,.18));outline:1px solid rgba(255,70,91,.36);outline-offset:-1px}.guide-program.current::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:#ff314d}.guide-program-title{font-size:14px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.guide-program-time{margin-top:6px;color:#c8d5cf;font-size:11px}.guide-live-pill{display:inline-flex;margin-left:7px;padding:2px 5px;border-radius:4px;background:#fff;color:#111;font-size:9px;font-weight:900;vertical-align:middle}.guide-unavailable{color:#7f8984;font-size:12px}.guide-empty{padding:38px 18px;text-align:center;color:#929b97}
+.player-stage{border-bottom:1px solid rgba(255,255,255,.08)}
+@media(max-width:720px){.tv-menu-btn{width:39px;height:39px}.brand img{max-width:130px}.topbar{grid-template-columns:auto 1fr auto!important}.universal-guide-title{font-size:21px}.guide-grid{min-width:790px}.guide-time-row,.guide-channel-row{grid-template-columns:145px repeat(3,minmax(210px,1fr))}.guide-channel-cell{grid-template-columns:66px minmax(0,1fr);padding:8px}.guide-logo-btn{width:66px;height:66px}.guide-channel-row{min-height:102px}}
+</style>
+
+</head>
 
 <body>
 <div class="app-shell">
@@ -1168,6 +1190,7 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
 
     <div class="player-action-stack" aria-label="Acciones del canal actual">
       <button class="player-favorite-btn" id="playerFavoriteBtn" type="button" aria-label="Agregar canal actual a favoritos" title="Agregar a favoritos" disabled>☆</button>
+      <button class="player-guide-btn" id="playerGuideBtn" type="button" aria-label="Ver programación del canal" title="Ver programación"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"></rect><path d="M7 3v4M17 3v4M3 10h18M7 14h3M13 14h4M7 17h5"></path></svg></button>
       <button class="player-report-btn" id="playerReportBtn" type="button" aria-label="Reportar canal actual" title="Reportar canal" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.5 2.7 17a2 2 0 0 0 1.8 3h15a2 2 0 0 0 1.8-3L13.7 3.5a2 2 0 0 0-3.4 0Z"></path></svg></button>
     </div>
   </section>
@@ -1289,7 +1312,7 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="./config.js?v=7.1.1"></script>
+<script src="./config.js?v=7.1.2"></script>
 <script>
 "use strict";
 
@@ -1311,6 +1334,7 @@ const epgNowTimes = document.getElementById("epgNowTimes");
 const epgNextTitle = document.getElementById("epgNextTitle");
 const epgProgressBar = document.getElementById("epgProgressBar");
 const epgGuideBtn = document.getElementById("epgGuideBtn");
+const playerGuideBtn = document.getElementById("playerGuideBtn");
 const epgGuideModal = document.getElementById("epgGuideModal");
 const epgGuideClose = document.getElementById("epgGuideClose");
 const epgGuideTitle = document.getElementById("epgGuideTitle");
@@ -1341,7 +1365,7 @@ function isCanelaChannel(channel){
   const section=String(channel.section||"").toLowerCase();
   const provider=String(channel.provider||"").toLowerCase();
   const name=String(channel.name||channel.rawName||"").toLowerCase();
-  return section==="canela" || provider==="canela" || name.includes("canela");
+  return section.includes("canela") || provider.includes("canela") || name.includes("canela") || String(channel.logo||"").includes("canela.tv") || String(channel.url||"").includes("canelatv");
 }
 function indexCanelaEpg(data){
   epgState.channels=Array.isArray(data?.data)?data.data:[];
@@ -1423,7 +1447,9 @@ async function fetchCanelaEpg(force=false){
   console.warn("No se pudo cargar la EPG de Canela",lastError);
 }
 function updateCurrentEpg(){
-  if(!isCanelaChannel(currentChannel)){
+  const canelaActive=isCanelaChannel(currentChannel);
+  playerGuideBtn?.classList.toggle("visible",canelaActive);
+  if(!canelaActive){
     epgNowPanel?.classList.remove("visible");
     return;
   }
@@ -1462,7 +1488,7 @@ function renderGuideSchedule(epg){const {items,current}=currentAndNext(epg?.airi
 function renderGuideChannels(selected){epgChannelList.innerHTML="";epgState.channels.forEach(epg=>{const {current,next}=currentAndNext(epg?.airing),now=current||next,button=document.createElement("button"),logo=guideChannelLogo(epg),name=guideChannelName(epg);button.type="button";button.className="canela-guide-channel"+(epg===selected?" active":"");button.innerHTML=`<span class="canela-guide-channel-logo">${logo?`<img src="${escapeHtml(logo)}" alt="">`:"TV"}</span><span><span class="canela-guide-channel-name">${escapeHtml(name)}</span><span class="canela-guide-channel-now">${escapeHtml(epgText(now?.pgm?.lon)||"Sin programación")}</span></span>`;button.addEventListener("click",()=>{renderGuideChannels(epg);renderGuideSchedule(epg)});epgChannelList.appendChild(button)});epgChannelList.querySelector('.active')?.scrollIntoView({block:'center'})}
 async function openEpgGuide(channel=currentChannel){if(!isCanelaChannel(channel))return;if(!epgState.channels.length)await fetchCanelaEpg(true);const epg=findCanelaEpgChannel(channel)||epgState.channels[0];renderGuideChannels(epg);renderGuideSchedule(epg);epgGuideModal.classList.add("open");epgGuideModal.setAttribute("aria-hidden","false")}
 function closeEpgGuide(){epgGuideModal.classList.remove("open");epgGuideModal.setAttribute("aria-hidden","true")}
-epgGuideBtn?.addEventListener("click",openEpgGuide);epgGuideClose?.addEventListener("click",closeEpgGuide);epgGuideModal?.addEventListener("click",e=>{if(e.target===epgGuideModal)closeEpgGuide()});
+epgGuideBtn?.addEventListener("click",openEpgGuide);playerGuideBtn?.addEventListener("click",()=>openEpgGuide(currentChannel));epgGuideClose?.addEventListener("click",closeEpgGuide);epgGuideModal?.addEventListener("click",e=>{if(e.target===epgGuideModal)closeEpgGuide()});
 // La EPG se inicia después de declarar el estado principal de TV.
 
 
@@ -1844,6 +1870,15 @@ function normalizeLogoUrl(value){
   if(!logo) return "";
   try{return new URL(logo,location.href).href}catch(error){return logo.replace(/ /g,"%20")}
 }
+function findExtinfNameSeparator(line){
+  let quoted=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"') quoted=!quoted;
+    else if(ch==="," && !quoted) return i;
+  }
+  return -1;
+}
 function parseM3U(text){
   const lines = String(text || "").replace(/\r/g,"").split("\n");
   const channels = [];
@@ -1869,7 +1904,8 @@ function parseM3U(text){
 
     if(line.startsWith("#EXTINF")){
       const attrs = getAttributes(line);
-      const rawName = line.includes(",") ? line.substring(line.indexOf(",") + 1).trim() : "Canal sin nombre";
+      const separator=findExtinfNameSeparator(line);
+      const rawName = separator>=0 ? line.substring(separator + 1).trim() : (attrs["tvg-name"] || "Canal sin nombre");
       const parsed = parseChannelName(rawName);
       current = {
         id:attrs["tvg-id"] || attrs["channel-id"] || "",
@@ -2144,8 +2180,8 @@ function createChannelItem(channel,index){
       <div class="channel-name" title="${escapeHtml(channel.name)}">${escapeHtml(channel.name)}${getChannelReportBadge(channel)}</div>
       <div class="program-text" data-epg-for="${escapeHtml(getChannelKey(channel))}">${escapeHtml(getChannelProgramSummary(channel))}</div>
     </div>
+    ${isCanelaChannel(channel)?`<button class="channel-guide-btn" type="button" aria-label="Ver programación de ${escapeHtml(channel.name)}" title="Ver programación"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"></rect><path d="M7 3v4M17 3v4M3 10h18M7 14h3M13 14h4M7 17h5"></path></svg><span>Ver programación</span></button>`:""}
     <div class="row-actions">
-      ${isCanelaChannel(channel)?`<button class="channel-guide-btn" type="button" aria-label="Ver programación de ${escapeHtml(channel.name)}" title="Ver programación"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"></rect><path d="M7 3v4M17 3v4M3 10h18M7 14h3M13 14h4M7 17h5"></path></svg><span>Guía</span></button>`:""}
       <button class="favorite-btn ${favorite ? "active" : ""}" type="button" aria-label="${favorite ? "Quitar de favoritos" : "Agregar a favoritos"}" title="${favorite ? "Quitar de favoritos" : "Agregar a favoritos"}">${favorite ? "★" : "☆"}</button>
     </div>
   `;
@@ -2284,7 +2320,8 @@ async function loadChannel(channel){
   currentChannelKey = nextKey;
   updatePlayerChannelCard(channel);
   updatePlayerFavoriteButton();
-  if(isCanelaChannel(channel)) fetchCanelaEpg().finally(updateCurrentEpg); else updateCurrentEpg();
+  updateCurrentEpg();
+  if(isCanelaChannel(channel)) fetchCanelaEpg().finally(updateCurrentEpg);
   showPlayerUi();
   renderChannels();
   destroyPlayer();
@@ -2860,5 +2897,67 @@ function escapeHtml(text){return String(text || "").replaceAll("&","&amp;").repl
 
 init();
 </script>
-<script src="/assets/js/pwa.js?v=6.0"></script><script src="/assets/js/ads-config.js?v=7.1.1"></script><script src="/assets/js/ads.js?v=7.1.1"></script></body>
+
+<script id="nova-tv-guide-v72-js">
+(() => {
+  "use strict";
+  const after = (fn) => setTimeout(fn,0);
+  function createUi(){
+    const brandGroup=document.querySelector('.topbar-brand-group');
+    if(!brandGroup||document.getElementById('tvMenuBtn'))return;
+    const menu=document.createElement('button');
+    menu.id='tvMenuBtn';menu.className='tv-menu-btn';menu.type='button';menu.setAttribute('aria-label','Abrir listas de reproducción');menu.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+    brandGroup.insertBefore(menu,brandGroup.firstChild);
+    const drawer=document.createElement('div');drawer.id='providerDrawer';drawer.className='provider-drawer';drawer.setAttribute('aria-hidden','true');
+    drawer.innerHTML='<div class="provider-drawer-backdrop" data-provider-close></div><aside class="provider-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="providerDrawerTitle"><div class="provider-drawer-head"><div><span class="universal-guide-kicker">NOVA+ TV</span><h2 id="providerDrawerTitle">Listas de reproducción</h2></div><button class="provider-drawer-close" type="button" data-provider-close aria-label="Cerrar">×</button></div><div class="provider-drawer-list" id="providerDrawerList"></div></aside>';
+    document.body.appendChild(drawer);
+    const list=drawer.querySelector('#providerDrawerList');
+    (typeof PLAYLISTS!=='undefined'?PLAYLISTS:[]).forEach(item=>{const b=document.createElement('button');b.type='button';b.className='provider-drawer-item';b.dataset.provider=item.id;b.innerHTML=`<img src="${escapeHtml(item.logo||'')}" alt=""><span><strong>${escapeHtml(item.label)}</strong><br><span>Cambiar lista de canales</span></span><i>›</i>`;b.addEventListener('click',()=>{setSection(item.id);closeDrawer()});list.appendChild(b)});
+    function openDrawer(){drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');syncDrawer()}
+    function closeDrawer(){drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true')}
+    function syncDrawer(){drawer.querySelectorAll('.provider-drawer-item').forEach(x=>x.classList.toggle('active',x.dataset.provider===activeSection))}
+    window.__novaCloseProviderDrawer=closeDrawer;window.__novaSyncProviderDrawer=syncDrawer;
+    menu.addEventListener('click',openDrawer);drawer.addEventListener('click',e=>{if(e.target.closest('[data-provider-close]'))closeDrawer()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+    const categoryShell=document.querySelector('.tv-strip-shell:has(#categoryTabs)');
+    const guide=document.createElement('section');guide.className='universal-guide';guide.id='universalGuide';guide.innerHTML='<header class="universal-guide-head"><div><span class="universal-guide-kicker">Guía oficial</span><h2 class="universal-guide-title" id="universalGuideTitle">Programación · TV</h2></div><span class="universal-guide-count" id="universalGuideCount">0 canales</span></header><div class="guide-scroll"><div class="guide-grid" id="universalGuideGrid"></div></div>';
+    if(categoryShell)categoryShell.insertAdjacentElement('afterend',guide);else document.querySelector('.player-stage')?.insertAdjacentElement('afterend',guide);
+  }
+  function fmt(d){try{return new Intl.DateTimeFormat('es-MX',{hour:'2-digit',minute:'2-digit'}).format(new Date(d))}catch{return ''}}
+  function roundHalfHour(date=new Date()){const d=new Date(date);d.setSeconds(0,0);d.setMinutes(d.getMinutes()<30?0:30);return d}
+  function activeFilteredChannels(){
+    const search=(document.getElementById('searchInput')?.value||'').trim().toLowerCase();
+    let source=search?allChannels.filter(c=>!c.isAdult):getSectionChannels(true);
+    let result=source.filter(c=>{const searchable=`${c.name} ${c.rawName} ${c.id} ${c.category} ${c.sectionLabel}`.toLowerCase();return(!search||searchable.includes(search))&&(selectedCategory==='all'||c.category===selectedCategory)});
+    if(sortPopular)result=[...result].sort((a,b)=>Number(isFavorite(b))-Number(isFavorite(a))||a.name.localeCompare(b.name,'es'));
+    return result.slice(0,activeSection==='favorites'?100:60);
+  }
+  function programCells(channel){
+    if(!isCanelaChannel(channel))return [{unavailable:true},{unavailable:true},{unavailable:true}];
+    const epg=findCanelaEpgChannel(channel);const r=currentAndNext(epg?.airing);const items=r.items||[];let startIndex=r.current?items.indexOf(r.current):Math.max(0,items.findIndex(x=>new Date(x.sc_st_dt).getTime()>Date.now()));if(startIndex<0)startIndex=0;return [0,1,2].map(i=>{const item=items[startIndex+i];return item?{item,current:item===r.current}:{unavailable:true}})
+  }
+  function makeGuideRow(channel,index){
+    const row=document.createElement('div');row.className='guide-channel-row';const num=String(channel.channelNumber||index+1).padStart(3,'0');const logo=channel.logo?`<img src="${escapeHtml(channel.logo)}" alt="">`:escapeHtml(getInitials(channel.name));
+    const left=document.createElement('div');left.className='guide-channel-cell';left.innerHTML=`<button class="guide-logo-btn" type="button" aria-label="Reproducir ${escapeHtml(channel.name)}">${logo}</button><div><div class="guide-channel-name">${escapeHtml(channel.name)}</div><div class="guide-channel-meta">${escapeHtml(num)} · ${escapeHtml(channel.sectionLabel||channel.category||'TV')}</div></div>`;left.querySelector('button').addEventListener('click',()=>loadChannel(channel));left.querySelector('img')?.addEventListener('error',e=>{e.currentTarget.parentElement.textContent=getInitials(channel.name)});row.appendChild(left);
+    programCells(channel).forEach(cell=>{const box=document.createElement('div');box.className='guide-program'+(cell.current?' current':'');if(cell.unavailable){box.innerHTML='<div class="guide-unavailable">Programación no disponible</div>'}else{const it=cell.item;const title=epgText(it.pgm?.lon)||'Programación';box.innerHTML=`<div class="guide-program-title" title="${escapeHtml(title)}">${escapeHtml(title)}${cell.current?'<span class="guide-live-pill">LIVE</span>':''}</div><div class="guide-program-time">${fmt(it.sc_st_dt)} – ${fmt(it.sc_ed_dt)}</div>`}row.appendChild(box)});return row;
+  }
+  function renderUniversalGuide(){
+    const grid=document.getElementById('universalGuideGrid');if(!grid)return;const channels=activeFilteredChannels();const provider=activeSection==='favorites'?'Favoritos':(PLAYLISTS.find(x=>x.id===activeSection)?.label||'TV');document.getElementById('universalGuideTitle').textContent=`Programación · ${provider}`;document.getElementById('universalGuideCount').textContent=`${channels.length} canales`;window.__novaSyncProviderDrawer?.();
+    const base=roundHalfHour();const slots=[0,30,60].map(min=>new Date(base.getTime()+min*60000));grid.innerHTML=`<div class="guide-time-row"><div class="guide-day">Hoy ▾</div>${slots.map(x=>`<div class="guide-time-slot">${fmt(x)}</div>`).join('')}</div>`;if(!channels.length){grid.insertAdjacentHTML('beforeend','<div class="guide-empty">No se encontraron canales.</div>');return}const frag=document.createDocumentFragment();channels.forEach((c,i)=>frag.appendChild(makeGuideRow(c,i)));grid.appendChild(frag);
+  }
+  createUi();
+  const originalRender=renderChannels;
+  renderChannels=function(){try{originalRender()}catch(e){console.warn('Render anterior',e)}after(renderUniversalGuide)};
+  const originalSetSection=setSection;
+  setSection=async function(section){const result=await originalSetSection(section);after(renderUniversalGuide);return result};
+  document.getElementById('searchInput')?.addEventListener('input',()=>after(renderUniversalGuide));
+  document.getElementById('categoryTabs')?.addEventListener('click',()=>after(renderUniversalGuide));
+  after(()=>{renderUniversalGuide();fetchCanelaEpg(false).then(renderUniversalGuide).catch(()=>{})});
+})();
+</script>
+
+<script src="/assets/js/pwa.js?v=6.0"></script><script src="/assets/js/ads-config.js?v=7.1.2"></script><script src="/assets/js/ads.js?v=7.1.2"></script></body>
 </html>
+
+<style>
+.channel-row>.channel-guide-btn{position:static!important;width:calc(100% - 24px)!important;margin:0 12px 12px!important;min-height:34px!important;flex:0 0 auto!important;background:linear-gradient(90deg,#5a2d91,#812db1)!important;border-color:rgba(202,123,255,.45)!important;border-radius:9px!important}.channel-row>.channel-guide-btn span{font-size:11px!important}.channel-row .row-actions .channel-guide-btn{display:none!important}
+</style>

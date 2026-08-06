@@ -1,4 +1,4 @@
-const CACHE_NAME = "nova-tv-v7.2-universal-guide";
+const CACHE_NAME = "nova-tv-v7.3-canela-timeline-scroll";
 const SHELL_FILES = [
   "./",
   "./index.html",

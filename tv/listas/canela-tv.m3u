@@ -1,9 +1,9 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="canela-001" tvg-name="Canela.TV Novelas y Dramas" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-telenovelas-16x9_0.jpg" group-title="Novelas" provider="canela",Canela.TV Novelas y Dramas
+#EXTINF:-1 tvg-id="canela-001" tvg-name="Canela.TV Novelas y Dramas" tvg-logo="https://image-resizer-cloud-cdn.cms.api.canela.tv/image/3052A289-026D-43E2-A4E5-577140AAA877/0-16x9.jpg?width=1920&updatedTime=0&dt=Web" group-title="Novelas" provider="canela",Canela.TV Novelas y Dramas
 https://amg00658-amg00658c99-canelatv-international-7218.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-pasionlatina-canelatvinternational/playlist.m3u8
-#EXTINF:-1 tvg-id="canela-002" tvg-name="Canela.TV Novelas Turcas" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-novelasturcas-16x9_1.jpg" group-title="Novelas" provider="canela",Canela.TV Novelas Turcas
+#EXTINF:-1 tvg-id="canela-002" tvg-name="Canela.TV Novelas Turcas" tvg-logo="https://image-resizer-cloud-cdn.cms.api.canela.tv/image/3052A289-026D-43E2-A4E5-577140AAA979/0-16x9.jpg?width=1920&updatedTime=0&dt=Web" group-title="Novelas" provider="canela",Canela.TV Novelas Turcas
 https://amg00658-amg00658c100-canelatv-international-7939.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-pasionturca-canelatvinternational/playlist.m3u8
-#EXTINF:-1 tvg-id="canela-003" tvg-name="Hercai, Amor y Venganza" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-hercai-16x9.jpg" group-title="Novelas" provider="canela",Hercai, Amor y Venganza
+#EXTINF:-1 tvg-id="canela-003" tvg-name="Hercai, Amor y Venganza" tvg-logo="https://image-resizer-cloud-cdn.cms.api.canela.tv/image/3052A289-026D-43E2-A4E5-577140AAA879/0-16x9.jpg?width=1920&updatedTime=0&dt=Web" group-title="Novelas" provider="canela",Hercai, Amor y Venganza
 https://amg00658-amg00658c12-canelatv-international-7977.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-hercaiapp-canelatvinternational/playlist.m3u8
 #EXTINF:-1 tvg-id="canela-004" tvg-name="El Secreto de Feriha" tvg-logo="https://img.static-ottera.com/prod/cnm/linear_channel/logo/channel-novelasturcas-16x9_1.jpg" group-title="Novelas" provider="canela",El Secreto de Feriha
 https://amg00658-amg00658c101-canelatv-international-7942.playouts.now.amagi.tv/playlist/amg00658-canelamediafast-novelasturcassecretosdeferiha-canelatvinternational/playlist.m3u8

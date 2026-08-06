@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="NOVA+ TV en Vivo">
 <title>TV en Vivo | NOVA+</title>
-<!-- NOVA+ TV UI 7.0 — EPG modular -->
+<!-- NOVA+ TV UI 7.0.1 — EPG Canela corregida -->
 <link rel="manifest" href="./manifest.webmanifest">
 
 <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
@@ -1100,7 +1100,7 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
 
 
 
-/* NOVA+ TV 7.0 — guía EPG modular */
+/* NOVA+ TV 7.0.1 — guía EPG modular */
 :where(button,a,[role="button"]):active{transform:scale(.96)!important;filter:brightness(1.12)}
 .epg-now-panel{display:none;position:relative;padding:12px 14px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#20202c,#171720);gap:12px;align-items:center}
 .epg-now-panel.visible{display:grid;grid-template-columns:minmax(0,1fr) auto}
@@ -1294,9 +1294,18 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
 <script>
 "use strict";
 
-/* ===== NOVA+ EPG 7.0: adaptador Canela.TV ===== */
+/* ===== NOVA+ EPG 7.0.1: adaptador Canela.TV ===== */
 const EPG_REFRESH_MS = 5 * 60 * 1000;
-const epgState = { channels:[], byExternalId:new Map(), byName:new Map(), loadedAt:0, timer:null };
+const epgState = {
+  channels:[],
+  byCid:new Map(),
+  byXmltvId:new Map(),
+  byExternalId:new Map(),
+  byCallSign:new Map(),
+  byName:new Map(),
+  loadedAt:0,
+  timer:null
+};
 const epgNowPanel = document.getElementById("epgNowPanel");
 const epgNowTitle = document.getElementById("epgNowTitle");
 const epgNowTimes = document.getElementById("epgNowTimes");
@@ -1315,22 +1324,79 @@ function epgText(list, locale="es-MX"){
 function epgNormalize(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/canela\.?tv/g,"").replace(/[^a-z0-9]+/g,"").trim()}
 function epgFormatTime(value){try{return new Intl.DateTimeFormat("es-MX",{hour:"2-digit",minute:"2-digit"}).format(new Date(value))}catch(_){return ""}}
 function epgExternalIdFromChannel(channel){
-  const haystack=`${channel?.url||""} ${channel?.id||""} ${channel?.rawName||""}`;
-  const match=haystack.match(/amg\d+c\d+/i); return match ? match[0].toLowerCase() : "";
+  const haystack=`${channel?.externalId||""} ${channel?.url||""} ${channel?.id||""} ${channel?.rawName||""}`;
+  const match=haystack.match(/amg\d+c\d+/i);
+  return match ? match[0].toLowerCase() : "";
+}
+function epgCidFromChannel(channel){
+  const explicit=String(channel?.cid||"").trim().toLowerCase();
+  if(explicit) return explicit;
+  const logo=String(channel?.logo||"");
+  const match=logo.match(/\/image\/([0-9a-f-]{36})(?:\/|$)/i);
+  return match ? match[1].toLowerCase() : "";
 }
 function indexCanelaEpg(data){
-  epgState.channels=Array.isArray(data?.data)?data.data:[]; epgState.byExternalId.clear(); epgState.byName.clear();
+  epgState.channels=Array.isArray(data?.data)?data.data:[];
+  epgState.byCid.clear();
+  epgState.byXmltvId.clear();
+  epgState.byExternalId.clear();
+  epgState.byCallSign.clear();
+  epgState.byName.clear();
+
   epgState.channels.forEach(ch=>{
-    const ext=String(ch?.airing?.[0]?.ch?.ex_id||"").toLowerCase(); if(ext) epgState.byExternalId.set(ext,ch);
-    [epgText(ch?.lon),ch?.cs].forEach(name=>{const key=epgNormalize(name);if(key)epgState.byName.set(key,ch)});
-  }); epgState.loadedAt=Date.now();
+    const airings=Array.isArray(ch?.airing)?ch.airing:[];
+    const first=airings[0]||{};
+    const cid=String(ch?.cid||first?.cid||"").toLowerCase();
+    if(cid) epgState.byCid.set(cid,ch);
+
+    airings.forEach(item=>{
+      const itemCid=String(item?.cid||"").toLowerCase();
+      if(itemCid) epgState.byCid.set(itemCid,ch);
+      const ext=String(item?.ch?.ex_id||"").toLowerCase();
+      if(ext) epgState.byExternalId.set(ext,ch);
+      const callSign=epgNormalize(item?.ch?.cs||"");
+      if(callSign) epgState.byCallSign.set(callSign,ch);
+      (Array.isArray(item?.ep)?item.ep:[]).forEach(ref=>{
+        if(String(ref?.n||"").toLowerCase()==="xmltv"){
+          const xmltv=String(ref?.id||"").toLowerCase().trim();
+          if(xmltv) epgState.byXmltvId.set(xmltv,ch);
+        }
+      });
+    });
+
+    const topCallSign=epgNormalize(ch?.cs||"");
+    if(topCallSign) epgState.byCallSign.set(topCallSign,ch);
+    [epgText(ch?.lon),ch?.cs].forEach(name=>{
+      const key=epgNormalize(name);
+      if(key) epgState.byName.set(key,ch);
+    });
+  });
+  epgState.loadedAt=Date.now();
 }
 function findCanelaEpgChannel(channel){
-  if(!channel || channel.sectionId!=="canela") return null;
-  const ext=epgExternalIdFromChannel(channel); if(ext && epgState.byExternalId.has(ext)) return epgState.byExternalId.get(ext);
+  if(!channel || channel.section!=="canela") return null;
+
+  const cid=epgCidFromChannel(channel);
+  if(cid && epgState.byCid.has(cid)) return epgState.byCid.get(cid);
+
+  const xmltvId=String(channel?.epgId||channel?.id||"").toLowerCase().trim();
+  if(xmltvId && epgState.byXmltvId.has(xmltvId)) return epgState.byXmltvId.get(xmltvId);
+
+  const ext=epgExternalIdFromChannel(channel);
+  if(ext && epgState.byExternalId.has(ext)) return epgState.byExternalId.get(ext);
+
+  const callSign=epgNormalize(channel?.callSign||"");
+  if(callSign && epgState.byCallSign.has(callSign)) return epgState.byCallSign.get(callSign);
+
   const names=[channel.name,channel.rawName,channel.id].map(epgNormalize).filter(Boolean);
-  for(const key of names){if(epgState.byName.has(key)) return epgState.byName.get(key)}
-  return epgState.channels.find(item=>{const n=epgNormalize(epgText(item.lon));return names.some(k=>k.includes(n)||n.includes(k))})||null;
+  for(const key of names){
+    if(epgState.byName.has(key)) return epgState.byName.get(key);
+    if(epgState.byCallSign.has(key)) return epgState.byCallSign.get(key);
+  }
+  return epgState.channels.find(item=>{
+    const candidates=[epgText(item?.lon),item?.cs,item?.airing?.[0]?.ch?.cs].map(epgNormalize).filter(Boolean);
+    return candidates.some(n=>names.some(k=>k.includes(n)||n.includes(k)));
+  })||null;
 }
 function currentAndNext(airings, now=Date.now()){
   const items=(Array.isArray(airings)?airings:[]).filter(x=>x?.sc_st_dt&&x?.sc_ed_dt).sort((a,b)=>new Date(a.sc_st_dt)-new Date(b.sc_st_dt));
@@ -1349,7 +1415,7 @@ async function fetchCanelaEpg(force=false){
   console.warn("No se pudo cargar la EPG de Canela",lastError);
 }
 function updateCurrentEpg(){
-  if(!currentChannel || currentChannel.sectionId!=="canela"){epgNowPanel?.classList.remove("visible");return}
+  if(!currentChannel || currentChannel.section!=="canela"){epgNowPanel?.classList.remove("visible");return}
   epgNowPanel?.classList.add("visible"); const epg=findCanelaEpgChannel(currentChannel); const {current,next}=currentAndNext(epg?.airing);
   if(!epg||!current){epgNowTitle.textContent="Programación no disponible";epgNowTimes.textContent="";epgNextTitle.textContent="";epgProgressBar.style.width="0%";return}
   const title=epgText(current.pgm?.lon)||"Programa en vivo"; const episode=epgText(current.pgm?.loepn);
@@ -1765,6 +1831,11 @@ function parseM3U(text){
       const parsed = parseChannelName(rawName);
       current = {
         id:attrs["tvg-id"] || attrs["channel-id"] || "",
+        epgId:attrs["epg-id"] || "",
+        externalId:attrs["ex-id"] || attrs["external-id"] || "",
+        cid:attrs["cid"] || "",
+        callSign:attrs["call-sign"] || "",
+        provider:attrs["provider"] || "",
         channelNumber:attrs["tvg-chno"] || "",
         rawName,
         name:parsed.name,
@@ -1958,7 +2029,7 @@ function buildCategories(){
 
 
 function getChannelProgramSummary(channel){
-  if(channel?.sectionId!=="canela") return `${channel.sectionLabel} · ${channel.category}`;
+  if(channel?.section!=="canela") return `${channel.sectionLabel} · ${channel.category}`;
   const epg=findCanelaEpgChannel(channel); const {current,next}=currentAndNext(epg?.airing);
   if(!current) return `${channel.sectionLabel} · ${channel.category}`;
   const title=epgText(current.pgm?.lon)||"En vivo"; return next?`${title} · Después: ${epgText(next.pgm?.lon)||"Programación"}`:title;
@@ -2177,7 +2248,7 @@ async function loadChannel(channel){
   currentChannelKey = nextKey;
   updatePlayerChannelCard(channel);
   updatePlayerFavoriteButton();
-  if(channel.sectionId === "canela") fetchCanelaEpg().finally(updateCurrentEpg); else updateCurrentEpg();
+  if(channel.section === "canela") fetchCanelaEpg().finally(updateCurrentEpg); else updateCurrentEpg();
   showPlayerUi();
   renderChannels();
   destroyPlayer();

@@ -1,4 +1,4 @@
-const CACHE_NAME = "nova-tv-v7.0-epg-canela";
+const CACHE_NAME = "nova-tv-v7.0.1-epg-canela-fix";
 const SHELL_FILES = [
   "./",
   "./index.html",

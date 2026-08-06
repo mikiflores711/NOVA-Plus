@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="NOVA+ TV en Vivo">
 <title>TV en Vivo | NOVA+</title>
-<!-- NOVA+ TV UI 7.0.1 — EPG Canela corregida -->
+<!-- NOVA+ TV UI 7.0.2 — EPG visible y funcional -->
 <link rel="manifest" href="./manifest.webmanifest">
 
 <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
@@ -1100,7 +1100,7 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
 
 
 
-/* NOVA+ TV 7.0.1 — guía EPG modular */
+/* NOVA+ TV 7.0.2 — guía EPG modular */
 :where(button,a,[role="button"]):active{transform:scale(.96)!important;filter:brightness(1.12)}
 .epg-now-panel{display:none;position:relative;padding:12px 14px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#20202c,#171720);gap:12px;align-items:center}
 .epg-now-panel.visible{display:grid;grid-template-columns:minmax(0,1fr) auto}
@@ -1290,7 +1290,7 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="./config.js"></script>
+<script src="./config.js?v=7.0.2"></script>
 <script>
 "use strict";
 
@@ -1335,6 +1335,13 @@ function epgCidFromChannel(channel){
   const match=logo.match(/\/image\/([0-9a-f-]{36})(?:\/|$)/i);
   return match ? match[1].toLowerCase() : "";
 }
+function isCanelaChannel(channel){
+  if(!channel) return false;
+  const section=String(channel.section||"").toLowerCase();
+  const provider=String(channel.provider||"").toLowerCase();
+  const name=String(channel.name||channel.rawName||"").toLowerCase();
+  return section==="canela" || provider==="canela" || name.includes("canela");
+}
 function indexCanelaEpg(data){
   epgState.channels=Array.isArray(data?.data)?data.data:[];
   epgState.byCid.clear();
@@ -1374,7 +1381,7 @@ function indexCanelaEpg(data){
   epgState.loadedAt=Date.now();
 }
 function findCanelaEpgChannel(channel){
-  if(!channel || channel.section!=="canela") return null;
+  if(!isCanelaChannel(channel)) return null;
 
   const cid=epgCidFromChannel(channel);
   if(cid && epgState.byCid.has(cid)) return epgState.byCid.get(cid);
@@ -1415,13 +1422,38 @@ async function fetchCanelaEpg(force=false){
   console.warn("No se pudo cargar la EPG de Canela",lastError);
 }
 function updateCurrentEpg(){
-  if(!currentChannel || currentChannel.section!=="canela"){epgNowPanel?.classList.remove("visible");return}
-  epgNowPanel?.classList.add("visible"); const epg=findCanelaEpgChannel(currentChannel); const {current,next}=currentAndNext(epg?.airing);
-  if(!epg||!current){epgNowTitle.textContent="Programación no disponible";epgNowTimes.textContent="";epgNextTitle.textContent="";epgProgressBar.style.width="0%";return}
-  const title=epgText(current.pgm?.lon)||"Programa en vivo"; const episode=epgText(current.pgm?.loepn);
-  epgNowTitle.textContent=episode?`${title} · ${episode}`:title; epgNowTimes.textContent=`${epgFormatTime(current.sc_st_dt)} – ${epgFormatTime(current.sc_ed_dt)}`;
+  if(!isCanelaChannel(currentChannel)){
+    epgNowPanel?.classList.remove("visible");
+    return;
+  }
+  epgNowPanel?.classList.add("visible");
+  const epg=findCanelaEpgChannel(currentChannel);
+  const result=currentAndNext(epg?.airing);
+  const current=result.current;
+  const next=result.next;
+  epgGuideBtn.disabled=!epg;
+  if(!epg){
+    epgNowTitle.textContent="Cargando programación…";
+    epgNowTimes.textContent="";
+    epgNextTitle.textContent="";
+    epgProgressBar.style.width="0%";
+    return;
+  }
+  if(!current){
+    const upcoming=result.items.find(item=>new Date(item.sc_st_dt).getTime()>Date.now());
+    epgNowTitle.textContent=upcoming?`Próximamente: ${epgText(upcoming.pgm?.lon)||"Programación"}`:"Programación no disponible en este horario";
+    epgNowTimes.textContent=upcoming?`${epgFormatTime(upcoming.sc_st_dt)} – ${epgFormatTime(upcoming.sc_ed_dt)}`:"";
+    epgNextTitle.textContent="Presiona “Ver programación” para consultar la guía.";
+    epgProgressBar.style.width="0%";
+    return;
+  }
+  const title=epgText(current.pgm?.lon)||"Programa en vivo";
+  const episode=epgText(current.pgm?.loepn);
+  epgNowTitle.textContent=episode?`${title} · ${episode}`:title;
+  epgNowTimes.textContent=`${epgFormatTime(current.sc_st_dt)} – ${epgFormatTime(current.sc_ed_dt)}`;
   epgNextTitle.textContent=next?`Siguiente: ${epgText(next.pgm?.lon)||"Programación"} · ${epgFormatTime(next.sc_st_dt)}`:"";
-  const a=new Date(current.sc_st_dt).getTime(),b=new Date(current.sc_ed_dt).getTime();epgProgressBar.style.width=`${Math.max(0,Math.min(100,((Date.now()-a)/(b-a))*100))}%`;
+  const a=new Date(current.sc_st_dt).getTime(),b=new Date(current.sc_ed_dt).getTime();
+  epgProgressBar.style.width=`${Math.max(0,Math.min(100,((Date.now()-a)/(b-a))*100))}%`;
 }
 function openEpgGuide(){
   const epg=findCanelaEpgChannel(currentChannel); const {items,current}=currentAndNext(epg?.airing); epgGuideTitle.textContent=`Programación · ${currentChannel?.name||"Canela.TV"}`; epgGuideList.innerHTML="";
@@ -1430,7 +1462,7 @@ function openEpgGuide(){
 }
 function closeEpgGuide(){epgGuideModal.classList.remove("open");epgGuideModal.setAttribute("aria-hidden","true")}
 epgGuideBtn?.addEventListener("click",openEpgGuide);epgGuideClose?.addEventListener("click",closeEpgGuide);epgGuideModal?.addEventListener("click",e=>{if(e.target===epgGuideModal)closeEpgGuide()});
-setInterval(updateCurrentEpg,30000);fetchCanelaEpg();epgState.timer=setInterval(()=>fetchCanelaEpg(true),EPG_REFRESH_MS);
+// La EPG se inicia después de declarar el estado principal de TV.
 
 
 const PROXY_BASE = "https://hls-proxy-tv-plus.mikimc-business.workers.dev/proxy?url=";
@@ -1616,8 +1648,16 @@ let channelReportStates = new Map();
 let reportStateTimer = null;
 let playerAttemptToken = 0;
 
+function startEpgSystem(){
+  fetchCanelaEpg(true).catch(error=>console.warn("EPG inicial",error));
+  setInterval(updateCurrentEpg,30000);
+  if(epgState.timer) clearInterval(epgState.timer);
+  epgState.timer=setInterval(()=>fetchCanelaEpg(true),EPG_REFRESH_MS);
+}
+
 async function init(){
   buildSectionTabs();
+  startEpgSystem();
   bindEvents();
   registerPwaSupport();
   showPlayerUi();
@@ -2029,7 +2069,7 @@ function buildCategories(){
 
 
 function getChannelProgramSummary(channel){
-  if(channel?.section!=="canela") return `${channel.sectionLabel} · ${channel.category}`;
+  if(!isCanelaChannel(channel)) return `${channel.sectionLabel} · ${channel.category}`;
   const epg=findCanelaEpgChannel(channel); const {current,next}=currentAndNext(epg?.airing);
   if(!current) return `${channel.sectionLabel} · ${channel.category}`;
   const title=epgText(current.pgm?.lon)||"En vivo"; return next?`${title} · Después: ${epgText(next.pgm?.lon)||"Programación"}`:title;
@@ -2248,7 +2288,7 @@ async function loadChannel(channel){
   currentChannelKey = nextKey;
   updatePlayerChannelCard(channel);
   updatePlayerFavoriteButton();
-  if(channel.section === "canela") fetchCanelaEpg().finally(updateCurrentEpg); else updateCurrentEpg();
+  if(isCanelaChannel(channel)) fetchCanelaEpg().finally(updateCurrentEpg); else updateCurrentEpg();
   showPlayerUi();
   renderChannels();
   destroyPlayer();

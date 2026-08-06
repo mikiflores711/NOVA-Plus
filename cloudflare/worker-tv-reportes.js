@@ -21,13 +21,17 @@ export default {
     }
 
     try {
+      if (url.pathname === "/api/canela/epg" && request.method === "GET") {
+        return await proxyCanelaEpg(request, env);
+      }
+
       await ensureSchema(env.DB);
 
       if (url.pathname === "/" || url.pathname === "/api/health") {
         return json(request, env, {
           ok: true,
           service: "Watch TV Plus Cloudflare API",
-          version: "6.0"
+          version: "7.0"
         });
       }
 
@@ -111,6 +115,32 @@ export default {
     ctx.waitUntil(runAutomaticMonitor(env));
   }
 };
+
+
+async function proxyCanelaEpg(request, env) {
+  checkPublicOrigin(request, env);
+  const incoming = new URL(request.url);
+  const now = new Date();
+  const start = validIso(incoming.searchParams.get("start")) || new Date(now.setMinutes(0, 0, 0)).toISOString();
+  const end = validIso(incoming.searchParams.get("end")) || new Date(new Date(start).getTime() + 18 * 60 * 60 * 1000).toISOString();
+  const upstream = new URL("https://catalog-service-cdn.cms.api.canela.tv/content/epg");
+  const allowed = { start, end, reg:"mx", acl:"en", dt:"web", ipr:"true", client:"canela-canela-web", pf:"main", locale:"es-419" };
+  Object.entries(allowed).forEach(([key,value]) => upstream.searchParams.set(key,value));
+  const cache = caches.default;
+  const cacheKey = new Request(upstream.toString(), { method:"GET" });
+  let response = await cache.match(cacheKey);
+  if (!response) {
+    const upstreamResponse = await fetch(upstream, { headers:{ Accept:"application/json", "User-Agent":"NOVAPlus-EPG/7.0" }, cf:{ cacheTtl:300, cacheEverything:true } });
+    if (!upstreamResponse.ok) return json(request, env, { ok:false, error:`Canela EPG respondió ${upstreamResponse.status}` }, 502);
+    response = new Response(upstreamResponse.body, { status:200, headers:{ "Content-Type":"application/json; charset=utf-8", "Cache-Control":"public, max-age=120, s-maxage=300" } });
+    await cache.put(cacheKey, response.clone());
+  }
+  return corsResponse(request, env, response.body, 200, {
+    "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "public, max-age=120, s-maxage=300"
+  });
+}
+function validIso(value){ if(!value) return ""; const d=new Date(value); return Number.isNaN(d.getTime())?"":d.toISOString(); }
 
 async function ensureSchema(db) {
   await db.batch([

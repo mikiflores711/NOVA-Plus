@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="NOVA+ TV en Vivo">
 <title>TV en Vivo | NOVA+</title>
-<!-- NOVA+ TV UI 6.2 -->
+<!-- NOVA+ TV UI 7.0 — EPG modular -->
 <link rel="manifest" href="./manifest.webmanifest">
 
 <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
@@ -1098,6 +1098,20 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
   .channel-list-shell .channel-list{min-height:205px}
 }
 
+
+
+/* NOVA+ TV 7.0 — guía EPG modular */
+:where(button,a,[role="button"]):active{transform:scale(.96)!important;filter:brightness(1.12)}
+.epg-now-panel{display:none;position:relative;padding:12px 14px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#20202c,#171720);gap:12px;align-items:center}
+.epg-now-panel.visible{display:grid;grid-template-columns:minmax(0,1fr) auto}
+.epg-live{display:inline-flex;align-items:center;gap:6px;color:#ff6579;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.epg-live::before{content:"";width:7px;height:7px;border-radius:50%;background:#ff415c;box-shadow:0 0 0 4px rgba(255,65,92,.14)}
+.epg-program{margin-top:5px;font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.epg-times{margin-top:4px;color:var(--muted);font-size:11px}.epg-next{margin-top:5px;color:#c9c9d4;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.epg-progress{height:4px;margin-top:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}.epg-progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3f70ff,#69a0ff);border-radius:inherit;transition:width .5s ease}
+.epg-guide-btn{min-width:104px;height:40px;padding:0 13px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:#2a2a39;color:#fff;font-weight:800;transition:.18s ease}
+.epg-guide-btn:hover,.epg-guide-btn:focus-visible{background:#343448;border-color:#668bff;box-shadow:0 0 0 3px rgba(63,112,255,.18)}
+.epg-guide-modal{position:fixed;inset:0;z-index:9999;display:none;place-items:center;padding:16px;background:rgba(0,0,0,.72);backdrop-filter:blur(8px)}.epg-guide-modal.open{display:grid}.epg-guide-card{width:min(720px,100%);max-height:min(82dvh,760px);display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:#1d1d28;box-shadow:0 25px 80px rgba(0,0,0,.6);overflow:hidden}.epg-guide-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border-bottom:1px solid var(--line)}.epg-guide-head h2{font-size:18px}.epg-guide-close{width:38px;height:38px;border:0;border-radius:50%;background:#30303f;font-size:24px}.epg-guide-list{overflow:auto;padding:8px}.epg-guide-item{display:grid;grid-template-columns:92px minmax(0,1fr);gap:12px;padding:12px;border-radius:12px}.epg-guide-item.active{background:rgba(63,112,255,.15);outline:1px solid rgba(63,112,255,.35)}.epg-guide-time{font-size:11px;color:#9fb5ff;font-weight:800}.epg-guide-title{font-weight:800}.epg-guide-desc{margin-top:4px;color:var(--muted);font-size:11px;line-height:1.35}.epg-unavailable{padding:18px;text-align:center;color:var(--muted)}
+.channel-row .program-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal;line-height:1.25;min-height:2.5em}
+@media(max-width:620px){.epg-now-panel.visible{grid-template-columns:1fr}.epg-guide-btn{width:100%}.epg-program{font-size:14px}.epg-guide-item{grid-template-columns:76px minmax(0,1fr)}}
+
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
@@ -1157,6 +1171,18 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
       title="Agregar a favoritos"
       disabled
     >☆</button>
+  </section>
+
+
+  <section class="epg-now-panel" id="epgNowPanel" aria-live="polite">
+    <div class="epg-copy">
+      <span class="epg-live">En vivo</span>
+      <div class="epg-program" id="epgNowTitle">Programación no disponible</div>
+      <div class="epg-times" id="epgNowTimes"></div>
+      <div class="epg-progress"><i id="epgProgressBar"></i></div>
+      <div class="epg-next" id="epgNextTitle"></div>
+    </div>
+    <button class="epg-guide-btn" id="epgGuideBtn" type="button">Ver programación</button>
   </section>
 
   <div class="tv-strip-shell"><button id="providersPrev" class="tv-strip-btn prev" type="button" aria-label="Servicios anteriores">‹</button><nav class="scroll-tabs provider-tabs" id="sectionTabs" aria-label="Servicios de TV"></nav><button id="providersNext" class="tv-strip-btn next" type="button" aria-label="Servicios siguientes">›</button></div>
@@ -1254,11 +1280,92 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
   </section>
 </div>
 
+
+<div class="epg-guide-modal" id="epgGuideModal" aria-hidden="true">
+  <section class="epg-guide-card" role="dialog" aria-modal="true" aria-labelledby="epgGuideTitle">
+    <header class="epg-guide-head"><h2 id="epgGuideTitle">Programación</h2><button class="epg-guide-close" id="epgGuideClose" type="button" aria-label="Cerrar">×</button></header>
+    <div class="epg-guide-list" id="epgGuideList"></div>
+  </section>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="./config.js"></script>
 <script>
 "use strict";
+
+/* ===== NOVA+ EPG 7.0: adaptador Canela.TV ===== */
+const EPG_REFRESH_MS = 5 * 60 * 1000;
+const epgState = { channels:[], byExternalId:new Map(), byName:new Map(), loadedAt:0, timer:null };
+const epgNowPanel = document.getElementById("epgNowPanel");
+const epgNowTitle = document.getElementById("epgNowTitle");
+const epgNowTimes = document.getElementById("epgNowTimes");
+const epgNextTitle = document.getElementById("epgNextTitle");
+const epgProgressBar = document.getElementById("epgProgressBar");
+const epgGuideBtn = document.getElementById("epgGuideBtn");
+const epgGuideModal = document.getElementById("epgGuideModal");
+const epgGuideClose = document.getElementById("epgGuideClose");
+const epgGuideTitle = document.getElementById("epgGuideTitle");
+const epgGuideList = document.getElementById("epgGuideList");
+
+function epgText(list, locale="es-MX"){
+  if(!Array.isArray(list)) return "";
+  return (list.find(x=>String(x?.lang||"").toLowerCase().startsWith("es")) || list[0] || {}).n || "";
+}
+function epgNormalize(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/canela\.?tv/g,"").replace(/[^a-z0-9]+/g,"").trim()}
+function epgFormatTime(value){try{return new Intl.DateTimeFormat("es-MX",{hour:"2-digit",minute:"2-digit"}).format(new Date(value))}catch(_){return ""}}
+function epgExternalIdFromChannel(channel){
+  const haystack=`${channel?.url||""} ${channel?.id||""} ${channel?.rawName||""}`;
+  const match=haystack.match(/amg\d+c\d+/i); return match ? match[0].toLowerCase() : "";
+}
+function indexCanelaEpg(data){
+  epgState.channels=Array.isArray(data?.data)?data.data:[]; epgState.byExternalId.clear(); epgState.byName.clear();
+  epgState.channels.forEach(ch=>{
+    const ext=String(ch?.airing?.[0]?.ch?.ex_id||"").toLowerCase(); if(ext) epgState.byExternalId.set(ext,ch);
+    [epgText(ch?.lon),ch?.cs].forEach(name=>{const key=epgNormalize(name);if(key)epgState.byName.set(key,ch)});
+  }); epgState.loadedAt=Date.now();
+}
+function findCanelaEpgChannel(channel){
+  if(!channel || channel.sectionId!=="canela") return null;
+  const ext=epgExternalIdFromChannel(channel); if(ext && epgState.byExternalId.has(ext)) return epgState.byExternalId.get(ext);
+  const names=[channel.name,channel.rawName,channel.id].map(epgNormalize).filter(Boolean);
+  for(const key of names){if(epgState.byName.has(key)) return epgState.byName.get(key)}
+  return epgState.channels.find(item=>{const n=epgNormalize(epgText(item.lon));return names.some(k=>k.includes(n)||n.includes(k))})||null;
+}
+function currentAndNext(airings, now=Date.now()){
+  const items=(Array.isArray(airings)?airings:[]).filter(x=>x?.sc_st_dt&&x?.sc_ed_dt).sort((a,b)=>new Date(a.sc_st_dt)-new Date(b.sc_st_dt));
+  let current=items.find(x=>new Date(x.sc_st_dt).getTime()<=now&&new Date(x.sc_ed_dt).getTime()>now)||null;
+  let next=current?items.find(x=>new Date(x.sc_st_dt).getTime()>=new Date(current.sc_ed_dt).getTime()):items.find(x=>new Date(x.sc_st_dt).getTime()>now);
+  return {items,current,next};
+}
+async function fetchCanelaEpg(force=false){
+  if(!force && Date.now()-epgState.loadedAt<EPG_REFRESH_MS) return;
+  const start=new Date(); start.setMinutes(0,0,0); const end=new Date(start.getTime()+18*60*60*1000);
+  const params=new URLSearchParams({start:start.toISOString(),end:end.toISOString(),reg:"mx",acl:"en",dt:"web",ipr:"true",client:"canela-canela-web",pf:"main",locale:"es-419"});
+  const workerBase=String(window.WATCH_TV_CONFIG?.API_URL||"").replace(/\/$/,"");
+  const urls=[workerBase?`${workerBase}/api/canela/epg?${params}`:"",`https://catalog-service-cdn.cms.api.canela.tv/content/epg?${params}`].filter(Boolean);
+  let lastError;
+  for(const url of urls){try{const response=await fetch(url,{headers:{Accept:"application/json"},cache:"no-store"});if(!response.ok)throw new Error(`EPG ${response.status}`);const json=await response.json();if(json?.header?.code===0||json?.data){indexCanelaEpg(json);updateCurrentEpg();return}}catch(error){lastError=error}}
+  console.warn("No se pudo cargar la EPG de Canela",lastError);
+}
+function updateCurrentEpg(){
+  if(!currentChannel || currentChannel.sectionId!=="canela"){epgNowPanel?.classList.remove("visible");return}
+  epgNowPanel?.classList.add("visible"); const epg=findCanelaEpgChannel(currentChannel); const {current,next}=currentAndNext(epg?.airing);
+  if(!epg||!current){epgNowTitle.textContent="Programación no disponible";epgNowTimes.textContent="";epgNextTitle.textContent="";epgProgressBar.style.width="0%";return}
+  const title=epgText(current.pgm?.lon)||"Programa en vivo"; const episode=epgText(current.pgm?.loepn);
+  epgNowTitle.textContent=episode?`${title} · ${episode}`:title; epgNowTimes.textContent=`${epgFormatTime(current.sc_st_dt)} – ${epgFormatTime(current.sc_ed_dt)}`;
+  epgNextTitle.textContent=next?`Siguiente: ${epgText(next.pgm?.lon)||"Programación"} · ${epgFormatTime(next.sc_st_dt)}`:"";
+  const a=new Date(current.sc_st_dt).getTime(),b=new Date(current.sc_ed_dt).getTime();epgProgressBar.style.width=`${Math.max(0,Math.min(100,((Date.now()-a)/(b-a))*100))}%`;
+}
+function openEpgGuide(){
+  const epg=findCanelaEpgChannel(currentChannel); const {items,current}=currentAndNext(epg?.airing); epgGuideTitle.textContent=`Programación · ${currentChannel?.name||"Canela.TV"}`; epgGuideList.innerHTML="";
+  if(!items.length){epgGuideList.innerHTML='<div class="epg-unavailable">Programación no disponible en este momento.</div>'}else items.forEach(item=>{const node=document.createElement("article");node.className="epg-guide-item"+(item===current?" active":"");const title=epgText(item.pgm?.lon)||"Programación";const episode=epgText(item.pgm?.loepn);const desc=epgText(item.pgm?.lod);node.innerHTML=`<div class="epg-guide-time">${epgFormatTime(item.sc_st_dt)}<br>${epgFormatTime(item.sc_ed_dt)}</div><div><div class="epg-guide-title">${escapeHtml(episode?`${title} · ${episode}`:title)}</div>${desc?`<div class="epg-guide-desc">${escapeHtml(desc)}</div>`:""}</div>`;epgGuideList.appendChild(node)});
+  epgGuideModal.classList.add("open");epgGuideModal.setAttribute("aria-hidden","false");
+}
+function closeEpgGuide(){epgGuideModal.classList.remove("open");epgGuideModal.setAttribute("aria-hidden","true")}
+epgGuideBtn?.addEventListener("click",openEpgGuide);epgGuideClose?.addEventListener("click",closeEpgGuide);epgGuideModal?.addEventListener("click",e=>{if(e.target===epgGuideModal)closeEpgGuide()});
+setInterval(updateCurrentEpg,30000);fetchCanelaEpg();epgState.timer=setInterval(()=>fetchCanelaEpg(true),EPG_REFRESH_MS);
+
 
 const PROXY_BASE = "https://hls-proxy-tv-plus.mikimc-business.workers.dev/proxy?url=";
 const REPORT_API_URL = window.WATCH_TV_CONFIG.API_URL;
@@ -1849,6 +1956,14 @@ function buildCategories(){
   });
 }
 
+
+function getChannelProgramSummary(channel){
+  if(channel?.sectionId!=="canela") return `${channel.sectionLabel} · ${channel.category}`;
+  const epg=findCanelaEpgChannel(channel); const {current,next}=currentAndNext(epg?.airing);
+  if(!current) return `${channel.sectionLabel} · ${channel.category}`;
+  const title=epgText(current.pgm?.lon)||"En vivo"; return next?`${title} · Después: ${epgText(next.pgm?.lon)||"Programación"}`:title;
+}
+
 function renderChannels(){
   const search = searchInput.value.trim().toLowerCase();
   const globalSearch = Boolean(search);
@@ -1914,7 +2029,7 @@ function createChannelItem(channel,index){
     <div class="channel-number">${escapeHtml(displayNumber)}</div>
     <div class="channel-copy">
       <div class="channel-name" title="${escapeHtml(channel.name)}">${escapeHtml(channel.name)}${getChannelReportBadge(channel)}</div>
-      <div class="program-text">${escapeHtml(channel.sectionLabel)} · ${escapeHtml(channel.category)}</div>
+      <div class="program-text" data-epg-for="${escapeHtml(getChannelKey(channel))}">${escapeHtml(getChannelProgramSummary(channel))}</div>
     </div>
     <div class="row-actions">
       ${channel.type === "video" ? `<button class="report-btn" type="button" aria-label="Reportar ${escapeHtml(channel.name)}" title="Reportar canal caído"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.5 2.7 17a2 2 0 0 0 1.8 3h15a2 2 0 0 0 1.8-3L13.7 3.5a2 2 0 0 0-3.4 0Z"></path></svg></button>` : ""}
@@ -2062,6 +2177,7 @@ async function loadChannel(channel){
   currentChannelKey = nextKey;
   updatePlayerChannelCard(channel);
   updatePlayerFavoriteButton();
+  if(channel.sectionId === "canela") fetchCanelaEpg().finally(updateCurrentEpg); else updateCurrentEpg();
   showPlayerUi();
   renderChannels();
   destroyPlayer();

@@ -12,7 +12,6 @@
 <title>NOVA+ TV en Vivo</title>
 <link rel="manifest" href="./manifest.webmanifest">
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@clappr/hlsjs-playback@latest/dist/hlsjs-playback.min.js"></script>
 
@@ -896,132 +895,96 @@ body.legal-open{overflow:hidden}
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
         crossorigin="anonymous"></script>
 
-<style id="nova-tv-v2-overrides">
-:root{--nova-panel:#0b1411;--nova-card:#121d19;--nova-line:rgba(255,255,255,.12);--nova-accent:#7356ff}
-body{background:#000}
-.app-shell{width:min(100%,1100px);background:#050907}
+<style id="nova-tv-layout-v22">
+:root{--nova-bg:#050907;--nova-panel:#0b1411;--nova-card:#111a17;--nova-line:rgba(255,255,255,.13)}
+.app-shell{width:min(100%,1100px);background:var(--nova-bg)}
 .topbar{height:64px;background:#07100d;border-bottom:1px solid var(--nova-line);position:relative}
-.nova-left-actions{display:flex;align-items:center;gap:5px;min-width:110px}
-.nova-menu-btn,.nova-back-btn{font-size:27px;font-weight:400;border:1px solid rgba(255,255,255,.18)!important;background:#111b18!important}
-.nova-back-btn{font-size:38px;line-height:1;padding-bottom:5px}
-.top-actions{min-width:110px}
-.main-tabs{position:absolute;top:7px;left:50%;transform:translateX(-50%);z-index:120;border:0;background:transparent;padding:0;gap:10px}
-.main-tab{min-width:118px;height:46px;border:1px solid rgba(255,255,255,.12)!important;border-radius:10px!important;background:#111b18!important}
-.main-tab.active{border-bottom:3px solid #8b42ff!important;background:#18221f!important}
+.nova-left-actions{display:flex;align-items:center;gap:5px;min-width:108px}
+.nova-menu-btn,.nova-back-btn{border:1px solid rgba(255,255,255,.20)!important;background:#111b18!important}
+.nova-menu-btn{font-size:25px}.nova-back-btn{font-size:36px;line-height:1;padding-bottom:4px}
+.main-tabs{position:absolute;top:7px;left:50%;transform:translateX(-50%);z-index:120;background:transparent;border:0;padding:0;gap:10px}
+.main-tab{min-width:118px;height:46px;border:1px solid rgba(255,255,255,.13)!important;border-radius:10px!important;background:#111b18!important}
+.main-tab.active{border-bottom:3px solid #7851ff!important;background:#17211e!important}
 .provider-tabs{display:none!important}
-.player-stage{min-height:250px;background:#000}
+
+/* Keep old Clappr player exactly; only place buttons. */
 .player-favorite-btn{right:72px}
 .player-round-btn{position:absolute;z-index:86;top:10px;width:46px;height:46px;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(17,17,25,.82);color:#fff;display:grid;place-items:center;box-shadow:0 5px 18px rgba(0,0,0,.45);backdrop-filter:blur(9px);opacity:0;transform:translateY(-8px);pointer-events:none;transition:.2s}
 .player-stage.show-ui .player-round-btn{opacity:1;transform:none;pointer-events:auto}
 .player-round-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.player-report-btn{right:16px}
-.player-guide-btn{right:128px;color:#fff}
-.player-guide-btn[hidden]{display:none!important}
-.player-round-btn:disabled{opacity:.3!important;pointer-events:none!important}
+.player-report-btn{right:16px}.player-guide-btn{right:128px}.player-guide-btn[hidden]{display:none!important}.player-round-btn:disabled{opacity:.3!important;pointer-events:none!important}
 
-/* categorías: scroll horizontal + flechas iguales a las usadas en NOVA+ */
-.category-rail-shell{position:relative;border-top:1px solid var(--nova-line);border-bottom:1px solid var(--nova-line);background:#0c1512;padding:7px 54px}
-.category-tabs{display:flex!important;overflow-x:auto;scrollbar-width:none;gap:8px;border:0!important;padding:0!important;scroll-behavior:smooth}
+/* Category rail */
+.category-rail-shell{position:relative;background:#0c1512;border-top:1px solid var(--nova-line);border-bottom:1px solid var(--nova-line);padding:7px 54px}
+.category-tabs{display:flex!important;gap:8px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;border:0!important;padding:0!important}
 .category-tabs::-webkit-scrollbar{display:none}
-.nova-rail-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:15;width:42px;height:42px;border:1px solid rgba(255,255,255,.22);border-radius:9px;background:#09100e;color:#fff;font-size:22px;font-weight:900;display:grid;place-items:center}
+.category-tabs .tab-chip{flex:0 0 auto;white-space:nowrap}
+.nova-rail-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:42px;height:42px;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:#08100d;color:#fff;font-size:20px;font-weight:900;display:grid;place-items:center}
 .nova-rail-btn.prev{left:8px}.nova-rail-btn.next{right:8px}
-.nova-rail-btn:hover,.nova-rail-btn:focus-visible{background:#18251f;transform:translateY(-50%) scale(1.05)}
-.category-tabs .tab-chip{flex:0 0 auto}
+.nova-rail-btn:hover,.nova-rail-btn:focus-visible{background:#17231f}
 
-/* nuevo carrusel de canales */
-.list-head{padding:7px 16px;background:#07100d;border-bottom:1px solid var(--nova-line);font-size:11px}
-.channel-rail-shell{position:relative;background:#050907;padding:12px 54px 18px}
-.channel-list{display:flex!important;gap:18px!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-behavior:smooth;scroll-snap-type:x proximity;scrollbar-width:none;padding:0!important;min-height:208px!important;max-height:none!important}
+/* hide duplicate provider/count row and give that height to channels */
+.list-head{display:none!important}
+.channel-rail-shell{position:relative;background:#050907;padding:13px 54px 22px}
+.channel-list{display:flex!important;gap:18px!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-behavior:smooth;scroll-snap-type:x proximity;scrollbar-width:none;padding:0!important;min-height:238px!important;max-height:none!important}
 .channel-list::-webkit-scrollbar{display:none}
-.channel-row{position:relative;flex:0 0 178px!important;width:178px!important;min-width:178px!important;height:202px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;padding:0!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:14px!important;overflow:hidden;background:#0a0d0c!important;scroll-snap-align:start;box-shadow:none!important}
-.channel-row.active{border:2px solid #6e65ff!important;box-shadow:0 0 0 2px rgba(110,101,255,.2)!important}
-.channel-logo{width:100%!important;height:150px!important;border:0!important;border-radius:0!important;background:#050505!important;padding:12px!important;font-size:13px!important;color:#fff;display:grid!important;place-items:center!important}
-.channel-logo img{width:100%!important;height:100%!important;object-fit:contain!important;padding:8px!important}
-.channel-number{position:absolute!important;top:8px!important;left:8px!important;z-index:5;width:auto!important;min-width:30px;height:23px;padding:0 7px;border-radius:999px;background:#030706;color:#fff;border:1px solid rgba(255,255,255,.35);display:grid!important;place-items:center;font-size:10px;font-weight:900}
-.channel-copy{padding:9px 10px 10px!important;min-width:0}
-.channel-name{font-size:13px!important;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.channel-row{position:relative;flex:0 0 182px!important;width:182px!important;min-width:182px!important;height:226px!important;display:flex!important;flex-direction:column!important;padding:0!important;border:1px solid rgba(255,255,255,.20)!important;border-radius:14px!important;overflow:hidden;background:#0a0d0c!important;scroll-snap-align:start}
+.channel-row.active{border:2px solid #695eff!important;box-shadow:0 0 0 2px rgba(105,94,255,.18)!important}
+.channel-logo{width:100%!important;height:160px!important;min-height:160px!important;border:0!important;border-radius:0!important;background:#050505!important;padding:12px!important;display:grid!important;place-items:center!important}
+.channel-logo img{width:100%!important;height:100%!important;object-fit:contain!important;padding:6px!important}
+.channel-number{position:absolute!important;top:8px!important;left:8px!important;z-index:5;width:auto!important;min-width:30px;height:23px;padding:0 7px;border-radius:999px;background:#030706;color:#fff;border:1px solid rgba(255,255,255,.4);display:grid!important;place-items:center;font-size:10px;font-weight:900}
+.channel-copy{padding:10px 11px 12px!important;min-width:0;min-height:64px!important}
+.channel-name{font-size:13px!important;font-weight:900!important;line-height:1.25!important;white-space:normal!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .program-text{display:none!important}
 .row-actions{display:none!important}
 
-/* drawer de listas */
-.playlist-drawer{position:fixed;inset:0;z-index:9990;pointer-events:none;visibility:hidden}
-.playlist-drawer.open{pointer-events:auto;visibility:visible}
+/* Provider drawer */
+.playlist-drawer{position:fixed;inset:0;z-index:9990;visibility:hidden;pointer-events:none}
+.playlist-drawer.open{visibility:visible;pointer-events:auto}
 .playlist-drawer-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.76);opacity:0;transition:.2s}
 .playlist-drawer.open .playlist-drawer-backdrop{opacity:1}
-.playlist-drawer-panel{position:absolute;left:0;top:0;bottom:0;width:min(355px,92vw);background:#07110e;border-right:1px solid rgba(255,255,255,.16);padding:16px 14px 18px;transform:translateX(-102%);transition:.24s;display:flex;flex-direction:column}
+.playlist-drawer-panel{position:absolute;left:0;top:0;bottom:0;width:min(360px,92vw);background:#07110e;border-right:1px solid rgba(255,255,255,.16);padding:16px 14px 18px;transform:translateX(-103%);transition:.24s;display:flex;flex-direction:column}
 .playlist-drawer.open .playlist-drawer-panel{transform:none}
-.playlist-drawer-head{display:flex;align-items:center;gap:10px;padding-bottom:9px}
-.playlist-drawer-logo{width:178px;max-height:54px;object-fit:contain;object-position:left center}
-.playlist-drawer-logo-fallback{font-size:28px}
+.playlist-drawer-head{display:flex;align-items:center;gap:10px}
+.playlist-drawer-logo{width:178px;max-height:52px;object-fit:contain;object-position:left center}
+.playlist-drawer-logo-fallback{font-size:27px}
 .drawer-close{margin-left:auto;width:42px;height:42px;border:0;border-radius:50%;background:#14221d;color:#fff;font-size:27px}
-.playlist-drawer h2{font-size:22px;margin:3px 0 12px}
-.drawer-provider-wrap{min-height:0;flex:1;position:relative;padding-right:50px}
+.playlist-drawer h2{font-size:22px;margin:6px 0 12px}
+.drawer-provider-wrap{min-height:0;flex:1;position:relative;padding-right:49px}
 .drawer-provider-list{height:100%;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;gap:9px;padding-bottom:10px}
 .drawer-provider-list::-webkit-scrollbar{display:none}
-.drawer-provider-item{flex:0 0 auto;width:100%;min-height:58px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:#111c18;color:#fff;display:grid;grid-template-columns:42px 1fr 20px;align-items:center;gap:10px;padding:8px 10px;text-align:left}
-.drawer-provider-item.active{border-color:#7356ff;background:#17221e}
-.drawer-provider-item img{width:38px;height:26px;object-fit:contain}
+.drawer-provider-item{width:100%;min-height:60px;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:#111c18;color:#fff;display:grid;grid-template-columns:44px 1fr 20px;align-items:center;gap:10px;padding:8px 10px;text-align:left}
+.drawer-provider-item.active{border-color:#755bff;background:#17221e}
+.drawer-provider-item img{width:40px;height:28px;object-fit:contain}
 .drawer-provider-copy b{display:block;font-size:15px}.drawer-provider-copy small{display:block;color:#b4c2bd;margin-top:2px;font-size:11px}
-.drawer-provider-chevron{font-size:25px;color:#744dff}
-.drawer-scroll-btn{position:absolute;right:0;width:42px;height:52px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:#0b1411;color:#fff;font-size:21px;z-index:5}
+.drawer-provider-chevron{font-size:25px;color:#755bff}
+.drawer-scroll-btn{position:absolute;right:0;width:42px;height:52px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:#0b1411;color:#fff;font-size:21px}
 .drawer-up{top:36%}.drawer-down{top:49%}
 
-/* guía Canela: solo modal, sin parrilla debajo del reproductor */
+/* Canela guide only */
 .canela-guide-modal{position:fixed;inset:0;z-index:10020;display:none}
 .canela-guide-modal.open{display:block}
 .canela-guide-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)}
-.canela-guide-dialog{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,94vw);height:min(620px,86dvh);background:#100b0c;border:1px solid rgba(255,255,255,.18);border-radius:17px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 28px 90px rgba(0,0,0,.65)}
-.canela-guide-head{flex:0 0 auto;display:flex;align-items:center;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.13)}
-.canela-guide-head span{display:block;color:#ff596c;font-size:10px;font-weight:900;letter-spacing:1.4px}
-.canela-guide-head h2{font-size:16px;margin-top:2px}
+.canela-guide-dialog{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,94vw);height:min(620px,86dvh);background:#100b0c;border:1px solid rgba(255,255,255,.18);border-radius:17px;overflow:hidden;display:flex;flex-direction:column}
+.canela-guide-head{display:flex;align-items:center;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.13)}
+.canela-guide-head span{display:block;color:#ff596c;font-size:10px;font-weight:900;letter-spacing:1.4px}.canela-guide-head h2{font-size:16px;margin-top:2px}
 .canela-guide-head button{margin-left:auto;width:34px;height:34px;border:0;border-radius:50%;background:#343443;color:#fff;font-size:21px}
-.canela-guide-scroll{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;padding:14px;scrollbar-width:thin}
+.canela-guide-scroll{min-height:0;flex:1;overflow-y:auto;padding:14px;scrollbar-width:thin}
 .canela-guide-loading,.canela-guide-empty{padding:30px;text-align:center;color:#c5bebf}
 .guide-day{padding:10px 8px 6px;color:#fff;font-size:12px;font-weight:900;border-bottom:1px solid rgba(255,255,255,.09)}
 .guide-program{display:grid;grid-template-columns:78px minmax(0,1fr);gap:14px;padding:12px 9px;border-bottom:1px solid rgba(255,255,255,.08)}
 .guide-program.live{border:1px solid #da2440;border-radius:10px;background:rgba(160,17,38,.15);margin:5px 0}
-.guide-time{font-size:11px;color:#ff7083;font-weight:900;line-height:1.35}
-.guide-title{font-size:14px;font-weight:900}
-.guide-desc{font-size:10px;color:#c7bfc1;margin-top:5px;line-height:1.4}
+.guide-time{font-size:11px;color:#ff7083;font-weight:900;line-height:1.35}.guide-title{font-size:14px;font-weight:900}.guide-desc{font-size:10px;color:#c7bfc1;margin-top:5px;line-height:1.4}
 .guide-live{display:inline-block;margin-left:7px;padding:2px 5px;border-radius:4px;background:#fff;color:#b20c25;font-size:8px;font-weight:900}
 
-/* desktop arrows only; touch devices simply swipe */
 @media(max-width:720px),(hover:none) and (pointer:coarse){
   .nova-rail-btn,.drawer-scroll-btn{display:none!important}
   .category-rail-shell{padding:7px 10px}
   .channel-rail-shell{padding:12px 10px 18px}
-  .channel-row{flex-basis:132px!important;width:132px!important;min-width:132px!important;height:172px!important}
-  .channel-logo{height:122px!important;padding:7px!important}
-  .main-tab{min-width:94px;height:42px;font-size:14px}
-  .nova-left-actions{min-width:92px}
-  .top-actions{min-width:52px}
-  .player-favorite-btn{right:66px}
-  .player-report-btn{right:12px}
-  .player-guide-btn{right:120px}
-  .player-channel-card{width:min(390px,calc(100% - 112px))}
-}
-@media(max-width:480px){
-  .topbar{height:58px;padding-left:6px;padding-right:6px}
-  .nova-menu-btn,.nova-back-btn{width:38px;height:38px}
-  .main-tabs{gap:6px}
-  .main-tab{min-width:80px;padding:0 8px;font-size:12px}
-  .player-stage{min-height:205px}
-}
-
-/* NOVA+ TV 2.1 ajustes de espacio */
-.list-head{display:none!important}
-.channel-rail-shell{padding-top:14px!important;padding-bottom:14px!important}
-.channel-list{min-height:226px!important}
-.channel-row{height:220px!important}
-.channel-logo{height:158px!important}
-.channel-copy{min-height:58px!important;padding:10px 11px 12px!important;display:flex;align-items:center}
-.channel-name{white-space:normal!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.22;max-height:34px;overflow:hidden}
-.category-tabs .tab-chip:first-child{font-weight:900}
-@media(max-width:720px),(hover:none) and (pointer:coarse){
-  .channel-list{min-height:192px!important}
-  .channel-row{height:188px!important;flex-basis:144px!important;width:144px!important;min-width:144px!important}
-  .channel-logo{height:132px!important}
-  .channel-copy{min-height:52px!important;padding:8px 9px 9px!important}
+  .channel-row{flex-basis:142px!important;width:142px!important;min-width:142px!important;height:194px!important}
+  .channel-logo{height:138px!important;min-height:138px!important;padding:7px!important}
+  .main-tab{min-width:92px;height:42px}
+  .nova-left-actions{min-width:92px}.top-actions{min-width:52px}
 }
 </style>
 
@@ -1079,14 +1042,10 @@ body{background:#000}
       title="Agregar a favoritos"
       disabled
     >☆</button>
-
-    <button class="player-round-btn player-report-btn" id="playerReportBtn" type="button"
-      aria-label="Reportar canal" title="Reportar canal" disabled>
+    <button class="player-round-btn player-report-btn" id="playerReportBtn" type="button" aria-label="Reportar canal" title="Reportar canal" disabled>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.5 2.7 17a2 2 0 0 0 1.8 3h15a2 2 0 0 0 1.8-3L13.7 3.5a2 2 0 0 0-3.4 0Z"></path></svg>
     </button>
-
-    <button class="player-round-btn player-guide-btn" id="playerGuideBtn" type="button"
-      aria-label="Ver guía del canal" title="Ver guía" hidden>
+    <button class="player-round-btn player-guide-btn" id="playerGuideBtn" type="button" aria-label="Ver guía" title="Ver guía" hidden>
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg>
     </button>
   </section>
@@ -1107,7 +1066,6 @@ body{background:#000}
   </main>
 </div>
 
-<!-- NOVA+ TV 2.0: drawer de proveedores -->
 <aside class="playlist-drawer" id="playlistDrawer" aria-hidden="true">
   <div class="playlist-drawer-backdrop" id="playlistDrawerBackdrop"></div>
   <section class="playlist-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="playlistDrawerTitle">
@@ -1126,15 +1084,11 @@ body{background:#000}
   </section>
 </aside>
 
-<!-- La guía solo se usa para Canela.TV -->
 <div class="canela-guide-modal" id="canelaGuideModal" aria-hidden="true">
   <div class="canela-guide-backdrop" id="canelaGuideBackdrop"></div>
   <section class="canela-guide-dialog" role="dialog" aria-modal="true" aria-labelledby="canelaGuideTitle">
     <header class="canela-guide-head">
-      <div>
-        <span>GUÍA OFICIAL</span>
-        <h2 id="canelaGuideTitle">Programación</h2>
-      </div>
+      <div><span>GUÍA OFICIAL</span><h2 id="canelaGuideTitle">Programación</h2></div>
       <button id="canelaGuideClose" type="button" aria-label="Cerrar">×</button>
     </header>
     <div class="canela-guide-scroll" id="canelaGuideScroll">
@@ -1221,19 +1175,110 @@ const MAX_RENDER_DEFAULT = 1200;
 const MAX_RENDER_WITH_SEARCH = 2500;
 const PLAYER_UI_HIDE_DELAY = 3500;
 const IS_IPHONE = /iPhone|iPod/i.test(navigator.userAgent);
+const PLAYER_FIX_VERSION = "2026-07-28-hls-proxy-v2";
+const STREAM_DEVICE_KEY = "watch_tv_plus_stream_device_id_v1";
+
+function getStreamDeviceId(){
+  let value = localStorage.getItem(STREAM_DEVICE_KEY);
+  if(value) return value;
+
+  try{
+    value = crypto.randomUUID();
+  }catch(error){
+    value = "wtp-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
+  }
+
+  localStorage.setItem(STREAM_DEVICE_KEY,value);
+  return value;
+}
+
+function normalizeStreamUrl(rawUrl){
+  let value = String(rawUrl || "").trim();
+  if(!value) return "";
+
+  // Corrige enlaces mal formados encontrados en algunas listas FAST.
+  value = value.replace(/\.m3u8\?\?+/i,".m3u8?");
+
+  const deviceId = getStreamDeviceId();
+  const replacements = {
+    "[UA]":navigator.userAgent,
+    "[DEVICE_ID]":deviceId,
+    "[IFA]":deviceId,
+    "[NONCE]":Date.now().toString(),
+    "[FCK]":deviceId,
+    "[COUNTRY]":"MX",
+    "[LMT]":"0",
+    "[DNS]":"0",
+    "[GDPR]":"0",
+    "[GDPR_CONSENT]":"",
+    "[US_PRIVACY]":"1YNN",
+    "[DEVICE_TYPE]":IS_IPHONE ? "mobile" : "web",
+    "[DEVICE_MAKE]":IS_IPHONE ? "Apple" : "Browser",
+    "[DEVICE_MODEL]":IS_IPHONE ? "iPhone" : "Desktop",
+    "[APP_NAME]":"NOVA+",
+    "[APP_VERSION]":"1.0",
+    "[APP_BUNDLE]":location.hostname || "watch-tv-plus",
+    "[APP_STOREURL]":location.origin,
+    "[VIEWSIZE]":"1280x720",
+    "[TARGETAD_ALLOWED]":"1",
+    "[IFA_TYPE]":"dpid",
+    "[HOTEL_TYPE]":"",
+    "[IP]":""
+  };
+
+  Object.entries(replacements).forEach(([token,replacement]) => {
+    value = value.split(token).join(encodeURIComponent(replacement));
+  });
+
+  return value;
+}
+
+function guessStreamMimeType(url){
+  let value = String(url || "").trim();
+
+  try{
+    const parsed = new URL(value,location.href);
+    const nested = parsed.searchParams.get("url");
+    if(nested) value = decodeURIComponent(nested);
+  }catch(error){}
+
+  const clean = value.split("?")[0].toLowerCase();
+
+  if(clean.endsWith(".mp4")) return "video/mp4";
+  if(clean.endsWith(".mp3")) return "audio/mpeg";
+  if(clean.endsWith(".aac")) return "audio/aac";
+
+  if(
+    clean.endsWith(".m3u8") ||
+    clean.endsWith(".m3u") ||
+    clean.includes("/hls/") ||
+    clean.includes("playlist") ||
+    clean.includes("/stitch/")
+  ){
+    return "application/vnd.apple.mpegurl";
+  }
+
+  /*
+    La mayoría de canales del catálogo son HLS aunque su URL termine en
+    /proxy, .php o no tenga extensión. Solo se excluyen formatos directos
+    reconocidos arriba.
+  */
+  return "application/vnd.apple.mpegurl";
+}
+
 
 const PLAYLISTS = [
-  { id:"mexico", label:"México", files:["./listas/mexico.m3u"], logo:"https://png.pngtree.com/png-vector/20240301/ourmid/pngtree-mexico-flag-text-vector-transparent-png-image_11884268.png" },
-  { id:"pluto", label:"Pluto TV", files:["./listas/pluto.m3u"], logo:"https://upload.wikimedia.org/wikipedia/commons/c/c3/Pluto_TV_logo_2024.svg" },
-  { id:"lg", label:"LG Channels", files:["./listas/LG_Channels_Mexico_Oficial.m3u","./listas/LG_Channels_mx.m3u"], logo:"https://www.lg.com/us/images/LGchannels.png" },
-  { id:"vix", label:"ViX", files:["./listas/vix.m3u"], logo:"https://upload.wikimedia.org/wikipedia/commons/6/6a/ViX_Logo.svg" },
-  { id:"tubi", label:"Tubi TV", files:["./listas/tubi.m3u"], logo:"https://upload.wikimedia.org/wikipedia/commons/9/97/Tubi_logo_2024.svg" },
-  { id:"runtime", label:"Run Time", files:["./listas/runtime.m3u"], logo:"https://www.runtime.tv/themes/custom/run/runtime/logo.png" },
-  { id:"plex", label:"Plex TV", files:["./listas/plex_mx.m3u","./listas/plex.m3u"], logo:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Plex_logo_2022.svg" },
-  { id:"roku", label:"Roku Channel", files:["./listas/roku_all.m3u","./listas/roku.m3u"], logo:"https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Roku_Channel_Logo.svg" },
-  { id:"rakuten", label:"Rakuten TV", files:["./listas/rakutentv.m3u"], logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Rakuten_TV_logo.svg/3840px-Rakuten_TV_logo.svg.png" },
-  { id:"canela", label:"Canela.TV", files:["./listas/canela-tv.m3u","./listas/canela.m3u"], logo:"https://style.shockvisual.net/wp-content/uploads/2021/11/logo.png" },
-  { id:"espanol", label:"Español", files:["./listas/espanol.m3u"], logo:"https://www.shutterstock.com/image-vector/speaking-spanish-word-on-flag-260nw-2413776681.jpg" }
+  { id:"mexico", label:"México", file:"./listas/mexico.m3u", logo:"https://png.pngtree.com/png-vector/20240301/ourmid/pngtree-mexico-flag-text-vector-transparent-png-image_11884268.png" },
+  { id:"pluto", label:"Pluto TV", file:"./listas/pluto.m3u", logo:"https://upload.wikimedia.org/wikipedia/commons/c/c3/Pluto_TV_logo_2024.svg" },
+  { id:"lg", label:"LG Channels", file:"./listas/LG_Channels_mx.m3u", logo:"https://www.lg.com/us/images/LGchannels.png" },
+  { id:"vix", label:"ViX", file:"./listas/vix.m3u", logo:"https://upload.wikimedia.org/wikipedia/commons/6/6a/ViX_Logo.svg" },
+  { id:"tubi", label:"Tubi TV", file:"./listas/tubi.m3u", logo:"https://upload.wikimedia.org/wikipedia/commons/9/97/Tubi_logo_2024.svg" },
+  { id:"runtime", label:"Run Time", file:"./listas/runtime.m3u", logo:"https://www.runtime.tv/themes/custom/run/runtime/logo.png" },
+  { id:"plex", label:"Plex TV", file:"./listas/plex_mx.m3u", logo:"https://upload.wikimedia.org/wikipedia/commons/9/90/Plex_logo_2022.svg" },
+  { id:"roku", label:"Roku Channel", file:"./listas/roku_all.m3u", logo:"https://upload.wikimedia.org/wikipedia/commons/8/8c/Roku_logo.svg" },
+  { id:"rakuten", label:"Rakuten TV", file:"./listas/rakutentv.m3u", logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Rakuten_TV_logo.svg/3840px-Rakuten_TV_logo.svg.png" },
+  { id:"canela", label:"Canela.TV", file:"./listas/canela-tv.m3u", logo:"https://style.shockvisual.net/wp-content/uploads/2021/11/logo.png" },
+  { id:"espanol", label:"Español", file:"./listas/espanol.m3u", logo:"https://www.shutterstock.com/image-vector/speaking-spanish-word-on-flag-260nw-2413776681.jpg" }
 ];
 
 const playerStage = document.getElementById("playerStage");
@@ -1267,7 +1312,6 @@ const playerChannelNumber = document.getElementById("playerChannelNumber");
 const playerChannelMeta = document.getElementById("playerChannelMeta");
 
 let player = null;
-let nativeHls = null;
 let currentChannel = null;
 let currentUrl = "";
 let currentChannelKey = "";
@@ -1285,6 +1329,7 @@ let toastTimer = null;
 let clapprControlObserver = null;
 let channelReportStates = new Map();
 let reportStateTimer = null;
+let playerAttemptToken = 0;
 
 async function init(){
   buildSectionTabs();
@@ -1418,23 +1463,11 @@ async function loadAllPlaylists(){
   allChannels = [];
   channelsBySection = {};
 
-  const results = await Promise.all(PLAYLISTS.filter(pl => pl.file || (pl.files && pl.files.length)).map(async pl => {
+  const results = await Promise.all(PLAYLISTS.filter(pl => pl.file).map(async pl => {
     try{
-      const candidates = [...(pl.files || []), ...(pl.file ? [pl.file] : [])].filter(Boolean);
-      let text = "";
-      let lastError = null;
-      for(const playlistFile of candidates){
-        try{
-          const response = await fetch(playlistFile + "?v=" + Date.now(), {cache:"no-store"});
-          if(!response.ok) throw new Error("HTTP " + response.status);
-          text = await response.text();
-          pl.loadedFile = playlistFile;
-          break;
-        }catch(error){
-          lastError = error;
-        }
-      }
-      if(!text) throw lastError || new Error("No se encontró la lista");
+      const response = await fetch(pl.file + "?v=" + Date.now(), {cache:"no-store"});
+      if(!response.ok) throw new Error("HTTP " + response.status);
+      const text = await response.text();
       const channels = parseM3U(text).map((channel,index) => ({
         ...channel,
         section:pl.id,
@@ -1522,7 +1555,7 @@ function parseM3U(text){
 
     if(current && (line.startsWith("http://") || line.startsWith("https://"))){
       const stream = parseStreamLine(line);
-      current.url = stream.url;
+      current.url = normalizeStreamUrl(stream.url);
       current.referrer = stream.referrer || current.referrer;
       current.userAgent = stream.userAgent || current.userAgent;
       current.type = guessType(current);
@@ -1544,47 +1577,9 @@ function getAttributes(line){
   return attrs;
 }
 
-
-function getNovaDeviceId(){
-  const key = "nova_tv_device_id_v1";
-  let id = localStorage.getItem(key);
-  if(!id){
-    id = (crypto && crypto.randomUUID) ? crypto.randomUUID() : "nova-" + Math.random().toString(36).slice(2) + Date.now().toString(36);
-    localStorage.setItem(key,id);
-  }
-  return id;
-}
-
-function expandStreamMacros(input){
-  let url = String(input || "").trim();
-  if(!url) return url;
-
-  const deviceId = getNovaDeviceId();
-  const replacements = {
-    "[DEVICE_ID]":deviceId, "[IFA]":deviceId, "[IFA_TYPE]":"rida",
-    "[LMT]":"1", "[DNS]":"1", "[DNT]":"1", "[COUNTRY]":"MX",
-    "[US_PRIVACY]":"1---", "[GDPR]":"0", "[GDPR_CONSENT]":"",
-    "[APP_BUNDLE]":"website.novaplus", "[APP_NAME]":"NOVA+ TV",
-    "[APP_VERSION]":"2.0", "[APP_STOREURL]":"https://novaplus.website/",
-    "[DEVICE_TYPE]":"web", "[DEVICE_MAKE]":"generic", "[DEVICE_MODEL]":"browser",
-    "[TARGETAD_ALLOWED]":"1", "[FCK]":deviceId, "[VIEWSIZE]":"1280x720",
-    "[NONCE]":Date.now().toString(), "[URL]":"https://novaplus.website/tv/",
-    "[CONTENT_LIVE]":"1", "[CONTENT_LIVESTREAM]":"1", "[COPPA]":"0",
-    "[IDTYPE]":"rida", "[PRODQ]":"high", "[INV_PARTNER_DOMAIN]":"novaplus.website",
-    "[SCHAIN]":"", "[GPP]":"", "[GPP_SID]":"", "[WEBOS_VERSION]":"web"
-  };
-
-  Object.entries(replacements).forEach(([token,value]) => {
-    url = url.split(token).join(encodeURIComponent(value));
-  });
-  url = url.split("[UA]").join(encodeURIComponent(navigator.userAgent));
-  url = url.split("[IP]").join("");
-  return url;
-}
-
 function parseStreamLine(line){
   const parts = String(line).split("|");
-  const url = expandStreamMacros(parts.shift().trim());
+  const url = parts.shift().trim();
   const options = parts.join("&");
   const result = {url,referrer:"",userAgent:""};
 
@@ -1680,7 +1675,6 @@ function setSection(section){
   buildCategories();
   renderChannels();
 
-  // Al cambiar de lista siempre empezar desde el canal 1.
   if(activeSection !== "favorites"){
     const firstChannel = getSectionChannels(false)[0];
     if(firstChannel) loadChannel(firstChannel);
@@ -1715,9 +1709,9 @@ function buildCategories(){
 
   categoryTabs.innerHTML = "";
 
-  const availableCount = source.length;
+  const channelCount = source.length;
   const choices = [
-    {value:"all",label:`Lista de ${availableCount} Canales disponibles`},
+    {value:"all",label:`Lista de ${channelCount} Canales disponibles`},
     ...categories.map(category => ({value:category,label:category}))
   ];
 
@@ -1916,6 +1910,7 @@ function openChannelReport(channel,displayNumber){
 }
 
 function loadChannel(channel){
+  playerAttemptToken += 1;
   currentChannel = channel;
   currentUrl = channel.url;
   currentChannelKey = getChannelKey(channel);
@@ -1930,146 +1925,122 @@ function loadChannel(channel){
   playChannelCandidate(channel,candidates,0);
 }
 
-function playChannelCandidate(channel,candidates,index){
+function playChannelCandidate(channel,candidates,index,attemptToken = playerAttemptToken){
+  if(attemptToken !== playerAttemptToken || currentChannelKey !== getChannelKey(channel)) return;
+
   if(index >= candidates.length){
     showToast("No se pudo abrir este canal");
     showPlayerUi();
     return;
   }
-  playClapprCandidate(channel,candidates,index);
-}
 
-function playClapprCandidate(channel,candidates,index){
   const streamUrl = candidates[index];
+  const mimeType = guessStreamMimeType(streamUrl);
   const plugins = [];
-  if(window.HlsjsPlayback) plugins.push(window.HlsjsPlayback);
+
+  if(window.HlsjsPlayback && mimeType === "application/vnd.apple.mpegurl"){
+    plugins.push(window.HlsjsPlayback);
+  }
+
   let started = false;
   let fallbackTimer = null;
-  let failed = false;
+  let errorTimer = null;
+  let fallbackStarted = false;
 
-  const failToNative = () => {
-    if(failed || started || currentChannelKey !== getChannelKey(channel)) return;
-    failed = true;
+  const tryNext = delay => {
+    if(fallbackStarted) return;
+    fallbackStarted = true;
     clearTimeout(fallbackTimer);
-    playNativeHlsCandidate(channel,candidates,index);
-  };
+    clearTimeout(errorTimer);
 
-  destroyPlayer();
-  console.log(`Clappr ${index + 1}/${candidates.length}:`,streamUrl);
-
-  try{
-    player = new Clappr.Player({
-      source:streamUrl,
-      parentId:"#player",
-      plugins,
-      autoPlay:true,
-      mute:false,
-      playInline:true,
-      width:"100%",
-      height:"100%",
-      hideMediaControl:false,
-      hideMediaControlDelay:PLAYER_UI_HIDE_DELAY,
-      mimeType:"application/vnd.apple.mpegurl",
-      hlsPlayback:{preload:true},
-      playback:{
-        playInline:true,
-        hlsjsConfig:{
-          enableWorker:true,
-          lowLatencyMode:false,
-          liveSyncDurationCount:3,
-          maxBufferLength:24,
-          manifestLoadingMaxRetry:3,
-          manifestLoadingRetryDelay:650,
-          levelLoadingMaxRetry:3,
-          levelLoadingRetryDelay:650,
-          fragLoadingMaxRetry:4,
-          fragLoadingRetryDelay:650,
-          keyLoadingMaxRetry:2,
-          keyLoadingRetryDelay:650
-        }
-      },
-      events:{
-        onReady(){
-          syncVideoEvents();
-          prepareClapprControls();
-          showPlayerUi();
-          fallbackTimer = setTimeout(failToNative,5500);
-        },
-        onPlay(){
-          started = true;
-          clearTimeout(fallbackTimer);
-          showPlayerUi();
-        },
-        onPause(){showPlayerUi()},
-        onError(error){
-          console.log("Clappr error:",error);
-          failToNative();
-        }
+    setTimeout(() => {
+      if(
+        !started &&
+        attemptToken === playerAttemptToken &&
+        currentChannelKey === getChannelKey(channel)
+      ){
+        playChannelCandidate(channel,candidates,index + 1,attemptToken);
       }
-    });
-  }catch(error){
-    console.log("Clappr init error:",error);
-    failToNative();
-  }
-}
-
-function playNativeHlsCandidate(channel,candidates,index){
-  if(index >= candidates.length){
-    showToast("No se pudo abrir este canal");
-    return;
-  }
-  const streamUrl = candidates[index];
-  destroyPlayer();
-  console.log(`Hls.js ${index + 1}/${candidates.length}:`,streamUrl);
-
-  const host = document.getElementById("player");
-  const video = document.createElement("video");
-  video.controls = true;
-  video.autoplay = true;
-  video.playsInline = true;
-  video.setAttribute("playsinline","");
-  video.setAttribute("webkit-playsinline","");
-  video.style.cssText = "width:100%;height:100%;object-fit:contain;background:#000";
-  host.appendChild(video);
-
-  let started = false;
-  let timer = null;
-  const next = () => {
-    clearTimeout(timer);
-    if(started || currentChannelKey !== getChannelKey(channel)) return;
-    playChannelCandidate(channel,candidates,index + 1);
+    },delay);
   };
-  video.addEventListener("playing",()=>{started=true;clearTimeout(timer);showPlayerUi()},{once:true});
-  video.addEventListener("error",next,{once:true});
 
-  if(video.canPlayType("application/vnd.apple.mpegurl")){
-    video.src = streamUrl;
-    video.play().catch(()=>{});
-    timer=setTimeout(next,6500);
-    return;
-  }
+  destroyPlayer();
+  console.log(`Intento ${index + 1}/${candidates.length}:`,streamUrl);
 
-  if(window.Hls && Hls.isSupported()){
-    nativeHls = new Hls({
-      enableWorker:true,
-      lowLatencyMode:false,
-      liveSyncDurationCount:3,
-      maxBufferLength:24,
-      manifestLoadingMaxRetry:3,
-      levelLoadingMaxRetry:3,
-      fragLoadingMaxRetry:4
-    });
-    nativeHls.on(Hls.Events.ERROR,(event,data)=>{
-      if(data && data.fatal) next();
-    });
-    nativeHls.loadSource(streamUrl);
-    nativeHls.attachMedia(video);
-    nativeHls.on(Hls.Events.MANIFEST_PARSED,()=>video.play().catch(()=>{}));
-    timer=setTimeout(next,6500);
-    return;
-  }
+  player = new Clappr.Player({
+    source:streamUrl,
+    parentId:"#player",
+    plugins,
+    autoPlay:true,
+    mute:false,
+    playInline:true,
+    width:"100%",
+    height:"100%",
+    hideMediaControl:false,
+    hideMediaControlDelay:PLAYER_UI_HIDE_DELAY,
+    ...(mimeType ? {mimeType} : {}),
+    hlsPlayback:{preload:true},
+    playback:{
+      playInline:true,
+      hlsjsConfig:{
+        enableWorker:true,
+        lowLatencyMode:false,
+        liveSyncDurationCount:3,
+        liveMaxLatencyDurationCount:10,
+        maxBufferLength:30,
+        backBufferLength:15,
+        manifestLoadingTimeOut:15000,
+        manifestLoadingMaxRetry:8,
+        manifestLoadingRetryDelay:1200,
+        levelLoadingTimeOut:15000,
+        levelLoadingMaxRetry:8,
+        levelLoadingRetryDelay:1200,
+        fragLoadingTimeOut:20000,
+        fragLoadingMaxRetry:8,
+        fragLoadingRetryDelay:1200,
+        keyLoadingTimeOut:15000,
+        keyLoadingMaxRetry:5,
+        keyLoadingRetryDelay:1200
+      }
+    },
+    events:{
+      onReady(){
+        if(attemptToken !== playerAttemptToken) return;
+        syncVideoEvents();
+        prepareClapprControls();
+        showPlayerUi();
 
-  next();
+        /*
+          No abandonar demasiado pronto un canal válido. Los proveedores FAST
+          pueden tardar por redirecciones, publicidad SSAI o manifiestos anidados.
+        */
+        fallbackTimer = setTimeout(() => {
+          if(!started) tryNext(0);
+        },12000);
+      },
+      onPlay(){
+        if(attemptToken !== playerAttemptToken) return;
+        started = true;
+        clearTimeout(fallbackTimer);
+        clearTimeout(errorTimer);
+        showPlayerUi();
+      },
+      onPause(){showPlayerUi()},
+      onError(error){
+        console.log("Clappr error:",error);
+        if(attemptToken !== playerAttemptToken || started) return;
+
+        /*
+          Clappr/Hls.js emite errores recuperables durante cambios de nivel,
+          publicidad o recarga del manifiesto. Se espera antes de cambiar de URL.
+        */
+        clearTimeout(errorTimer);
+        errorTimer = setTimeout(() => {
+          if(!started) tryNext(0);
+        },3500);
+      }
+    }
+  });
 }
 
 function isMexicoGeoRestrictedAkamai(url){
@@ -2102,17 +2073,24 @@ function shouldUseProxy(channel){
   if(url.startsWith("http://") && location.protocol === "https:") return true;
 
   // Estos enlaces o cabeceras especiales sí necesitan el Worker.
-  // Los redirectores jmp2 funcionan mejor directos primero; el proxy queda como respaldo.
-  if(url.includes("jmp2.uk/")) return false;
+  if(url.includes("jmp2.uk/plu-")) return true;
   if(channel.referrer || channel.userAgent) return true;
 
   return USE_PROXY_FOR_ALL;
 }
 
 function buildProxyUrl(channel,url = channel.url){
-  let playable = PROXY_BASE + encodeURIComponent(url);
-  if(channel.referrer) playable += "&ref=" + encodeURIComponent(channel.referrer);
-  if(channel.userAgent) playable += "&ua=" + encodeURIComponent(channel.userAgent);
+  const normalizedUrl = normalizeStreamUrl(url);
+  let playable = PROXY_BASE + encodeURIComponent(normalizedUrl);
+
+  if(channel.referrer){
+    playable += "&ref=" + encodeURIComponent(channel.referrer);
+  }
+
+  if(channel.userAgent){
+    playable += "&ua=" + encodeURIComponent(channel.userAgent);
+  }
+
   return playable;
 }
 
@@ -2124,53 +2102,49 @@ function getPlayableUrl(channel){
 function getStreamCandidates(channel){
   const candidates = [];
   const add = url => {
-    if(url && !candidates.includes(url)) candidates.push(url);
+    const value = String(url || "").trim();
+    if(value && !candidates.includes(value)) candidates.push(value);
   };
 
-  const original = expandStreamMacros(String(channel.url || ""));
+  const original = normalizeStreamUrl(channel.url);
   const proxied = buildProxyUrl(channel,original);
+  const isHttpMixed = original.startsWith("http://") && location.protocol === "https:";
+  const proxyFirstSections = new Set([
+    "pluto","tubi","runtime","plex","roku","rakuten"
+  ]);
 
+  /*
+    Los hosts terminados en -onlymex necesitan la IP mexicana real del
+    visitante y no deben salir por Cloudflare.
+  */
   if(isMexicoGeoRestrictedAkamai(original)){
-    // Akamai restringido por país: directo primero.
     add(original);
-
-    try{
-      const parsed = new URL(original);
-      const genericHost = parsed.hostname.replace("-onlymex.akamaized.net",".akamaized.net");
-      if(genericHost !== parsed.hostname){
-        add(`${parsed.protocol}//${genericHost}${parsed.pathname}${parsed.search}`);
-      }
-    }catch(error){}
-
-    add(proxied);
     return candidates;
   }
 
-  if(isPlutoStream(original)){
-    // Pluto y otros servicios con tokens firmados no deben alterarse.
-    add(original);
+  /*
+    Pluto y otros servicios FAST suelen bloquear CORS o redirigir a
+    manifiestos/segmentos que también necesitan CORS. En ellos se usa primero
+    el Worker, y el enlace directo queda como respaldo.
+  */
+  if(proxyFirstSections.has(channel.section)){
     add(proxied);
+    if(!isHttpMixed) add(original);
     return candidates;
   }
 
-  if(shouldUseProxy(channel)){
-    // Contenido HTTP o streams que requieren Referer/User-Agent.
+  if(isHttpMixed || channel.referrer || channel.userAgent){
     add(proxied);
-    if(!original.startsWith("http://") || location.protocol !== "https:") add(original);
-  }else{
-    // Para la mayoría de HTTPS, directo primero y proxy como respaldo.
-    add(original);
-    add(proxied);
+    if(!isHttpMixed) add(original);
+    return candidates;
   }
 
+  add(original);
+  add(proxied);
   return candidates;
 }
 
 function destroyPlayer(){
-  if(nativeHls){
-    try{nativeHls.destroy()}catch(error){}
-    nativeHls = null;
-  }
   if(clapprControlObserver){
     clapprControlObserver.disconnect();
     clapprControlObserver = null;
@@ -2420,8 +2394,8 @@ function closeLegalModal(){
 
 async function shareCurrentPage(){
   const shareData = {
-    title:"NOVA+ TV",
-    text:"Mira canales en vivo en NOVA+ TV",
+    title:"NOVA+",
+    text:"Mira canales en vivo en NOVA+",
     url:location.href
   };
 
@@ -2519,9 +2493,7 @@ function getInitials(name){return String(name || "TV").split(" ").filter(Boolean
 function escapeHtml(text){return String(text || "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 
 
-/* ===========================
-   NOVA+ TV 2.0
-   =========================== */
+/* NOVA+ layout 2.2 — el reproductor inferior permanece intacto desde la versión estable */
 const playerReportBtn = document.getElementById("playerReportBtn");
 const playerGuideBtn = document.getElementById("playerGuideBtn");
 const playlistDrawer = document.getElementById("playlistDrawer");
@@ -2540,241 +2512,162 @@ const CANELA_EPG_URL = (window.WATCH_TV_CONFIG && window.WATCH_TV_CONFIG.CANELA_
 function openPlaylistDrawer(){
   playlistDrawer.classList.add("open");
   playlistDrawer.setAttribute("aria-hidden","false");
-  document.body.style.overflow = "hidden";
+  document.body.style.overflow="hidden";
   renderProviderDrawer();
 }
 function closePlaylistDrawer(){
   playlistDrawer.classList.remove("open");
   playlistDrawer.setAttribute("aria-hidden","true");
-  document.body.style.overflow = "";
+  document.body.style.overflow="";
 }
 playlistDrawerOpen?.addEventListener("click",openPlaylistDrawer);
 playlistDrawerClose?.addEventListener("click",closePlaylistDrawer);
 playlistDrawerBackdrop?.addEventListener("click",closePlaylistDrawer);
-document.addEventListener("keydown",event => {
-  if(event.key === "Escape"){
-    if(playlistDrawer.classList.contains("open")) closePlaylistDrawer();
-    if(canelaGuideModal.classList.contains("open")) closeCanelaGuide();
-  }
-});
 
 function renderProviderDrawer(){
-  if(!drawerProviderList) return;
-  drawerProviderList.innerHTML = "";
-  PLAYLISTS.forEach(pl => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "drawer-provider-item" + (activeSection === pl.id ? " active" : "");
-    button.innerHTML = `
-      <span>${pl.logo ? `<img src="${escapeHtml(pl.logo)}" alt="" referrerpolicy="no-referrer">` : "TV"}</span>
+  drawerProviderList.innerHTML="";
+  PLAYLISTS.forEach(pl=>{
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="drawer-provider-item"+(activeSection===pl.id?" active":"");
+    button.innerHTML=`
+      <span>${pl.logo?`<img src="${escapeHtml(pl.logo)}" alt="" referrerpolicy="no-referrer">`:"TV"}</span>
       <span class="drawer-provider-copy"><b>${escapeHtml(pl.label)}</b><small>Cambiar lista de canales</small></span>
       <span class="drawer-provider-chevron">›</span>`;
-    button.addEventListener("click",() => setSection(pl.id));
+    button.addEventListener("click",()=>setSection(pl.id));
     drawerProviderList.appendChild(button);
   });
 }
-document.getElementById("drawerProvidersUp")?.addEventListener("click",() => drawerProviderList.scrollBy({top:-260,behavior:"smooth"}));
-document.getElementById("drawerProvidersDown")?.addEventListener("click",() => drawerProviderList.scrollBy({top:260,behavior:"smooth"}));
+document.getElementById("drawerProvidersUp")?.addEventListener("click",()=>drawerProviderList.scrollBy({top:-260,behavior:"smooth"}));
+document.getElementById("drawerProvidersDown")?.addEventListener("click",()=>drawerProviderList.scrollBy({top:260,behavior:"smooth"}));
 
 function installNovaRails(){
-  // categorías
   if(categoryTabs && !categoryTabs.parentElement.classList.contains("category-rail-shell")){
-    const shell = document.createElement("div");
-    shell.className = "category-rail-shell";
-    categoryTabs.parentNode.insertBefore(shell,categoryTabs);
-    shell.appendChild(categoryTabs);
+    const shell=document.createElement("div"); shell.className="category-rail-shell";
+    categoryTabs.parentNode.insertBefore(shell,categoryTabs); shell.appendChild(categoryTabs);
     shell.insertAdjacentHTML("afterbegin",'<button class="nova-rail-btn prev" type="button" aria-label="Categorías anteriores">◀</button>');
     shell.insertAdjacentHTML("beforeend",'<button class="nova-rail-btn next" type="button" aria-label="Categorías siguientes">▶</button>');
     shell.querySelector(".prev").addEventListener("click",()=>categoryTabs.scrollBy({left:-430,behavior:"smooth"}));
     shell.querySelector(".next").addEventListener("click",()=>categoryTabs.scrollBy({left:430,behavior:"smooth"}));
   }
-
-  // canales
   if(channelList && !channelList.parentElement.classList.contains("channel-rail-shell")){
-    const shell = document.createElement("div");
-    shell.className = "channel-rail-shell";
-    channelList.parentNode.insertBefore(shell,channelList);
-    shell.appendChild(channelList);
+    const shell=document.createElement("div"); shell.className="channel-rail-shell";
+    channelList.parentNode.insertBefore(shell,channelList); shell.appendChild(channelList);
     shell.insertAdjacentHTML("afterbegin",'<button class="nova-rail-btn prev" type="button" aria-label="Canales anteriores">◀</button>');
     shell.insertAdjacentHTML("beforeend",'<button class="nova-rail-btn next" type="button" aria-label="Canales siguientes">▶</button>');
-    shell.querySelector(".prev").addEventListener("click",()=>channelList.scrollBy({left:-620,behavior:"smooth"}));
-    shell.querySelector(".next").addEventListener("click",()=>channelList.scrollBy({left:620,behavior:"smooth"}));
+    shell.querySelector(".prev").addEventListener("click",()=>channelList.scrollBy({left:-650,behavior:"smooth"}));
+    shell.querySelector(".next").addEventListener("click",()=>channelList.scrollBy({left:650,behavior:"smooth"}));
   }
-
-  // Canales/Favoritos pasan al encabezado.
-  const mainTabs = document.querySelector(".main-tabs");
-  if(mainTabs && topbar && mainTabs.parentElement !== topbar){
+  const mainTabs=document.querySelector(".main-tabs");
+  if(mainTabs && mainTabs.parentElement!==topbar){
     topbar.insertBefore(mainTabs,topbar.querySelector(".top-actions"));
   }
 }
 installNovaRails();
 
 function updateNovaPlayerActions(){
-  const available = Boolean(currentChannel && currentChannel.url);
-  if(playerReportBtn){
-    playerReportBtn.disabled = !available || currentChannel?.type !== "video";
-  }
+  const available=Boolean(currentChannel&&currentChannel.url);
+  if(playerReportBtn) playerReportBtn.disabled=!available||currentChannel?.type!=="video";
   if(playerGuideBtn){
-    // La guía aparece únicamente para Canela.TV.
-    const isCanela = available && currentChannel?.section === "canela";
-    playerGuideBtn.hidden = !isCanela;
-    playerGuideBtn.disabled = !isCanela;
+    const canela=available&&currentChannel?.section==="canela";
+    playerGuideBtn.hidden=!canela; playerGuideBtn.disabled=!canela;
   }
 }
-playerReportBtn?.addEventListener("click",() => {
-  if(!currentChannel) return;
-  const displayNumber = String(currentChannel.channelNumber || currentChannel.sectionIndex || "---").padStart(3,"0");
+playerReportBtn?.addEventListener("click",()=>{
+  if(!currentChannel)return;
+  const displayNumber=String(currentChannel.channelNumber||currentChannel.sectionIndex||"---").padStart(3,"0");
   openChannelReport(currentChannel,displayNumber);
 });
-playerGuideBtn?.addEventListener("click",openCanelaGuide);
 
 function closeCanelaGuide(){
   canelaGuideModal.classList.remove("open");
   canelaGuideModal.setAttribute("aria-hidden","true");
-  document.body.style.overflow = "";
+  document.body.style.overflow="";
 }
 canelaGuideClose?.addEventListener("click",closeCanelaGuide);
 canelaGuideBackdrop?.addEventListener("click",closeCanelaGuide);
+playerGuideBtn?.addEventListener("click",openCanelaGuide);
 
 function epgNorm(value){
-  return String(value || "")
-    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-    .toLowerCase().replace(/canela\.?\s*tv/g,"")
-    .replace(/[^a-z0-9]+/g,"")
-    .trim();
+  return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
+    .replace(/canela\.?\s*tv/g,"").replace(/[^a-z0-9]+/g,"").trim();
 }
 function epgText(list){
-  if(!Array.isArray(list)) return "";
-  const es = list.find(item => String(item?.lang || "").toLowerCase().startsWith("es"));
-  return String((es || list[0] || {}).n || "");
+  if(!Array.isArray(list))return "";
+  const es=list.find(item=>String(item?.lang||"").toLowerCase().startsWith("es"));
+  return String((es||list[0]||{}).n||"");
 }
 function toCanelaPrograms(payload,channel){
-  const wanted = new Set([
-    epgNorm(channel?.epgId),
-    epgNorm(channel?.id),
-    epgNorm(channel?.name),
-    epgNorm(channel?.rawName)
-  ].filter(Boolean));
-
-  // Worker normalizado, si existe.
-  if(Array.isArray(payload?.channels)){
-    const matched = payload.channels.find(item => {
-      const keys = [item.id,item.slug,item.name,item.externalId].map(epgNorm).filter(Boolean);
-      return keys.some(key => wanted.has(key) || [...wanted].some(w => w && (key.includes(w) || w.includes(key))));
-    });
-    if(matched){
-      return (matched.programs || []).map(p => ({
-        title:p.title || p.name || "Programa",
-        description:p.description || "",
-        start:p.start || p.startTime || p.sc_st_dt,
-        end:p.end || p.endTime || p.sc_ed_dt
-      })).filter(p => p.start);
-    }
-  }
-
-  // Respuesta oficial/raw de Canela.
-  const airings = [];
-  (Array.isArray(payload?.data) ? payload.data : []).forEach(group => {
-    (group?.airing || []).forEach(a => airings.push(a));
+  const wanted=new Set([epgNorm(channel?.epgId),epgNorm(channel?.id),epgNorm(channel?.name),epgNorm(channel?.rawName)].filter(Boolean));
+  const airings=[];
+  (Array.isArray(payload?.data)?payload.data:[]).forEach(group=>(group?.airing||[]).forEach(a=>airings.push(a)));
+  let matched=airings.filter(a=>{
+    const keys=[a?.id,a?.key,a?.pgm_id,a?.ch?.cs,a?.ch?.ex_id,...(a?.ep||[]).map(x=>x?.id)].map(epgNorm).filter(Boolean);
+    return keys.some(key=>wanted.has(key)||[...wanted].some(w=>w&&(key.includes(w)||w.includes(key))));
   });
-
-  let matchedAirings = airings.filter(a => {
-    const keys = [
-      a?.id,a?.key,a?.pgm_id,a?.ch?.cs,a?.ch?.ex_id,
-      ...(a?.ep || []).map(x => x?.id)
-    ].map(epgNorm).filter(Boolean);
-    return keys.some(key => wanted.has(key) || [...wanted].some(w => w && (key.includes(w) || w.includes(key))));
-  });
-
-  // Si el M3U usa "Canela.TV Novelas y Dramas", permitir coincidencia por palabras del nombre.
-  if(!matchedAirings.length){
-    const words = String(channel?.name || "").toLowerCase()
-      .replace(/canela\.?\s*tv/g,"").split(/[^a-záéíóúñ0-9]+/i).filter(w => w.length >= 4);
-    matchedAirings = airings.filter(a => {
-      const blob = [
-        a?.id,a?.key,a?.ch?.cs,
-        ...(a?.ep || []).map(x => x?.id),
-        epgText(a?.pgm?.lon)
-      ].join(" ").toLowerCase();
-      return words.length && words.some(word => blob.includes(word));
+  if(!matched.length){
+    const words=String(channel?.name||"").toLowerCase().replace(/canela\.?\s*tv/g,"").split(/[^a-záéíóúñ0-9]+/i).filter(w=>w.length>=4);
+    matched=airings.filter(a=>{
+      const blob=[a?.id,a?.key,a?.ch?.cs,...(a?.ep||[]).map(x=>x?.id),epgText(a?.pgm?.lon)].join(" ").toLowerCase();
+      return words.length&&words.some(word=>blob.includes(word));
     });
   }
-
-  return matchedAirings.map(a => ({
-    title:epgText(a?.pgm?.lon) || epgText(a?.pgm?.lod) || "Programa",
-    description:epgText(a?.pgm?.lod) || epgText(a?.pgm?.lold) || "",
-    start:a?.sc_st_dt,
-    end:a?.sc_ed_dt
-  })).filter(p => p.start);
+  return matched.map(a=>({
+    title:epgText(a?.pgm?.lon)||epgText(a?.pgm?.lod)||"Programa",
+    description:epgText(a?.pgm?.lod)||epgText(a?.pgm?.lold)||"",
+    start:a?.sc_st_dt,end:a?.sc_ed_dt
+  })).filter(p=>p.start);
 }
 function formatGuideTime(value){
-  const date = new Date(value);
-  if(Number.isNaN(date.getTime())) return "";
-  return date.toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"});
+  const d=new Date(value); if(Number.isNaN(d.getTime()))return "";
+  return d.toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"});
 }
 function formatGuideDay(value){
-  const date = new Date(value);
-  if(Number.isNaN(date.getTime())) return "";
-  return date.toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"});
+  const d=new Date(value); if(Number.isNaN(d.getTime()))return "";
+  return d.toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"});
 }
 async function openCanelaGuide(){
-  if(!currentChannel || currentChannel.section !== "canela") return;
-  canelaGuideTitle.textContent = `Programación · ${currentChannel.name}`;
-  canelaGuideScroll.innerHTML = '<div class="canela-guide-loading">Cargando programación…</div>';
-  canelaGuideModal.classList.add("open");
-  canelaGuideModal.setAttribute("aria-hidden","false");
-  document.body.style.overflow = "hidden";
-
+  if(!currentChannel||currentChannel.section!=="canela")return;
+  canelaGuideTitle.textContent=`Programación · ${currentChannel.name}`;
+  canelaGuideScroll.innerHTML='<div class="canela-guide-loading">Cargando programación…</div>';
+  canelaGuideModal.classList.add("open"); canelaGuideModal.setAttribute("aria-hidden","false"); document.body.style.overflow="hidden";
   try{
-    const response = await fetch(CANELA_EPG_URL + "?v=" + Date.now(),{cache:"no-store"});
-    if(!response.ok) throw new Error("HTTP " + response.status);
-    const payload = await response.json();
-    const programs = toCanelaPrograms(payload,currentChannel)
-      .sort((a,b) => new Date(a.start) - new Date(b.start));
-
+    const response=await fetch(CANELA_EPG_URL+"?v="+Date.now(),{cache:"no-store"});
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    const payload=await response.json();
+    const programs=toCanelaPrograms(payload,currentChannel).sort((a,b)=>new Date(a.start)-new Date(b.start));
     if(!programs.length){
-      canelaGuideScroll.innerHTML = '<div class="canela-guide-empty">Programación no disponible para este canal.</div>';
-      return;
+      canelaGuideScroll.innerHTML='<div class="canela-guide-empty">Programación no disponible para este canal.</div>'; return;
     }
-
-    const now = Date.now();
-    let lastDay = "";
-    const html = [];
-    programs.forEach(program => {
-      const day = formatGuideDay(program.start);
-      if(day !== lastDay){
-        lastDay = day;
-        html.push(`<div class="guide-day">${escapeHtml(day)}</div>`);
-      }
-      const start = new Date(program.start).getTime();
-      const end = program.end ? new Date(program.end).getTime() : start;
-      const live = start <= now && now < end;
-      html.push(`
-        <article class="guide-program ${live ? "live" : ""}">
-          <div class="guide-time">${escapeHtml(formatGuideTime(program.start))}<br>${program.end ? escapeHtml(formatGuideTime(program.end)) : ""}</div>
-          <div>
-            <div class="guide-title">${escapeHtml(program.title)}${live ? '<span class="guide-live">LIVE</span>' : ""}</div>
-            ${program.description ? `<div class="guide-desc">${escapeHtml(program.description)}</div>` : ""}
-          </div>
-        </article>`);
+    const now=Date.now(); let lastDay=""; const parts=[];
+    programs.forEach(p=>{
+      const day=formatGuideDay(p.start);
+      if(day!==lastDay){lastDay=day;parts.push(`<div class="guide-day">${escapeHtml(day)}</div>`);}
+      const start=new Date(p.start).getTime(),end=p.end?new Date(p.end).getTime():start,live=start<=now&&now<end;
+      parts.push(`<article class="guide-program ${live?"live":""}"><div class="guide-time">${escapeHtml(formatGuideTime(p.start))}<br>${p.end?escapeHtml(formatGuideTime(p.end)):""}</div><div><div class="guide-title">${escapeHtml(p.title)}${live?'<span class="guide-live">LIVE</span>':""}</div>${p.description?`<div class="guide-desc">${escapeHtml(p.description)}</div>`:""}</div></article>`);
     });
-    canelaGuideScroll.innerHTML = html.join("");
-    const liveCard = canelaGuideScroll.querySelector(".guide-program.live");
-    if(liveCard) liveCard.scrollIntoView({block:"center"});
+    canelaGuideScroll.innerHTML=parts.join("");
+    canelaGuideScroll.querySelector(".guide-program.live")?.scrollIntoView({block:"center"});
   }catch(error){
     console.error("Canela EPG:",error);
-    canelaGuideScroll.innerHTML = '<div class="canela-guide-empty">No se pudo cargar la programación en este momento.</div>';
+    canelaGuideScroll.innerHTML='<div class="canela-guide-empty">No se pudo cargar la programación en este momento.</div>';
   }
 }
 
-// Sincronizar drawer/acciones después de renders y cambios.
-const originalRenderChannelsNova = renderChannels;
-renderChannels = function(){
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"){
+    if(playlistDrawer.classList.contains("open"))closePlaylistDrawer();
+    if(canelaGuideModal.classList.contains("open"))closeCanelaGuide();
+  }
+});
+
+/* Hook visual only; it never replaces loadChannel/playChannelCandidate/getStreamCandidates. */
+const originalRenderChannelsNova=renderChannels;
+renderChannels=function(){
   originalRenderChannelsNova();
   renderProviderDrawer();
   updateNovaPlayerActions();
 };
-
 
 init();
 </script>

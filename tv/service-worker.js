@@ -1,35 +1,37 @@
-const CACHE_NAME = "nova-tv-2.1.0";
-const CORE = ["./","./index.html"];
+const CACHE_NAME = "nova-tv-player-estable-2-2";
+const SHELL_FILES = [
+  "./",
+  "./index.html",
+  "./config.js",
+  "./manifest.webmanifest"
+];
 
-self.addEventListener("install",event=>{
-  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE)).catch(()=>{}));
+self.addEventListener("install", event => {
   self.skipWaiting();
-});
-self.addEventListener("activate",event=>{
   event.waitUntil(
-    caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k))))
-      .then(()=>self.clients.claim())
+    caches.open(CACHE_NAME).then(cache => cache.addAll(SHELL_FILES)).catch(() => undefined)
   );
 });
-self.addEventListener("fetch",event=>{
-  if(event.request.method!=="GET") return;
+
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener("fetch", event => {
+  if(event.request.method !== "GET") return;
   const url = new URL(event.request.url);
-  const networkFirst = event.request.mode==="navigate" || /\.(?:m3u|m3u8|json)$/i.test(url.pathname);
-  if(networkFirst){
-    event.respondWith(
-      fetch(event.request).then(response=>{
-        const copy=response.clone();
-        caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy)).catch(()=>{});
-        return response;
-      }).catch(()=>caches.match(event.request))
-    );
-    return;
-  }
+  if(url.origin !== self.location.origin) return;
+
   event.respondWith(
-    caches.match(event.request).then(cached=>cached || fetch(event.request).then(response=>{
-      const copy=response.clone();
-      caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy)).catch(()=>{});
-      return response;
-    }))
+    fetch(event.request)
+      .then(response => {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request,copy)).catch(() => undefined);
+        return response;
+      })
+      .catch(() => caches.match(event.request).then(cached => cached || caches.match("./")))
   );
 });

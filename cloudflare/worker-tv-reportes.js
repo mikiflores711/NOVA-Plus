@@ -24,6 +24,12 @@ export default {
       if (url.pathname === "/api/canela/epg" && request.method === "GET") {
         return await proxyCanelaEpg(request, env);
       }
+      if (url.pathname === "/api/pluto/epg" && request.method === "GET") {
+        return await proxyPlutoEpg(request, env);
+      }
+      if (url.pathname === "/api/pluto/m3u" && request.method === "GET") {
+        return await generatePlutoM3u(request, env);
+      }
 
       await ensureSchema(env.DB);
 
@@ -31,7 +37,7 @@ export default {
         return json(request, env, {
           ok: true,
           service: "Watch TV Plus Cloudflare API",
-          version: "7.0"
+          version: "7.5"
         });
       }
 
@@ -140,6 +146,21 @@ async function proxyCanelaEpg(request, env) {
     "Cache-Control": "public, max-age=120, s-maxage=300"
   });
 }
+
+const PLUTO_GRAPHQL_URL = "https://pluto.tv/api/tn/video/graphql/";
+const PLUTO_HASH = "a8c66dc403e590458bf86eff582a5541a7e1986d75ca7543ae2d6fd1e60b2b3a";
+function buildPlutoUpstream(country="MX", upcoming=30){
+  const extensions={tnPersistedDocumentHash:PLUTO_HASH};
+  const variables={params:{userRegistrationCountry:country,userState:"ANONYMOUS",packageCode:"NEW_FREE_PACKAGE",userProfileType:"ADULT",billingVendor:"cbscomp",dma:0,stationId:null,channelCategorySlug:null,platformType:"Desktop",showListing:true,hideChannelsWithoutListings:true,rows:500,numOfUpcomingListings:upcoming,filterLockedChannels:false,start:0}};
+  const u=new URL(PLUTO_GRAPHQL_URL);u.searchParams.set("extensions",JSON.stringify(extensions));u.searchParams.set("variables",JSON.stringify(variables));u.searchParams.set("operationName","ChannelsMany");return u;
+}
+function normalizePlutoProgram(p={}){return{id:String(p.id||p.ptvId||""),title:p.title||p.episodeTitle||"Programación",description:p.description||"",start:p.startTimeFormatted||(p.startTimestamp?new Date(p.startTimestamp).toISOString():null),end:p.endTimeFormatted||(p.endTimestamp?new Date(p.endTimestamp).toISOString():null),live:Boolean(p.isListingLive),rating:p.rating||"",genre:p.associatedContentVideo?.genre||"",thumbnail:p.resolvedfilePathThumb||"",videoContentId:p.videoContentId||p.contentCANVideo?.contentId||""}}
+function normalizePlutoChannel(ch={}){const current=Array.isArray(ch.currentListing)?ch.currentListing:[],upcoming=Array.isArray(ch.upcomingListing)?ch.upcomingListing:[];const videoContentId=String(ch.videoContentId||current[0]?.videoContentId||current[0]?.contentCANVideo?.contentId||"");return{id:String(ch.originId||ch.id||""),originId:ch.originId??null,internalId:ch.id??null,videoContentId,slug:ch.slug||"",name:ch.channelName||"Canal Pluto TV",logo:ch.resolvedfilePathLogo||ch.resolvedfilePathLogoSelected||"",selectedLogo:ch.resolvedfilePathLogoSelected||"",background:ch.resolvedfilepathDefaultBackground||"",description:ch.description||"",categories:Array.isArray(ch.channelCategorySlugs)?ch.channelCategorySlugs:[],programs:[...current,...upcoming].map(normalizePlutoProgram).filter(p=>p.start&&p.end).sort((a,b)=>Date.parse(a.start)-Date.parse(b.start))}}
+async function fetchPlutoOfficial(country="MX",upcoming=30){const upstream=buildPlutoUpstream(country,upcoming);const cache=caches.default,cacheKey=new Request(upstream.toString(),{method:"GET"});let response=await cache.match(cacheKey);if(!response){response=await fetch(upstream,{headers:{Accept:"application/json","Content-Type":"application/json","Request-Source":"live-tv-channels",Referer:"https://pluto.tv/latam/watch/live-tv/","User-Agent":"NOVAPlus-TV/7.5"},cf:{cacheEverything:true,cacheTtl:300}});if(!response.ok)throw new Error(`Pluto respondió ${response.status}`);await cache.put(cacheKey,response.clone())}const payload=await response.json();const raw=payload?.data?.channels?.channels;if(!Array.isArray(raw))throw new Error("Pluto no devolvió canales");return raw.map(normalizePlutoChannel).filter(c=>c.videoContentId&&c.name)}
+async function proxyPlutoEpg(request,env){checkPublicOrigin(request,env);const u=new URL(request.url),country=(u.searchParams.get("country")||"MX").toUpperCase().slice(0,2),upcoming=Math.min(100,Math.max(1,Number(u.searchParams.get("upcoming")||30)));const channels=await fetchPlutoOfficial(country,upcoming);return json(request,env,{success:true,provider:"pluto",country,updatedAt:new Date().toISOString(),count:channels.length,channels},200,{"Cache-Control":"public, max-age=120, s-maxage=300"})}
+function m3uEscape(v){return String(v||"").replace(/"/g,"'").replace(/[\r\n]+/g," ").trim()}
+async function generatePlutoM3u(request,env){checkPublicOrigin(request,env);const u=new URL(request.url),country=(u.searchParams.get("country")||"MX").toUpperCase().slice(0,2);const channels=await fetchPlutoOfficial(country,5);const lines=["#EXTM3U"];for(const ch of channels){const category=m3uEscape(ch.categories?.[0]||"Pluto TV");lines.push(`#EXTINF:-1 tvg-id="${m3uEscape(ch.slug||ch.videoContentId)}" tvg-name="${m3uEscape(ch.name)}" group-title="${category}" provider="pluto" epg-id="${ch.videoContentId}" origin-id="${ch.originId||""}" tvg-logo="${m3uEscape(ch.logo)}",${m3uEscape(ch.name)}`);lines.push(`https://jmp2.uk/plu-${ch.videoContentId}.m3u8`)}return corsResponse(request,env,lines.join("\n"),200,{"Content-Type":"audio/x-mpegurl; charset=utf-8","Content-Disposition":"attachment; filename=pluto-oficial-mx.m3u","Cache-Control":"public, max-age=300"})}
+
 function validIso(value){ if(!value) return ""; const d=new Date(value); return Number.isNaN(d.getTime())?"":d.toISOString(); }
 
 async function ensureSchema(db) {

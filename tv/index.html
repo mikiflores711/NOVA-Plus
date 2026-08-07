@@ -1353,14 +1353,14 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
 
 <div class="epg-guide-modal" id="epgGuideModal" aria-hidden="true">
   <section class="epg-guide-card canela-guide-card" role="dialog" aria-modal="true" aria-labelledby="epgGuideTitle">
-    <header class="epg-guide-head"><div><span class="epg-guide-kicker">Guía oficial</span><h2 id="epgGuideTitle">Programación de Canela.TV</h2></div><button class="epg-guide-close" id="epgGuideClose" type="button" aria-label="Cerrar">×</button></header>
+    <header class="epg-guide-head"><div><span class="epg-guide-kicker">Guía oficial</span><h2 id="epgGuideTitle">Programación del canal</h2></div><button class="epg-guide-close" id="epgGuideClose" type="button" aria-label="Cerrar">×</button></header>
     <div class="canela-guide-layout single-channel-guide"><div class="canela-guide-schedule"><div class="canela-guide-date" id="epgGuideDate"></div><div class="epg-guide-list" id="epgGuideList"></div></div></div>
   </section>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="./config.js?v=7.4"></script>
+<script src="./config.js?v=7.5"></script>
 <script>
 "use strict";
 
@@ -1376,6 +1376,91 @@ const epgState = {
   loadedAt:0,
   timer:null
 };
+
+const plutoState = {
+  channels:[],
+  byVideoId:new Map(),
+  byOriginId:new Map(),
+  bySlug:new Map(),
+  byName:new Map(),
+  loadedAt:0,
+  loading:null,
+  sync:{added:0,updated:0,missing:0,official:0,local:0}
+};
+function isPlutoChannel(channel){
+  if(!channel) return false;
+  const section=String(channel.section||"").toLowerCase();
+  const provider=String(channel.provider||"").toLowerCase();
+  const value=`${channel.name||""} ${channel.rawName||""} ${channel.url||""} ${channel.logo||""}`.toLowerCase();
+  return section==="pluto" || provider==="pluto" || value.includes("pluto.tv") || value.includes("plutotv") || value.includes("jmp2.uk/plu-");
+}
+function plutoNormalize(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/pluto\s*tv/g,"").replace(/[^a-z0-9]+/g,"").trim()}
+function indexPlutoEpg(payload){
+  const list=Array.isArray(payload?.channels)?payload.channels:Array.isArray(payload?.data?.channels?.channels)?payload.data.channels.channels:[];
+  plutoState.channels=list;
+  [plutoState.byVideoId,plutoState.byOriginId,plutoState.bySlug,plutoState.byName].forEach(m=>m.clear());
+  list.forEach(ch=>{
+    const video=String(ch.videoContentId||ch?.currentListing?.[0]?.videoContentId||ch?.currentListing?.[0]?.contentCANVideo?.contentId||"").trim();
+    const origin=String(ch.originId??ch.id??"").trim();
+    const slug=String(ch.slug||"").toLowerCase().trim();
+    const name=plutoNormalize(ch.name||ch.channelName||"");
+    if(video)plutoState.byVideoId.set(video,ch);
+    if(origin)plutoState.byOriginId.set(origin,ch);
+    if(slug)plutoState.bySlug.set(slug,ch);
+    if(name)plutoState.byName.set(name,ch);
+  });
+  plutoState.loadedAt=Date.now();
+}
+function findPlutoEpgChannel(channel){
+  if(!isPlutoChannel(channel)) return null;
+  const ids=[channel.epgId,channel.videoContentId,channel.id].map(x=>String(x||"").trim()).filter(Boolean);
+  for(const id of ids){if(plutoState.byVideoId.has(id))return plutoState.byVideoId.get(id);if(plutoState.byOriginId.has(id))return plutoState.byOriginId.get(id)}
+  const url=String(channel.url||"");
+  const m=url.match(/plu-([a-f0-9]{24})/i);if(m&&plutoState.byVideoId.has(m[1]))return plutoState.byVideoId.get(m[1]);
+  const slug=String(channel.slug||"").toLowerCase();if(slug&&plutoState.bySlug.has(slug))return plutoState.bySlug.get(slug);
+  const names=[channel.name,channel.rawName,channel.id].map(plutoNormalize).filter(Boolean);
+  for(const n of names)if(plutoState.byName.has(n))return plutoState.byName.get(n);
+  return plutoState.channels.find(ch=>{const n=plutoNormalize(ch.name||ch.channelName);return names.some(x=>x&&n&&(x.includes(n)||n.includes(x)))})||null;
+}
+function plutoPrograms(epg){
+  if(!epg)return[];
+  if(Array.isArray(epg.programs))return epg.programs.map(p=>({
+    title:p.title||p.episodeTitle||"Programación",description:p.description||"",start:p.start,end:p.end,live:Boolean(p.live),thumbnail:p.thumbnail||""
+  })).filter(p=>p.start&&p.end).sort((a,b)=>new Date(a.start)-new Date(b.start));
+  return [...(epg.currentListing||[]),...(epg.upcomingListing||[])].map(p=>({title:p.title||p.episodeTitle||"Programación",description:p.description||"",start:p.startTimeFormatted||new Date(p.startTimestamp).toISOString(),end:p.endTimeFormatted||new Date(p.endTimestamp).toISOString(),live:Boolean(p.isListingLive),thumbnail:p.resolvedfilePathThumb||""})).sort((a,b)=>new Date(a.start)-new Date(b.start));
+}
+async function fetchPlutoEpg(force=false){
+  if(!force&&Date.now()-plutoState.loadedAt<EPG_REFRESH_MS)return plutoState.channels;
+  if(plutoState.loading)return plutoState.loading;
+  const base=String(window.WATCH_TV_CONFIG?.API_URL||"").replace(/\/$/,"");
+  if(!base)return[];
+  plutoState.loading=(async()=>{
+    const response=await fetch(`${base}/api/pluto/epg?country=MX&upcoming=30`,{headers:{Accept:"application/json"},cache:"no-store"});
+    if(!response.ok)throw new Error(`Pluto EPG ${response.status}`);
+    const data=await response.json();indexPlutoEpg(data);syncPlutoOfficialChannels();updateCurrentEpg();renderChannels();return plutoState.channels;
+  })().catch(error=>{console.warn("No se pudo cargar la EPG de Pluto",error);return[]}).finally(()=>{plutoState.loading=null});
+  return plutoState.loading;
+}
+function plutoCategory(ch){const s=(ch.categories||ch.channelCategorySlugs||[]).join(" ").toLowerCase();if(s.includes("pelicula"))return"Películas";if(s.includes("serie"))return"Series";if(s.includes("noticia"))return"Noticias";if(s.includes("deporte"))return"Deportes";if(s.includes("kids"))return"Infantil";if(s.includes("musica"))return"Música";if(s.includes("comedia"))return"Comedia";if(s.includes("novela"))return"Novelas";return"Entretenimiento"}
+function syncPlutoOfficialChannels(){
+  const local=Array.isArray(channelsBySection?.pluto)?channelsBySection.pluto:[];
+  if(!local.length||!plutoState.channels.length)return;
+  const byId=new Map(local.map(c=>[String(c.epgId||c.videoContentId||"").trim(),c]).filter(x=>x[0]));let added=0,updated=0;
+  plutoState.channels.forEach((off,i)=>{
+    const video=String(off.videoContentId||off?.programs?.[0]?.videoContentId||"").trim();if(!video)return;
+    const name=off.name||off.channelName||"Pluto TV";const logo=off.logo||off.resolvedfilePathLogo||off.resolvedfilePathLogoSelected||"";
+    let c=byId.get(video);
+    if(c){let changed=false;if(name&&c.name!==name){c.name=name;c.rawName=name;changed=true}if(logo&&c.logo!==logo){c.logo=logo;changed=true}c.slug=off.slug||c.slug;c.originId=off.originId||c.originId;c.official=true;c.category=plutoCategory(off);if(changed)updated++;}
+    else{
+      c={id:`pluto-${video}`,epgId:video,videoContentId:video,name,rawName:name,logo,url:`https://jmp2.uk/plu-${video}.m3u8`,provider:"pluto",section:"pluto",sectionLabel:"Pluto TV",sectionIndex:local.length+1,channelNumber:String(local.length+1),favoriteKey:`pluto::https://jmp2.uk/plu-${video}.m3u8`,category:plutoCategory(off),slug:off.slug||"",originId:off.originId||null,official:true};local.push(c);allChannels.push(c);byId.set(video,c);added++;
+    }
+  });
+  const officialIds=new Set(plutoState.channels.map(x=>String(x.videoContentId||"")).filter(Boolean));
+  const missing=local.filter(c=>c.epgId&&!officialIds.has(String(c.epgId))).length;
+  plutoState.sync={added,updated,missing,official:plutoState.channels.length,local:local.length};
+  window.NOVA_PLUTO_SYNC=plutoState.sync;
+}
+
 const epgNowPanel = document.getElementById("epgNowPanel");
 const epgNowTitle = document.getElementById("epgNowTitle");
 const epgNowTimes = document.getElementById("epgNowTimes");
@@ -1495,50 +1580,39 @@ async function fetchCanelaEpg(force=false){
   console.warn("No se pudo cargar la EPG de Canela",lastError);
 }
 function updateCurrentEpg(){
-  const canelaActive=isCanelaChannel(currentChannel);
-  playerGuideBtn?.classList.toggle("visible",canelaActive);
-  if(!canelaActive){
-    epgNowPanel?.classList.remove("visible");
-    return;
-  }
+  const supported=isCanelaChannel(currentChannel)||isPlutoChannel(currentChannel);
+  playerGuideBtn?.classList.toggle("visible",supported);
+  if(!supported){epgNowPanel?.classList.remove("visible");return}
   epgNowPanel?.classList.add("visible");
-  const epg=findCanelaEpgChannel(currentChannel);
-  const result=currentAndNext(epg?.airing);
-  const current=result.current;
-  const next=result.next;
-  epgGuideBtn.disabled=!epg;
-  if(!epg){
-    epgNowTitle.textContent="Cargando programación…";
-    epgNowTimes.textContent="";
-    epgNextTitle.textContent="";
-    epgProgressBar.style.width="0%";
-    return;
-  }
-  if(!current){
-    const upcoming=result.items.find(item=>new Date(item.sc_st_dt).getTime()>Date.now());
-    epgNowTitle.textContent=upcoming?`Próximamente: ${epgText(upcoming.pgm?.lon)||"Programación"}`:"Programación no disponible en este horario";
-    epgNowTimes.textContent=upcoming?`${epgFormatTime(upcoming.sc_st_dt)} – ${epgFormatTime(upcoming.sc_ed_dt)}`:"";
-    epgNextTitle.textContent="Presiona “Ver programación” para consultar la guía.";
-    epgProgressBar.style.width="0%";
-    return;
-  }
-  const title=epgText(current.pgm?.lon)||"Programa en vivo";
-  const episode=epgText(current.pgm?.loepn);
-  epgNowTitle.textContent=episode?`${title} · ${episode}`:title;
-  epgNowTimes.textContent=`${epgFormatTime(current.sc_st_dt)} – ${epgFormatTime(current.sc_ed_dt)}`;
-  epgNextTitle.textContent=next?`Siguiente: ${epgText(next.pgm?.lon)||"Programación"} · ${epgFormatTime(next.sc_st_dt)}`:"";
-  const a=new Date(current.sc_st_dt).getTime(),b=new Date(current.sc_ed_dt).getTime();
-  epgProgressBar.style.width=`${Math.max(0,Math.min(100,((Date.now()-a)/(b-a))*100))}%`;
+  let programs=[];
+  if(isCanelaChannel(currentChannel)){
+    const epg=findCanelaEpgChannel(currentChannel);programs=(Array.isArray(epg?.airing)?epg.airing:[]).map(x=>({title:epgText(x.pgm?.lon)||"Programación",description:epgText(x.pgm?.lod),start:x.sc_st_dt,end:x.sc_ed_dt}));
+  }else programs=plutoPrograms(findPlutoEpgChannel(currentChannel));
+  programs=programs.filter(x=>x.start&&x.end).sort((a,b)=>new Date(a.start)-new Date(b.start));
+  const now=Date.now(),current=programs.find(x=>new Date(x.start)<=now&&new Date(x.end)>now),next=current?programs.find(x=>new Date(x.start)>=new Date(current.end)):programs.find(x=>new Date(x.start)>now);
+  epgGuideBtn.disabled=!programs.length;
+  if(!programs.length){epgNowTitle.textContent="Cargando programación…";epgNowTimes.textContent="";epgNextTitle.textContent="";epgProgressBar.style.width="0%";return}
+  if(!current){epgNowTitle.textContent=next?`Próximamente: ${next.title}`:"Programación no disponible en este horario";epgNowTimes.textContent=next?`${epgFormatTime(next.start)} – ${epgFormatTime(next.end)}`:"";epgNextTitle.textContent="Presiona “Ver programación” para consultar la guía.";epgProgressBar.style.width="0%";return}
+  epgNowTitle.textContent=current.title;epgNowTimes.textContent=`${epgFormatTime(current.start)} – ${epgFormatTime(current.end)}`;epgNextTitle.textContent=next?`Siguiente: ${next.title} · ${epgFormatTime(next.start)}`:"";const a=new Date(current.start),b=new Date(current.end);epgProgressBar.style.width=`${Math.max(0,Math.min(100,((now-a)/(b-a))*100))}%`;
 }
 function guideChannelName(epg){return epgText(epg?.lon)||epg?.cs||epg?.airing?.[0]?.ch?.cs||"Canela.TV"}
 function guideChannelLogo(epg){const cid=String(epg?.cid||epg?.airing?.[0]?.cid||"");return cid?`https://image-resizer-cloud-cdn.cms.api.canela.tv/image/${encodeURIComponent(cid)}/0-16x9.jpg?width=300&updatedTime=0&dt=Web`:""}
-function renderGuideSchedule(epg){const {items,current}=currentAndNext(epg?.airing);epgGuideList.innerHTML="";epgGuideTitle.textContent=`Programación · ${guideChannelName(epg)}`;epgGuideDate.textContent=new Intl.DateTimeFormat("es-MX",{weekday:"long",day:"numeric",month:"long"}).format(new Date());if(!items.length){epgGuideList.innerHTML='<div class="epg-unavailable">Programación no disponible.</div>';return}items.forEach(item=>{const node=document.createElement("article");node.className="epg-guide-item"+(item===current?" active":"");const title=epgText(item.pgm?.lon)||"Programación",episode=epgText(item.pgm?.loepn),desc=epgText(item.pgm?.lod);node.innerHTML=`<div class="epg-guide-time">${epgFormatTime(item.sc_st_dt)}<br>${epgFormatTime(item.sc_ed_dt)}</div><div><div class="epg-guide-title">${escapeHtml(episode?`${title} · ${episode}`:title)}${item===current?' <span class="epg-live">LIVE</span>':''}</div>${desc?`<div class="epg-guide-desc">${escapeHtml(desc)}</div>`:""}</div>`;epgGuideList.appendChild(node)});epgGuideList.querySelector('.active')?.scrollIntoView({block:'center'})}
-function renderGuideChannels(selected){
-  // La guía emergente muestra únicamente la programación del canal seleccionado.
-  if(!epgChannelList) return;
-  epgChannelList.innerHTML="";
+function renderGuideSchedule(epg,provider="canela"){
+  let items=[];
+  if(provider==="pluto")items=plutoPrograms(epg);
+  else items=(Array.isArray(epg?.airing)?epg.airing:[]).map(x=>({title:epgText(x.pgm?.lon)||"Programación",description:epgText(x.pgm?.lod)||"",start:x.sc_st_dt,end:x.sc_ed_dt}));
+  items=items.filter(x=>x.start&&x.end).sort((a,b)=>new Date(a.start)-new Date(b.start));const now=Date.now(),current=items.find(x=>new Date(x.start)<=now&&new Date(x.end)>now);
+  epgGuideList.innerHTML="";const name=provider==="pluto"?(epg?.name||epg?.channelName||currentChannel?.name||"Pluto TV"):guideChannelName(epg);epgGuideTitle.textContent=`Programación · ${name}`;epgGuideDate.textContent=new Intl.DateTimeFormat("es-MX",{weekday:"long",day:"numeric",month:"long"}).format(new Date());
+  if(!items.length){epgGuideList.innerHTML='<div class="epg-unavailable">Programación no disponible.</div>';return}
+  items.forEach(item=>{const node=document.createElement("article");node.className="epg-guide-item"+(item===current?" active":"");node.innerHTML=`<div class="epg-guide-time">${epgFormatTime(item.start)}<br>${epgFormatTime(item.end)}</div><div><div class="epg-guide-title">${escapeHtml(item.title)}${item===current?' <span class="epg-live">LIVE</span>':''}</div>${item.description?`<div class="epg-guide-desc">${escapeHtml(item.description)}</div>`:""}</div>`;epgGuideList.appendChild(node)});epgGuideList.querySelector('.active')?.scrollIntoView({block:'center'});
 }
-async function openEpgGuide(channel=currentChannel){if(!isCanelaChannel(channel))return;if(!epgState.channels.length)await fetchCanelaEpg(true);const epg=findCanelaEpgChannel(channel)||epgState.channels[0];renderGuideSchedule(epg);epgGuideModal.classList.add("open");epgGuideModal.setAttribute("aria-hidden","false")}
+function renderGuideChannels(selected){if(epgChannelList)epgChannelList.innerHTML=""}
+async function openEpgGuide(channel=currentChannel){
+  if(isCanelaChannel(channel)){if(!epgState.channels.length)await fetchCanelaEpg(true);const epg=findCanelaEpgChannel(channel);if(epg)renderGuideSchedule(epg,"canela");else renderGuideSchedule(null,"canela")}
+  else if(isPlutoChannel(channel)){if(!plutoState.channels.length)await fetchPlutoEpg(true);const epg=findPlutoEpgChannel(channel);renderGuideSchedule(epg,"pluto")}
+  else return;
+  epgGuideModal.classList.add("open");epgGuideModal.setAttribute("aria-hidden","false")
+}
 function closeEpgGuide(){epgGuideModal.classList.remove("open");epgGuideModal.setAttribute("aria-hidden","true")}
 epgGuideBtn?.addEventListener("click",openEpgGuide);playerGuideBtn?.addEventListener("click",()=>openEpgGuide(currentChannel));epgGuideClose?.addEventListener("click",closeEpgGuide);epgGuideModal?.addEventListener("click",e=>{if(e.target===epgGuideModal)closeEpgGuide()});
 // La EPG se inicia después de declarar el estado principal de TV.
@@ -1729,10 +1803,11 @@ let reportStateTimer = null;
 let playerAttemptToken = 0;
 
 function startEpgSystem(){
-  fetchCanelaEpg(true).catch(error=>console.warn("EPG inicial",error));
+  fetchCanelaEpg(true).catch(error=>console.warn("EPG Canela inicial",error));
+  fetchPlutoEpg(true).catch(error=>console.warn("EPG Pluto inicial",error));
   setInterval(updateCurrentEpg,30000);
   if(epgState.timer) clearInterval(epgState.timer);
-  epgState.timer=setInterval(()=>fetchCanelaEpg(true),EPG_REFRESH_MS);
+  epgState.timer=setInterval(()=>{fetchCanelaEpg(true);fetchPlutoEpg(true)},EPG_REFRESH_MS);
 }
 
 async function init(){
@@ -1898,6 +1973,7 @@ async function loadAllPlaylists(){
     channelsBySection[result.playlist.id] = result.channels;
     allChannels.push(...result.channels);
   });
+  if(plutoState.channels.length) syncPlutoOfficialChannels();
 
   migrateLegacyFavorites();
 
@@ -2969,11 +3045,11 @@ init();
     if(categoryShell)categoryShell.insertAdjacentElement('afterend',guide);else document.querySelector('.player-stage')?.insertAdjacentElement('afterend',guide);
     guide.querySelector('.guide-controls').addEventListener('click',e=>{const dir=e.target.closest('[data-dir]')?.dataset.dir;if(!dir)return;const sc=document.getElementById('guideScroll');const map={left:{left:-510},right:{left:510},up:{top:-310},down:{top:310}};sc.scrollBy({...map[dir],behavior:'smooth'})});
   }
-  function getPrograms(channel){if(!isCanelaChannel(channel))return[];const epg=findCanelaEpgChannel(channel);return Array.isArray(epg?.airing)?[...epg.airing].sort((a,b)=>new Date(a.sc_st_dt)-new Date(b.sc_st_dt)):[]}
+  function getPrograms(channel){if(isCanelaChannel(channel)){const epg=findCanelaEpgChannel(channel);return (Array.isArray(epg?.airing)?epg.airing:[]).map(x=>({title:epgText(x.pgm?.lon)||'Programación',start:x.sc_st_dt,end:x.sc_ed_dt,description:epgText(x.pgm?.lod)})).sort((a,b)=>new Date(a.start)-new Date(b.start))}if(isPlutoChannel(channel))return plutoPrograms(findPlutoEpgChannel(channel));return[]}
   function makeRow(channel,index,base,end){const row=document.createElement('div');row.className='guide-channel-row';const num=String(channel.channelNumber||index+1).padStart(3,'0');const logo=channel.logo?`<img src="${escapeHtml(channel.logo)}" alt="">`:escapeHtml(getInitials(channel.name));const left=document.createElement('div');left.className='guide-channel-cell';left.innerHTML=`<button class="guide-logo-btn" type="button" aria-label="Reproducir ${escapeHtml(channel.name)}">${logo}</button><div><div class="guide-channel-name">${escapeHtml(channel.name)}</div><div class="guide-channel-meta">${escapeHtml(num)} · ${escapeHtml(channel.sectionLabel||channel.category||'TV')}</div></div>`;left.querySelector('button').addEventListener('click',()=>loadChannel(channel));left.querySelector('img')?.addEventListener('error',e=>{e.currentTarget.parentElement.textContent=getInitials(channel.name)});row.appendChild(left);
-    const timeline=document.createElement('div');timeline.className='guide-timeline';const programs=getPrograms(channel).filter(p=>new Date(p.sc_ed_dt)>base&&new Date(p.sc_st_dt)<end);if(!programs.length){timeline.innerHTML='<div class="guide-unavailable">Programación no disponible</div>'}else programs.forEach(it=>{const st=Math.max(base.getTime(),new Date(it.sc_st_dt).getTime()),ed=Math.min(end.getTime(),new Date(it.sc_ed_dt).getTime());const box=document.createElement('div');const current=Date.now()>=new Date(it.sc_st_dt)&&Date.now()<new Date(it.sc_ed_dt);box.className='guide-program'+(current?' current':'');box.style.left=`${((st-base)/60000)*PX_PER_MINUTE}px`;box.style.width=`${Math.max(78,((ed-st)/60000)*PX_PER_MINUTE)}px`;const title=epgText(it.pgm?.lon)||'Programación';box.innerHTML=`<div class="guide-program-title" title="${escapeHtml(title)}">${escapeHtml(title)}${current?'<span class="guide-live-pill">LIVE</span>':''}</div><div class="guide-program-time">${fmt(it.sc_st_dt)} – ${fmt(it.sc_ed_dt)}</div>`;timeline.appendChild(box)});row.appendChild(timeline);return row}
+    const timeline=document.createElement('div');timeline.className='guide-timeline';const programs=getPrograms(channel).filter(p=>new Date(p.end)>base&&new Date(p.start)<end);if(!programs.length){timeline.innerHTML='<div class="guide-unavailable">Programación no disponible</div>'}else programs.forEach(it=>{const st=Math.max(base.getTime(),new Date(it.start).getTime()),ed=Math.min(end.getTime(),new Date(it.end).getTime());const box=document.createElement('div');const current=Date.now()>=new Date(it.start)&&Date.now()<new Date(it.end);box.className='guide-program'+(current?' current':'');box.style.left=`${((st-base)/60000)*PX_PER_MINUTE}px`;box.style.width=`${Math.max(78,((ed-st)/60000)*PX_PER_MINUTE)}px`;const title=it.title||'Programación';box.innerHTML=`<div class="guide-program-title" title="${escapeHtml(title)}">${escapeHtml(title)}${current?'<span class="guide-live-pill">LIVE</span>':''}</div><div class="guide-program-time">${fmt(it.start)} – ${fmt(it.end)}</div>`;timeline.appendChild(box)});row.appendChild(timeline);return row}
   function renderUniversalGuide(){const grid=document.getElementById('universalGuideGrid');if(!grid)return;const channels=activeFilteredChannels(),provider=activeSection==='favorites'?'Favoritos':(PLAYLISTS.find(x=>x.id===activeSection)?.label||'TV');document.getElementById('universalGuideTitle').textContent=`Programación · ${provider}`;document.getElementById('universalGuideCount').textContent=`${channels.length} canales`;window.__novaSyncProviderDrawer?.();const base=floorHalfHour(),end=new Date(base.getTime()+WINDOW_MINUTES*60000);const slots=Array.from({length:13},(_,i)=>new Date(base.getTime()+i*30*60000));grid.innerHTML='<div class="guide-time-row"><div class="guide-day">Hoy ▾</div><div class="guide-timeline-head">'+slots.map((x,i)=>`<div class="guide-time-label" style="left:${i*170}px">${fmt(x)}</div>`).join('')+'</div></div>';if(!channels.length){grid.insertAdjacentHTML('beforeend','<div class="guide-empty">No se encontraron canales.</div>');return}const nowOffset=(Date.now()-base.getTime())/60000;if(nowOffset>=0&&nowOffset<=WINDOW_MINUTES){const line=document.createElement('div');line.className='guide-now-line';line.style.left=`${150+nowOffset*PX_PER_MINUTE}px`;const dot=document.createElement('div');dot.className='guide-now-dot';dot.style.left=`${150+nowOffset*PX_PER_MINUTE}px`;grid.append(line,dot)}const frag=document.createDocumentFragment();channels.forEach((c,i)=>frag.appendChild(makeRow(c,i,base,end)));grid.appendChild(frag);const sc=document.getElementById('guideScroll');if(sc&&!sc.dataset.initialized){sc.dataset.initialized='1';sc.scrollLeft=Math.max(0,nowOffset*PX_PER_MINUTE-240)}}
-  createUi();const originalRender=renderChannels;renderChannels=function(){try{originalRender()}catch(e){console.warn(e)}after(renderUniversalGuide)};const originalSetSection=setSection;setSection=async function(section){const r=await originalSetSection(section);after(()=>{const sc=document.getElementById('guideScroll');if(sc){sc.dataset.initialized='';sc.scrollTop=0}renderUniversalGuide()});return r};document.getElementById('searchInput')?.addEventListener('input',()=>after(renderUniversalGuide));document.getElementById('categoryTabs')?.addEventListener('click',()=>after(()=>{document.getElementById('guideScroll')?.scrollTo({top:0,behavior:'smooth'});renderUniversalGuide()}));after(()=>{renderUniversalGuide();fetchCanelaEpg(false).then(renderUniversalGuide).catch(()=>{})});setInterval(renderUniversalGuide,60000);
+  createUi();const originalRender=renderChannels;renderChannels=function(){try{originalRender()}catch(e){console.warn(e)}after(renderUniversalGuide)};const originalSetSection=setSection;setSection=async function(section){const r=await originalSetSection(section);after(()=>{const sc=document.getElementById('guideScroll');if(sc){sc.dataset.initialized='';sc.scrollTop=0}renderUniversalGuide()});return r};document.getElementById('searchInput')?.addEventListener('input',()=>after(renderUniversalGuide));document.getElementById('categoryTabs')?.addEventListener('click',()=>after(()=>{document.getElementById('guideScroll')?.scrollTo({top:0,behavior:'smooth'});renderUniversalGuide()}));after(()=>{renderUniversalGuide();Promise.all([fetchCanelaEpg(false),fetchPlutoEpg(false)]).then(renderUniversalGuide).catch(()=>{})});setInterval(renderUniversalGuide,60000);
 })();
 </script>
 

@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><meta name="referrer" content="no-referrer-when-downgrade">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#181821">
-<meta name="application-name" content="NOVA+ TV en Vivo">
+<meta name="application-name" content="NOVA+ TV">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="NOVA+ TV en Vivo">
-<title>TV en Vivo | NOVA+</title><link rel="icon" href="../favicon.png" type="image/png">
-<!-- NOVA+ TV UI 7.4 — EPG visible y funcional -->
+<meta name="apple-mobile-web-app-title" content="NOVA+ TV">
+<title>NOVA+ TV en Vivo</title>
 <link rel="manifest" href="./manifest.webmanifest">
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@clappr/hlsjs-playback@latest/dist/hlsjs-playback.min.js"></script>
 
@@ -892,303 +891,121 @@ body.legal-open{overflow:hidden}
 .report-state.reviewing{background:rgba(63,112,255,.17);color:#a9bbff;border:1px solid rgba(63,112,255,.32)}
 .report-state.fixed{background:rgba(45,181,111,.16);color:#99efbd;border:1px solid rgba(45,181,111,.3)}
 
-
-/* =====================================================
-   NOVA+ TV — DISEÑO UNIFICADO PREMIUM
-   ===================================================== */
-:root{
-  --bg:#090d0c;
-  --panel:#151b19;
-  --panel-2:#1c2421;
-  --panel-3:#222c28;
-  --text:#ffffff;
-  --muted:#aeb8b3;
-  --blue:#6f82ff;
-  --blue-soft:#5368f4;
-  --line:rgba(255,255,255,.10);
-}
-html,body{background:#050706}
-.app-shell{
-  background:radial-gradient(circle at 50% -10%,#17221e 0,transparent 34%),linear-gradient(180deg,#0d1412 0%,#090d0c 52%,#070909 100%);
-  box-shadow:0 0 70px rgba(0,0,0,.82);
-}
-.topbar{
-  min-height:72px;
-  height:72px;
-  padding:max(8px,env(safe-area-inset-top)) 16px 8px;
-  border-bottom:1px solid var(--line);
-  background:rgba(9,13,12,.90);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  box-shadow:0 10px 34px rgba(0,0,0,.24);
-}
-.topbar-brand-group{display:flex;align-items:center;gap:11px;min-width:0}
-.back-home-btn{
-  flex:0 0 42px;width:42px;height:42px;display:grid;place-items:center;
-  border:1px solid rgba(255,255,255,.12);border-radius:50%;
-  background:rgba(255,255,255,.045);color:#fff;text-decoration:none;
-  transition:transform .18s ease,background .18s ease,border-color .18s ease;
-}
-.back-home-btn:hover,.back-home-btn:focus-visible{transform:translateX(-2px);background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.22)}
-.back-home-btn svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.brand{flex:0 1 210px;width:min(210px,48vw);height:50px}
-.brand img{width:100%;height:100%;object-fit:contain;object-position:left center}
-.top-actions{gap:4px}
-.icon-btn{width:44px;height:44px;border:1px solid transparent}
-.icon-btn:hover,.icon-btn:focus-visible{background:rgba(255,255,255,.075);border-color:rgba(255,255,255,.08)}
-.top-search{height:42px;background:#121917;border-color:rgba(255,255,255,.10)}
-.topbar.search-open .top-search{width:clamp(170px,42vw,390px)}
-.topbar.search-open .topbar-brand-group{opacity:.18;pointer-events:none}
-.player-stage{border-bottom:1px solid var(--line)}
-.main-tabs{margin:0;background:#111714;border-bottom:1px solid var(--line)}
-.main-tab{height:52px;color:#b9c2bd;font-weight:800}
-.main-tab.active{color:#fff}
-.main-tab.active::after{background:linear-gradient(90deg,#5d77ff,#c03cff);height:3px}
-.scroll-tabs{background:#111714;border-bottom:1px solid var(--line)}
-.tab-chip{border-color:rgba(255,255,255,.10);background:#1a211f;color:#e6ebe8}
-.tab-chip.active{background:linear-gradient(135deg,#5368f4,#7455e9);border-color:transparent;color:#fff;box-shadow:0 7px 20px rgba(83,104,244,.22)}
-.list-head{background:#0e1412;border-bottom:1px solid var(--line);color:#98a49e}
-.channel-list{background:#0b100e}
-.channel-row{background:#151b19;border-bottom-color:rgba(255,255,255,.07)}
-.channel-row:hover{background:#1c2421}
-.channel-row.active{background:linear-gradient(90deg,rgba(83,104,244,.18),rgba(83,104,244,.06));box-shadow:inset 3px 0 #6f82ff}
-.channel-logo{background:#202825;border-color:rgba(255,255,255,.09)}
-.favorite-btn,.report-btn{background:#202825;border-color:rgba(255,255,255,.12)}
-.favorite-btn:hover,.report-btn:hover{background:#2a3430}
-.player-channel-card{border-color:rgba(255,255,255,.18);background:rgba(4,7,6,.34);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.player-favorite-btn{background:rgba(9,13,12,.78)}
-.toast{background:rgba(15,21,18,.97);border-color:var(--line)}
-.legal-dialog,.report-dialog-card{background:#151b19}
-.legal-header,.legal-footer{background:#1c2421}
-@media(max-width:520px){
-  .topbar{min-height:62px;height:62px;padding-left:8px;padding-right:7px}
-  .topbar-brand-group{gap:7px}
-  .back-home-btn{width:38px;height:38px;flex-basis:38px}
-  .brand{width:min(154px,46vw);height:42px;flex-basis:154px}
-  .topbar.search-open .topbar-brand-group{display:none}
-}
-@media(orientation:landscape) and (max-height:560px){
-  .topbar{height:52px;min-height:52px;padding-top:4px}
-  .brand{height:36px;width:140px;flex-basis:140px}
-  .back-home-btn{width:36px;height:36px;flex-basis:36px}
-}
-
-
-/* Reportes 2.0: modal integrado, sin abandonar ni recargar el canal */
-.channel-report-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.72);backdrop-filter:blur(8px)}
-.channel-report-modal.open{display:flex}
-.channel-report-card{position:relative;width:min(520px,100%);max-height:min(760px,calc(100vh - 36px));overflow:auto;background:#151b19;border:1px solid rgba(255,255,255,.12);border-radius:20px;box-shadow:0 28px 90px rgba(0,0,0,.55);padding:22px}
-.channel-report-close{position:absolute;right:14px;top:12px;width:36px;height:36px;border:0;border-radius:50%;background:#27302d;color:#fff;font-size:26px;line-height:1;cursor:pointer}
-.channel-report-card h2{margin:0 44px 16px 0;font-size:24px}
-.channel-report-summary{display:flex;gap:14px;align-items:center;padding:14px;margin-bottom:18px;border-radius:14px;background:#202825;border:1px solid rgba(255,255,255,.08)}
-.channel-report-logo{flex:0 0 58px;width:58px;height:58px;border-radius:12px;background:#30383d;display:grid;place-items:center;overflow:hidden;font-weight:900}.channel-report-logo img{width:100%;height:100%;object-fit:contain}
-.channel-report-name{font-weight:900;font-size:18px}.channel-report-meta{margin-top:4px;color:#aeb9b5;font-size:13px}
-.channel-report-card label{display:block;margin:14px 0 7px;font-weight:800}
-.channel-report-card select,.channel-report-card textarea,.channel-report-card input{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.13);border-radius:12px;background:#202825;color:#fff;padding:12px 13px;font:inherit;outline:none}
-.channel-report-card textarea{min-height:105px;resize:vertical}
-.channel-report-actions{display:flex;gap:10px;margin-top:18px}.channel-report-actions button{flex:1;border:0;border-radius:12px;padding:13px 16px;font-weight:900;cursor:pointer}.channel-report-cancel{background:#303735;color:#fff}.channel-report-send{background:#4f78ff;color:#fff}
-.channel-report-send:disabled{opacity:.65;cursor:wait}.channel-report-status{display:none;margin-top:12px;padding:11px 12px;border-radius:10px;font-size:14px}.channel-report-status.show{display:block}.channel-report-status.ok{background:rgba(40,180,105,.16);color:#9cf0bd}.channel-report-status.error{background:rgba(226,70,88,.16);color:#ffadb9}
-@media(max-width:600px){.channel-report-modal{align-items:flex-end;padding:0}.channel-report-card{width:100%;max-height:92vh;border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom))}}
-
-
-
-/* NOVA+ 5.2: controles Smart TV separados y lista horizontal */
-.tv-strip-shell{position:relative;margin:10px 0;padding:0 58px;background:#111714;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);min-height:58px;display:flex;align-items:center}
-.tv-strip-shell .scroll-tabs{flex:1;min-width:0;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;white-space:nowrap;padding-block:8px}
-.tv-strip-shell .scroll-tabs::-webkit-scrollbar{display:none}
-.tv-strip-btn{display:none;position:absolute;z-index:25;top:7px;bottom:7px;width:44px;border:1px solid rgba(255,255,255,.16);border-radius:11px;background:#090d0c;color:#fff;place-items:center;cursor:pointer;font-size:0;box-shadow:0 8px 22px rgba(0,0,0,.38)}
-.tv-strip-btn::before{font-size:30px;line-height:1}.tv-strip-btn.prev::before{content:"\276E"}.tv-strip-btn.next::before{content:"\276F"}
-.tv-strip-btn.prev{left:7px}.tv-strip-btn.next{right:7px}
-.tv-strip-btn:hover,.tv-strip-btn:focus-visible,.channel-page-btn:hover,.channel-page-btn:focus-visible{background:#5368f4;outline:3px solid rgba(113,134,255,.34)}
-.channel-list-shell{position:relative;margin-top:10px;padding:0 60px 14px;background:#0b100e}
-.channel-list-shell .channel-list{display:flex!important;grid-template-columns:none!important;gap:14px!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-behavior:smooth;scroll-snap-type:x mandatory;scrollbar-width:none!important;padding:14px 2px 18px!important;background:#0b100e!important}
-.channel-list-shell .channel-list::-webkit-scrollbar{display:none!important}
-.channel-row{position:relative;flex:0 0 180px;min-width:180px;display:flex!important;flex-direction:column;align-items:stretch;gap:0!important;padding:0!important;border:1px solid rgba(255,255,255,.10)!important;border-radius:14px!important;overflow:hidden;background:#151b19!important;scroll-snap-align:start;min-height:250px}
-.channel-row:hover{background:#1c2421!important}.channel-row.active{box-shadow:0 0 0 3px #6f82ff!important;background:#151b19!important}
-.channel-row .channel-logo{width:100%!important;height:150px!important;min-height:150px!important;border:0!important;border-radius:0!important;background:#202825!important;display:grid!important;place-items:center!important;padding:12px!important}
-.channel-row .channel-logo img{display:block;width:100%!important;height:100%!important;object-fit:contain!important;border-radius:7px}
-.channel-row .channel-number{position:absolute;left:8px;top:8px;z-index:2;min-width:34px;height:25px;padding:0 7px;border-radius:999px;background:rgba(0,0,0,.78);display:grid;place-items:center;font-size:11px;font-weight:900;color:#fff}
-.channel-row .channel-copy{padding:12px 12px 14px!important;min-width:0!important;flex:1}
-.channel-row .channel-name{font-size:15px!important;font-weight:900;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px}
-.channel-row .program-text{font-size:11px!important;color:#aeb8b3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.channel-row .row-actions{position:absolute!important;right:7px!important;top:7px!important;display:flex!important;gap:5px!important}
-.channel-row .favorite-btn,.channel-row .report-btn{width:34px!important;height:34px!important;background:rgba(6,9,8,.85)!important;backdrop-filter:blur(5px)}
-.channel-page-controls{display:none;position:absolute;inset:0;pointer-events:none;z-index:30}
-.channel-page-btn{pointer-events:auto;position:absolute;top:50%;transform:translateY(-50%);width:46px;height:72px;border:1px solid rgba(255,255,255,.16);border-radius:12px;background:rgba(7,10,9,.94);color:#fff;font-size:0;cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.4)}
-.channel-page-btn::before{font-size:31px;line-height:1}.channel-page-btn:first-child{left:7px}.channel-page-btn:last-child{right:7px}.channel-page-btn:first-child::before{content:"\276E"}.channel-page-btn:last-child::before{content:"\276F"}
-html[data-device-mode="tv"] .tv-strip-btn{display:grid!important}html[data-device-mode="tv"] .channel-page-controls{display:block!important}
-html[data-device-mode="mobile"] .tv-strip-shell{padding-inline:0!important}html[data-device-mode="mobile"] .tv-strip-btn,html[data-device-mode="mobile"] .channel-page-controls{display:none!important}html[data-device-mode="mobile"] .channel-list-shell{padding-inline:0!important}
-.tab-chip img{display:block;max-width:118px;width:auto;height:28px;object-fit:contain}
-@media(max-width:600px){.tv-strip-shell{padding-inline:50px}.channel-list-shell{padding-inline:52px}.channel-row{flex-basis:155px;min-width:155px}.channel-row .channel-logo{height:130px!important;min-height:130px!important}}
-
-/* NOVA+ TV 6.2 — responsive header, pressed states and stable layout */
-.topbar{
-  min-height:72px;height:auto;padding:10px 14px;
-  display:grid;grid-template-columns:auto minmax(250px,1fr) auto;
-  align-items:center;gap:16px;position:sticky;top:0;z-index:120;
-  background:rgba(7,12,10,.96);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(255,255,255,.10)
-}
-.topbar-brand-group{display:flex;align-items:center;gap:10px;min-width:0}
-.top-main-tabs{position:static!important;display:flex!important;justify-content:center;align-items:stretch;gap:12px;border:0!important;background:transparent!important;min-width:0}
-.top-main-tabs .main-tab{flex:0 1 150px;min-height:48px;padding:0 18px;border:1px solid rgba(255,255,255,.06);border-radius:10px;background:#121916;color:#aeb8b3;font-size:18px;font-weight:900;transition:transform .12s ease,background .18s ease,color .18s ease,box-shadow .18s ease}
-.top-main-tabs .main-tab.active{color:#fff;background:#1b2420;box-shadow:inset 0 -3px #6f5cff,0 8px 24px rgba(0,0,0,.22)}
-.top-actions{min-width:48px}
-/* Reproductor compacto: conserva el video visible sin empujar los canales fuera de pantalla. */
-.player-stage{
-  width:100%;
-  height:clamp(180px,min(56.25vw,34dvh),330px);
-  min-height:180px;
-  max-height:330px;
-  aspect-ratio:auto;
-}
-
-/* Every interactive control visibly reacts when pressed */
-button,a,.tab-chip,.channel-row{touch-action:manipulation}
-button,.icon-btn,.back-home-btn,.main-tab,.tab-chip,.tv-strip-btn,.channel-page-btn,.channel-row,.favorite-btn,.report-btn{
-  transition:transform .11s ease,filter .11s ease,box-shadow .14s ease,background-color .14s ease,border-color .14s ease!important
-}
-button:active,.icon-btn:active,.back-home-btn:active,.main-tab:active,.tab-chip:active,.tv-strip-btn:active,.channel-page-btn:active,.channel-row:active,.favorite-btn:active,.report-btn:active{
-  transform:scale(.94)!important;filter:brightness(1.18)!important
-}
-button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-tab:focus-visible,.tab-chip:focus-visible,.tv-strip-btn:focus-visible,.channel-page-btn:focus-visible,.channel-row:focus-visible{
-  outline:3px solid rgba(113,134,255,.72)!important;outline-offset:2px!important
-}
-
-/* Keep service/category controls and channel cards fully visible */
-.tv-strip-shell{margin-top:10px;min-height:62px;padding:7px 58px;display:flex;align-items:center;background:#0e1512;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
-.tv-strip-shell .scroll-tabs{min-width:0;flex:1}
-.channel-list-shell{min-height:292px;padding-bottom:max(20px,env(safe-area-inset-bottom))}
-.channel-list-shell .channel-list{min-height:275px}
-
-@media(max-width:760px){
-  .app-shell{min-height:100dvh}
-  .topbar{grid-template-columns:auto 1fr auto;gap:7px;padding:8px 8px 7px}
-  .topbar-brand-group{gap:5px}
-  .brand{min-width:0;width:132px;height:42px;padding:0 5px}
-  .brand img{max-width:100%;height:auto}
-  .back-home-btn{width:42px;height:42px;flex:0 0 42px}
-  .top-main-tabs{gap:4px;justify-content:flex-end}
-  .top-main-tabs .main-tab{flex:0 1 auto;min-width:70px;min-height:40px;padding:0 9px;font-size:13px;border-radius:8px}
-  .top-actions{gap:0}.icon-btn{width:42px;height:42px}
-  .top-search{position:fixed;left:10px;right:10px;top:calc(66px + env(safe-area-inset-top));z-index:160;box-shadow:0 18px 50px rgba(0,0,0,.55)}
-  .player-stage{
-    height:clamp(180px,min(56.25vw,32dvh),280px);
-    min-height:180px;
-    max-height:280px;
-    aspect-ratio:auto;
-  }
-  .tv-strip-shell{padding-left:50px;padding-right:50px;min-height:68px}
-  .channel-list-shell{padding-left:48px!important;padding-right:48px!important;min-height:315px}
-  .channel-list-shell .channel-list{min-height:300px;padding-bottom:calc(22px + env(safe-area-inset-bottom))!important}
-  .channel-row{flex-basis:158px!important;min-width:158px!important;min-height:232px!important}
-  .channel-row .channel-logo{height:136px!important;min-height:136px!important}
-}
-@media(max-width:430px){
-  .topbar{grid-template-columns:auto minmax(132px,1fr) auto}
-  .brand{width:118px}
-  .top-main-tabs .main-tab{min-width:61px;padding-inline:6px;font-size:12px}
-  .top-actions .icon-btn{width:38px;height:38px}
-  .player-channel-card{width:calc(100% - 76px)}
-}
-
-@media(orientation:landscape) and (max-height:620px){
-  .player-stage{height:clamp(150px,31dvh,220px);min-height:150px;max-height:220px}
-  .tv-strip-shell{margin-top:6px;min-height:54px;padding-top:4px;padding-bottom:4px}
-  .channel-list-shell{min-height:220px}
-  .channel-list-shell .channel-list{min-height:205px}
-}
-
-
-
-/* NOVA+ TV 7.0.2 — guía EPG modular */
-:where(button,a,[role="button"]):active{transform:scale(.96)!important;filter:brightness(1.12)}
-.epg-now-panel{display:none;position:relative;padding:12px 14px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#20202c,#171720);gap:12px;align-items:center}
-.epg-now-panel.visible{display:grid;grid-template-columns:minmax(0,1fr) auto}
-.epg-live{display:inline-flex;align-items:center;gap:6px;color:#ff6579;font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.epg-live::before{content:"";width:7px;height:7px;border-radius:50%;background:#ff415c;box-shadow:0 0 0 4px rgba(255,65,92,.14)}
-.epg-program{margin-top:5px;font-size:15px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.epg-times{margin-top:4px;color:var(--muted);font-size:11px}.epg-next{margin-top:5px;color:#c9c9d4;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.epg-progress{height:4px;margin-top:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}.epg-progress>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3f70ff,#69a0ff);border-radius:inherit;transition:width .5s ease}
-.epg-guide-btn{min-width:104px;height:40px;padding:0 13px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:#2a2a39;color:#fff;font-weight:800;transition:.18s ease}
-.epg-guide-btn:hover,.epg-guide-btn:focus-visible{background:#343448;border-color:#668bff;box-shadow:0 0 0 3px rgba(63,112,255,.18)}
-.epg-guide-modal{position:fixed;inset:0;z-index:9999;display:none;place-items:center;padding:16px;background:rgba(0,0,0,.72);backdrop-filter:blur(8px)}.epg-guide-modal.open{display:grid}.epg-guide-card{width:min(720px,100%);max-height:min(82dvh,760px);display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.14);border-radius:18px;background:#1d1d28;box-shadow:0 25px 80px rgba(0,0,0,.6);overflow:hidden}.epg-guide-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;border-bottom:1px solid var(--line)}.epg-guide-head h2{font-size:18px}.epg-guide-close{width:38px;height:38px;border:0;border-radius:50%;background:#30303f;font-size:24px}.epg-guide-list{overflow:auto;padding:8px}.epg-guide-item{display:grid;grid-template-columns:92px minmax(0,1fr);gap:12px;padding:12px;border-radius:12px}.epg-guide-item.active{background:rgba(63,112,255,.15);outline:1px solid rgba(63,112,255,.35)}.epg-guide-time{font-size:11px;color:#9fb5ff;font-weight:800}.epg-guide-title{font-weight:800}.epg-guide-desc{margin-top:4px;color:var(--muted);font-size:11px;line-height:1.35}.epg-unavailable{padding:18px;text-align:center;color:var(--muted)}
-.channel-row .program-text{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal;line-height:1.25;min-height:2.5em}
-@media(max-width:620px){.epg-now-panel.visible{grid-template-columns:1fr}.epg-guide-btn{width:100%}.epg-program{font-size:14px}.epg-guide-item{grid-template-columns:76px minmax(0,1fr)}}
-
-
-.player-action-stack{position:absolute;z-index:86;top:10px;right:10px;display:flex;gap:8px}.player-action-stack .player-favorite-btn,.player-action-stack .player-report-btn,.player-action-stack .player-guide-btn{position:static}.player-guide-btn{width:46px;height:46px;display:none;place-items:center;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(17,17,25,.8);color:#fff;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.2s}.player-stage.show-ui .player-guide-btn.visible{display:grid;opacity:1;transform:none;pointer-events:auto}.player-guide-btn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.player-guide-btn:hover{background:#402052;border-color:#c05cff}.player-report-btn{width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(17,17,25,.8);color:#fff;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.2s}.player-stage.show-ui .player-report-btn{opacity:1;transform:none;pointer-events:auto}.player-report-btn svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.player-report-btn:hover{background:#591724;border-color:#ff7184}.player-report-btn:disabled{opacity:.35!important;pointer-events:none!important}.channel-guide-btn{height:34px;padding:0 9px;display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid rgba(255,255,255,.16);border-radius:9px;background:rgba(49,31,67,.95);color:#fff}.channel-guide-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.channel-guide-btn span{font-size:10px;font-weight:900}.channel-guide-btn:hover{background:#4c1018;border-color:#ff4c5d}.canela-guide-card{width:min(980px,96vw);max-height:min(88dvh,820px);background:#0d0b0c}.epg-guide-kicker{display:block;color:#ff4a57;font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}.canela-guide-layout{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:0;overflow:hidden}.canela-guide-channels{overflow:auto;border-right:1px solid rgba(255,255,255,.1);background:#120e10;padding:8px}.canela-guide-channel{width:100%;display:grid;grid-template-columns:48px minmax(0,1fr);gap:10px;align-items:center;padding:10px;border:0;border-radius:10px;background:transparent;color:#fff;text-align:left}.canela-guide-channel:hover,.canela-guide-channel.active{background:linear-gradient(90deg,rgba(193,15,30,.28),rgba(193,15,30,.08));outline:1px solid rgba(255,61,78,.38)}.canela-guide-channel-logo{width:48px;height:48px;border-radius:8px;background:#21181b;display:grid;place-items:center;overflow:hidden;font-size:11px;font-weight:900}.canela-guide-channel-logo img{width:100%;height:100%;object-fit:contain}.canela-guide-channel-name{display:block;font-size:12px;font-weight:800;line-height:1.2}.canela-guide-channel-now{display:block;margin-top:4px;color:#c9b9bc;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.canela-guide-schedule{display:flex;min-width:0;min-height:0;flex-direction:column;background:linear-gradient(180deg,#120d0f,#090809)}.canela-guide-date{padding:11px 15px;border-bottom:1px solid rgba(255,255,255,.1);color:#f3dadd;font-size:12px;font-weight:800}.canela-guide-schedule .epg-guide-item.active{background:linear-gradient(90deg,rgba(191,16,31,.30),rgba(191,16,31,.06));outline:1px solid rgba(255,52,70,.35);border-left:3px solid #ff3446}.canela-guide-schedule .epg-guide-time{color:#ff9ca6}@media(max-width:720px){.player-action-stack{top:8px;right:8px}.player-action-stack .player-favorite-btn,.player-action-stack .player-report-btn{width:39px;height:39px}.epg-guide-modal{align-items:end;padding:0}.canela-guide-card{width:100%;max-height:94dvh;border-radius:18px 18px 0 0}.canela-guide-layout{grid-template-columns:112px minmax(0,1fr)}.canela-guide-channel{grid-template-columns:1fr;padding:8px 5px;text-align:center}.canela-guide-channel-logo{margin:auto}.canela-guide-channel-now{display:none}.canela-guide-channel-name{font-size:10px}}
-
-/* NOVA+ TV 7.4: logos más grandes, modal de un solo canal y controles adaptativos */
-.brand{display:none!important}
-.topbar-brand-group{min-width:auto!important}
-.single-channel-guide{display:block!important;min-height:0!important;overflow:hidden!important}
-.single-channel-guide .canela-guide-schedule{width:100%;min-height:0}
-.canela-guide-card{width:min(760px,96vw)!important}
-.guide-channel-cell{flex-basis:132px!important;grid-template-columns:1fr!important;justify-items:center!important;padding:10px 8px!important;text-align:center!important}
-.guide-day{flex-basis:132px!important}
-.guide-logo-btn{width:104px!important;height:76px!important;padding:5px!important;border-radius:7px!important}
-.guide-channel-name,.guide-channel-meta{display:none!important}
-.guide-timeline-head,.guide-timeline{flex-basis:2040px}
-@media(max-width:720px){
-  .topbar{grid-template-columns:auto minmax(124px,1fr) auto!important}
-  .brand{display:none!important}
-  .guide-shell{padding-right:0!important}
-  .guide-controls,.drawer-scroll-controls{display:none!important}
-  .tv-strip-shell:has(#categoryTabs){display:block!important;padding:7px 8px!important}
-  .tv-strip-shell:has(#categoryTabs)>.tv-strip-btn{display:none!important}
-  .category-tabs{padding-inline:0!important}
-  .guide-day,.guide-channel-cell{flex-basis:112px!important}
-  .guide-logo-btn{width:92px!important;height:68px!important;margin:auto!important}
-  .guide-grid{min-width:1804px!important}
-  .guide-timeline-head,.guide-timeline{flex-basis:1680px!important}
-  .provider-drawer-panel{padding-right:14px!important}
-}
 </style>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2636891173590272"
         crossorigin="anonymous"></script>
-<script src="../assets/js/device-mode.js?v=6.0"></script>
-<style id="nova-tv-guide-v73-css">
-/* NOVA+ TV 7.3 — guía tipo Canela.TV + navegación completa */
-.topbar-brand-group{display:flex!important;align-items:center;gap:7px}
-.tv-menu-btn{width:42px;height:42px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.16);border-radius:50%;background:#151c1a;color:#fff;flex:0 0 auto;transition:.14s ease}.tv-menu-btn:active{transform:scale(.92)}.tv-menu-btn:hover,.tv-menu-btn:focus-visible{background:#222c29;border-color:#6b5cff}.tv-menu-btn svg{width:22px;height:22px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
-.provider-drawer{position:fixed;inset:0;z-index:10020;display:none}.provider-drawer.open{display:block}.provider-drawer-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(5px)}
-.provider-drawer-panel{position:absolute;left:0;top:0;bottom:0;width:min(360px,90vw);padding:18px 58px calc(18px + env(safe-area-inset-bottom)) 14px;background:#0c1110;border-right:1px solid rgba(255,255,255,.14);box-shadow:22px 0 70px rgba(0,0,0,.55);overflow:auto;transform:translateX(-100%);animation:drawerIn .22s ease forwards;scroll-behavior:smooth}@keyframes drawerIn{to{transform:translateX(0)}}
-.provider-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.provider-drawer-head h2{font-size:20px}.provider-drawer-close{width:38px;height:38px;border:0;border-radius:50%;background:#1c2522;color:#fff;font-size:24px}.provider-drawer-list{display:grid;gap:8px}.provider-drawer-item{width:100%;min-height:58px;display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 10px;border:1px solid rgba(255,255,255,.09);border-radius:12px;background:#131a18;color:#fff;text-align:left}.provider-drawer-item:active{transform:scale(.97)}.provider-drawer-item:hover,.provider-drawer-item.active{background:#1d2825;border-color:#765dff}.provider-drawer-item img{width:38px;height:38px;object-fit:contain}.provider-drawer-item strong{font-size:14px}.provider-drawer-item span{color:#9ba6a1;font-size:11px}.provider-drawer-item i{font-style:normal;font-size:22px;color:#806dff}
-.drawer-scroll-controls{position:fixed;left:min(302px,calc(90vw - 54px));top:50%;transform:translateY(-50%);z-index:10024;display:grid;gap:10px}.drawer-scroll-btn,.guide-nav-btn{width:44px;height:52px;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(10,15,14,.96);color:#fff;font-size:25px;display:grid;place-items:center;box-shadow:0 8px 26px rgba(0,0,0,.42)}.drawer-scroll-btn:active,.guide-nav-btn:active{transform:scale(.92);background:#5849db}
-.tv-strip-shell:has(#sectionTabs){display:none!important}
-/* categorías: flechas siempre visibles y touch scroll */
-.tv-strip-shell:has(#categoryTabs){display:grid!important;grid-template-columns:48px minmax(0,1fr) 48px!important;gap:6px!important;padding:7px 8px!important;align-items:center}.tv-strip-shell:has(#categoryTabs) .tv-strip-btn{display:grid!important;position:static!important;width:44px!important;height:44px!important;transform:none!important;border-radius:11px!important}.category-tabs{overflow-x:auto!important;scroll-behavior:smooth!important;touch-action:pan-x!important;overscroll-behavior-inline:contain!important;scrollbar-width:none!important}.category-tabs::-webkit-scrollbar{display:none}
-.epg-now-panel,.channel-list-shell,.list-head{display:none!important}
-.universal-guide{position:relative;background:#080909;border-top:1px solid rgba(255,255,255,.08);min-height:430px;padding-bottom:max(24px,env(safe-area-inset-bottom))}.universal-guide-head{display:flex;align-items:end;justify-content:space-between;gap:12px;padding:14px 18px 10px}.universal-guide-kicker{display:block;color:#ff536a;font-size:11px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}.universal-guide-title{font-size:24px;line-height:1.05;margin-top:3px}.universal-guide-count{color:#9da6a2;font-size:12px}
-.guide-shell{position:relative;padding-right:54px}.guide-scroll{position:relative;overflow:auto;max-height:min(62dvh,690px);scroll-behavior:smooth;touch-action:pan-x pan-y;overscroll-behavior:contain;scrollbar-color:#4a4d4c #111;scrollbar-width:thin}.guide-grid{position:relative;min-width:2200px;background:#0b0b0b}.guide-time-row{position:sticky;top:0;z-index:20;display:flex;height:52px;background:#323232;border-top:1px solid #494949;border-bottom:1px solid #494949}.guide-day{position:sticky;left:0;z-index:25;flex:0 0 150px;display:flex;align-items:center;justify-content:center;background:#fff;color:#111;font-weight:900}.guide-timeline-head{position:relative;flex:0 0 2040px;background:repeating-linear-gradient(to right,transparent 0,transparent 169px,rgba(255,255,255,.25) 169px,rgba(255,255,255,.25) 170px)}.guide-time-label{position:absolute;top:0;height:52px;display:flex;align-items:center;padding-left:12px;color:#d0d0d0;font-size:13px;font-weight:800;white-space:nowrap}.guide-now-dot{position:absolute;top:-7px;width:12px;height:12px;border-radius:50%;background:#ec334c;transform:translateX(-50%);z-index:31}.guide-now-line{position:absolute;top:0;bottom:0;width:2px;background:#ec334c;z-index:18;pointer-events:none;box-shadow:0 0 8px rgba(236,51,76,.35)}
-.guide-channel-row{display:flex;min-height:100px;border-bottom:1px solid #343434;background:#111}.guide-channel-row:nth-child(even){background:#151515}.guide-channel-cell{position:sticky;left:0;z-index:12;flex:0 0 150px;display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;align-items:center;padding:10px;border-right:1px solid #3a3a3a;background:#0e100f}.guide-logo-btn{width:74px;height:62px;padding:4px;border:1px solid rgba(255,255,255,.16);border-radius:5px;background:#181b1a;display:grid;place-items:center;overflow:hidden}.guide-logo-btn:active{transform:scale(.94)}.guide-logo-btn:hover,.guide-logo-btn:focus-visible{border-color:#806bff;box-shadow:0 0 0 3px rgba(108,88,255,.18)}.guide-logo-btn img{width:100%;height:100%;object-fit:contain}.guide-channel-name{font-size:11px;font-weight:900;line-height:1.18;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.guide-channel-meta{margin-top:5px;color:#8f9994;font-size:9px}.guide-timeline{position:relative;flex:0 0 2040px;min-height:100px;background:repeating-linear-gradient(to right,transparent 0,transparent 169px,#343434 169px,#343434 170px)}.guide-program{position:absolute;top:0;bottom:0;padding:16px 12px;border-right:1px solid #3a3a3a;overflow:hidden;display:flex;flex-direction:column;justify-content:center;background:#111}.guide-program.current{background:linear-gradient(90deg,rgba(112,22,34,.42),rgba(45,16,22,.24));outline:1px solid rgba(255,70,91,.5);outline-offset:-1px}.guide-program-title{font-size:13px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.guide-program-time{margin-top:6px;color:#c8d5cf;font-size:10px;white-space:nowrap}.guide-live-pill{display:inline-flex;margin-left:6px;padding:2px 5px;border-radius:3px;background:#fff;color:#111;font-size:8px;font-weight:900;vertical-align:middle}.guide-unavailable{position:absolute;inset:0;display:flex;align-items:center;padding:16px;color:#7f8984;font-size:12px}.guide-empty{padding:38px 18px;text-align:center;color:#929b97}.guide-controls{position:absolute;right:6px;top:62px;z-index:40;display:grid;gap:8px}.guide-nav-btn{height:46px;width:44px;font-size:20px}.guide-nav-btn[data-dir="left"],.guide-nav-btn[data-dir="right"]{display:none}
-.player-stage{border-bottom:1px solid rgba(255,255,255,.08)}
-@media(min-width:721px){.guide-controls{grid-template-columns:1fr}.guide-nav-btn[data-dir="left"],.guide-nav-btn[data-dir="right"]{display:grid}.guide-shell{padding-right:56px}}
-@media(max-width:720px){.tv-menu-btn{width:39px;height:39px}.brand img{max-width:130px}.topbar{grid-template-columns:auto 1fr auto!important}.universal-guide-title{font-size:20px}.universal-guide-head{padding-inline:10px}.guide-shell{padding-right:48px}.guide-scroll{max-height:58dvh}.guide-grid{min-width:1810px}.guide-day,.guide-channel-cell{flex-basis:118px}.guide-timeline-head,.guide-timeline{flex-basis:1680px}.guide-timeline-head,.guide-timeline{background-size:auto}.guide-channel-cell{grid-template-columns:1fr;padding:7px 5px;text-align:center}.guide-logo-btn{width:72px;height:58px;margin:auto}.guide-channel-name{font-size:9px}.guide-channel-meta{display:none}.guide-controls{right:3px;top:58px}.guide-nav-btn{width:41px;height:44px}.tv-strip-shell:has(#categoryTabs){grid-template-columns:44px minmax(0,1fr) 44px!important;padding-inline:4px!important}.tv-strip-shell:has(#categoryTabs) .tv-strip-btn{width:40px!important;height:40px!important}}
 
-/* NOVA+ TV 7.4: logos más grandes, modal de un solo canal y controles adaptativos */
-.brand{display:none!important}
-.topbar-brand-group{min-width:auto!important}
-.single-channel-guide{display:block!important;min-height:0!important;overflow:hidden!important}
-.single-channel-guide .canela-guide-schedule{width:100%;min-height:0}
-.canela-guide-card{width:min(760px,96vw)!important}
-.guide-channel-cell{flex-basis:132px!important;grid-template-columns:1fr!important;justify-items:center!important;padding:10px 8px!important;text-align:center!important}
-.guide-day{flex-basis:132px!important}
-.guide-logo-btn{width:104px!important;height:76px!important;padding:5px!important;border-radius:7px!important}
-.guide-channel-name,.guide-channel-meta{display:none!important}
-.guide-timeline-head,.guide-timeline{flex-basis:2040px}
-@media(max-width:720px){
-  .topbar{grid-template-columns:auto minmax(124px,1fr) auto!important}
-  .brand{display:none!important}
-  .guide-shell{padding-right:0!important}
-  .guide-controls,.drawer-scroll-controls{display:none!important}
-  .tv-strip-shell:has(#categoryTabs){display:block!important;padding:7px 8px!important}
-  .tv-strip-shell:has(#categoryTabs)>.tv-strip-btn{display:none!important}
-  .category-tabs{padding-inline:0!important}
-  .guide-day,.guide-channel-cell{flex-basis:112px!important}
-  .guide-logo-btn{width:92px!important;height:68px!important;margin:auto!important}
-  .guide-grid{min-width:1804px!important}
-  .guide-timeline-head,.guide-timeline{flex-basis:1680px!important}
-  .provider-drawer-panel{padding-right:14px!important}
+<style id="nova-tv-v2-overrides">
+:root{--nova-panel:#0b1411;--nova-card:#121d19;--nova-line:rgba(255,255,255,.12);--nova-accent:#7356ff}
+body{background:#000}
+.app-shell{width:min(100%,1100px);background:#050907}
+.topbar{height:64px;background:#07100d;border-bottom:1px solid var(--nova-line);position:relative}
+.nova-left-actions{display:flex;align-items:center;gap:5px;min-width:110px}
+.nova-menu-btn,.nova-back-btn{font-size:27px;font-weight:400;border:1px solid rgba(255,255,255,.18)!important;background:#111b18!important}
+.nova-back-btn{font-size:38px;line-height:1;padding-bottom:5px}
+.top-actions{min-width:110px}
+.main-tabs{position:absolute;top:7px;left:50%;transform:translateX(-50%);z-index:120;border:0;background:transparent;padding:0;gap:10px}
+.main-tab{min-width:118px;height:46px;border:1px solid rgba(255,255,255,.12)!important;border-radius:10px!important;background:#111b18!important}
+.main-tab.active{border-bottom:3px solid #8b42ff!important;background:#18221f!important}
+.provider-tabs{display:none!important}
+.player-stage{min-height:250px;background:#000}
+.player-favorite-btn{right:72px}
+.player-round-btn{position:absolute;z-index:86;top:10px;width:46px;height:46px;border:1px solid rgba(255,255,255,.3);border-radius:50%;background:rgba(17,17,25,.82);color:#fff;display:grid;place-items:center;box-shadow:0 5px 18px rgba(0,0,0,.45);backdrop-filter:blur(9px);opacity:0;transform:translateY(-8px);pointer-events:none;transition:.2s}
+.player-stage.show-ui .player-round-btn{opacity:1;transform:none;pointer-events:auto}
+.player-round-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.player-report-btn{right:16px}
+.player-guide-btn{right:128px;color:#fff}
+.player-guide-btn[hidden]{display:none!important}
+.player-round-btn:disabled{opacity:.3!important;pointer-events:none!important}
+
+/* categorías: scroll horizontal + flechas iguales a las usadas en NOVA+ */
+.category-rail-shell{position:relative;border-top:1px solid var(--nova-line);border-bottom:1px solid var(--nova-line);background:#0c1512;padding:7px 54px}
+.category-tabs{display:flex!important;overflow-x:auto;scrollbar-width:none;gap:8px;border:0!important;padding:0!important;scroll-behavior:smooth}
+.category-tabs::-webkit-scrollbar{display:none}
+.nova-rail-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:15;width:42px;height:42px;border:1px solid rgba(255,255,255,.22);border-radius:9px;background:#09100e;color:#fff;font-size:22px;font-weight:900;display:grid;place-items:center}
+.nova-rail-btn.prev{left:8px}.nova-rail-btn.next{right:8px}
+.nova-rail-btn:hover,.nova-rail-btn:focus-visible{background:#18251f;transform:translateY(-50%) scale(1.05)}
+.category-tabs .tab-chip{flex:0 0 auto}
+
+/* nuevo carrusel de canales */
+.list-head{padding:7px 16px;background:#07100d;border-bottom:1px solid var(--nova-line);font-size:11px}
+.channel-rail-shell{position:relative;background:#050907;padding:12px 54px 18px}
+.channel-list{display:flex!important;gap:18px!important;overflow-x:auto!important;overflow-y:hidden!important;scroll-behavior:smooth;scroll-snap-type:x proximity;scrollbar-width:none;padding:0!important;min-height:208px!important;max-height:none!important}
+.channel-list::-webkit-scrollbar{display:none}
+.channel-row{position:relative;flex:0 0 178px!important;width:178px!important;min-width:178px!important;height:202px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;padding:0!important;border:1px solid rgba(255,255,255,.18)!important;border-radius:14px!important;overflow:hidden;background:#0a0d0c!important;scroll-snap-align:start;box-shadow:none!important}
+.channel-row.active{border:2px solid #6e65ff!important;box-shadow:0 0 0 2px rgba(110,101,255,.2)!important}
+.channel-logo{width:100%!important;height:150px!important;border:0!important;border-radius:0!important;background:#050505!important;padding:12px!important;font-size:13px!important;color:#fff;display:grid!important;place-items:center!important}
+.channel-logo img{width:100%!important;height:100%!important;object-fit:contain!important;padding:8px!important}
+.channel-number{position:absolute!important;top:8px!important;left:8px!important;z-index:5;width:auto!important;min-width:30px;height:23px;padding:0 7px;border-radius:999px;background:#030706;color:#fff;border:1px solid rgba(255,255,255,.35);display:grid!important;place-items:center;font-size:10px;font-weight:900}
+.channel-copy{padding:9px 10px 10px!important;min-width:0}
+.channel-name{font-size:13px!important;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.program-text{display:none!important}
+.row-actions{display:none!important}
+
+/* drawer de listas */
+.playlist-drawer{position:fixed;inset:0;z-index:9990;pointer-events:none;visibility:hidden}
+.playlist-drawer.open{pointer-events:auto;visibility:visible}
+.playlist-drawer-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.76);opacity:0;transition:.2s}
+.playlist-drawer.open .playlist-drawer-backdrop{opacity:1}
+.playlist-drawer-panel{position:absolute;left:0;top:0;bottom:0;width:min(355px,92vw);background:#07110e;border-right:1px solid rgba(255,255,255,.16);padding:16px 14px 18px;transform:translateX(-102%);transition:.24s;display:flex;flex-direction:column}
+.playlist-drawer.open .playlist-drawer-panel{transform:none}
+.playlist-drawer-head{display:flex;align-items:center;gap:10px;padding-bottom:9px}
+.playlist-drawer-logo{width:178px;max-height:54px;object-fit:contain;object-position:left center}
+.playlist-drawer-logo-fallback{font-size:28px}
+.drawer-close{margin-left:auto;width:42px;height:42px;border:0;border-radius:50%;background:#14221d;color:#fff;font-size:27px}
+.playlist-drawer h2{font-size:22px;margin:3px 0 12px}
+.drawer-provider-wrap{min-height:0;flex:1;position:relative;padding-right:50px}
+.drawer-provider-list{height:100%;overflow-y:auto;scrollbar-width:none;display:flex;flex-direction:column;gap:9px;padding-bottom:10px}
+.drawer-provider-list::-webkit-scrollbar{display:none}
+.drawer-provider-item{flex:0 0 auto;width:100%;min-height:58px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:#111c18;color:#fff;display:grid;grid-template-columns:42px 1fr 20px;align-items:center;gap:10px;padding:8px 10px;text-align:left}
+.drawer-provider-item.active{border-color:#7356ff;background:#17221e}
+.drawer-provider-item img{width:38px;height:26px;object-fit:contain}
+.drawer-provider-copy b{display:block;font-size:15px}.drawer-provider-copy small{display:block;color:#b4c2bd;margin-top:2px;font-size:11px}
+.drawer-provider-chevron{font-size:25px;color:#744dff}
+.drawer-scroll-btn{position:absolute;right:0;width:42px;height:52px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:#0b1411;color:#fff;font-size:21px;z-index:5}
+.drawer-up{top:36%}.drawer-down{top:49%}
+
+/* guía Canela: solo modal, sin parrilla debajo del reproductor */
+.canela-guide-modal{position:fixed;inset:0;z-index:10020;display:none}
+.canela-guide-modal.open{display:block}
+.canela-guide-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px)}
+.canela-guide-dialog{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,94vw);height:min(620px,86dvh);background:#100b0c;border:1px solid rgba(255,255,255,.18);border-radius:17px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 28px 90px rgba(0,0,0,.65)}
+.canela-guide-head{flex:0 0 auto;display:flex;align-items:center;padding:13px 16px;border-bottom:1px solid rgba(255,255,255,.13)}
+.canela-guide-head span{display:block;color:#ff596c;font-size:10px;font-weight:900;letter-spacing:1.4px}
+.canela-guide-head h2{font-size:16px;margin-top:2px}
+.canela-guide-head button{margin-left:auto;width:34px;height:34px;border:0;border-radius:50%;background:#343443;color:#fff;font-size:21px}
+.canela-guide-scroll{min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;padding:14px;scrollbar-width:thin}
+.canela-guide-loading,.canela-guide-empty{padding:30px;text-align:center;color:#c5bebf}
+.guide-day{padding:10px 8px 6px;color:#fff;font-size:12px;font-weight:900;border-bottom:1px solid rgba(255,255,255,.09)}
+.guide-program{display:grid;grid-template-columns:78px minmax(0,1fr);gap:14px;padding:12px 9px;border-bottom:1px solid rgba(255,255,255,.08)}
+.guide-program.live{border:1px solid #da2440;border-radius:10px;background:rgba(160,17,38,.15);margin:5px 0}
+.guide-time{font-size:11px;color:#ff7083;font-weight:900;line-height:1.35}
+.guide-title{font-size:14px;font-weight:900}
+.guide-desc{font-size:10px;color:#c7bfc1;margin-top:5px;line-height:1.4}
+.guide-live{display:inline-block;margin-left:7px;padding:2px 5px;border-radius:4px;background:#fff;color:#b20c25;font-size:8px;font-weight:900}
+
+/* desktop arrows only; touch devices simply swipe */
+@media(max-width:720px),(hover:none) and (pointer:coarse){
+  .nova-rail-btn,.drawer-scroll-btn{display:none!important}
+  .category-rail-shell{padding:7px 10px}
+  .channel-rail-shell{padding:12px 10px 18px}
+  .channel-row{flex-basis:132px!important;width:132px!important;min-width:132px!important;height:172px!important}
+  .channel-logo{height:122px!important;padding:7px!important}
+  .main-tab{min-width:94px;height:42px;font-size:14px}
+  .nova-left-actions{min-width:92px}
+  .top-actions{min-width:52px}
+  .player-favorite-btn{right:66px}
+  .player-report-btn{right:12px}
+  .player-guide-btn{right:120px}
+  .player-channel-card{width:min(390px,calc(100% - 112px))}
+}
+@media(max-width:480px){
+  .topbar{height:58px;padding-left:6px;padding-right:6px}
+  .nova-menu-btn,.nova-back-btn{width:38px;height:38px}
+  .main-tabs{gap:6px}
+  .main-tab{min-width:80px;padding:0 8px;font-size:12px}
+  .player-stage{min-height:205px}
 }
 </style>
 
@@ -1197,16 +1014,23 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
 <body>
 <div class="app-shell">
   <header class="topbar">
-    <div class="topbar-brand-group">
-      <a class="back-home-btn" href="../index.html" aria-label="Volver al inicio de NOVA+" title="Volver al inicio">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
-      </a>
+    <div class="nova-left-actions">
+      <button class="icon-btn nova-menu-btn" id="playlistDrawerOpen" type="button" aria-label="Abrir listas de reproducción" title="Listas de reproducción">☰</button>
+      <button class="icon-btn nova-back-btn" type="button" aria-label="Regresar" title="Regresar" onclick="history.length>1?history.back():location.href='../index.html'">‹</button>
     </div>
-    <nav class="main-tabs top-main-tabs" aria-label="Vista principal">
-      <button class="main-tab active" id="channelsMainTab" type="button">Canales</button>
-      <button class="main-tab" id="favoritesMainTab" type="button">Favoritos</button>
-    </nav>
-    <div class="top-actions" aria-label="Buscar canales">
+    <div class="top-actions" aria-label="Acciones">
+      <button class="icon-btn" id="shareToggle" type="button" aria-label="Compartir página" title="Compartir página">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.7 10.7 6.6-4.1M8.7 13.3l6.6 4.1"></path></svg>
+      </button>
+      <button class="icon-btn" id="aboutToggle" type="button" aria-label="Quiénes somos y sobre nosotros" title="Quiénes somos">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"></circle>
+          <path d="M4 21a8 8 0 0 1 16 0"></path>
+        </svg>
+      </button>
+      <button class="icon-btn" id="legalToggle" type="button" aria-label="Políticas y aviso legal" title="Políticas y aviso legal">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l3 3v15H6z"></path><path d="M14 3v4h4"></path><path d="M9 11h6M9 15h6"></path></svg>
+      </button>
       <div class="top-search" id="topSearchWrap" role="search">
         <input class="top-search-input" id="searchInput" type="search" placeholder="Buscar canal..." autocomplete="off" aria-label="Buscar canales">
         <button class="top-search-clear" id="searchClear" type="button" aria-label="Limpiar búsqueda" title="Limpiar búsqueda">×</button>
@@ -1214,11 +1038,6 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
       <button class="icon-btn search-btn" id="searchToggle" type="button" aria-label="Abrir buscador" title="Buscar canales" aria-expanded="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
       </button>
-      <div class="legacy-actions" hidden aria-hidden="true">
-        <button id="shareToggle" type="button"></button>
-        <button id="aboutToggle" type="button"></button>
-        <button id="legalToggle" type="button"></button>
-      </div>
     </div>
   </header>
 
@@ -1236,33 +1055,76 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
       </div>
     </article>
 
-    <div class="player-action-stack" aria-label="Acciones del canal actual">
-      <button class="player-favorite-btn" id="playerFavoriteBtn" type="button" aria-label="Agregar canal actual a favoritos" title="Agregar a favoritos" disabled>☆</button>
-      <button class="player-guide-btn" id="playerGuideBtn" type="button" aria-label="Ver programación del canal" title="Ver programación"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"></rect><path d="M7 3v4M17 3v4M3 10h18M7 14h3M13 14h4M7 17h5"></path></svg></button>
-      <button class="player-report-btn" id="playerReportBtn" type="button" aria-label="Reportar canal actual" title="Reportar canal" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.5 2.7 17a2 2 0 0 0 1.8 3h15a2 2 0 0 0 1.8-3L13.7 3.5a2 2 0 0 0-3.4 0Z"></path></svg></button>
-    </div>
+    <button
+      class="player-favorite-btn"
+      id="playerFavoriteBtn"
+      type="button"
+      aria-label="Agregar canal actual a favoritos"
+      title="Agregar a favoritos"
+      disabled
+    >☆</button>
+
+    <button class="player-round-btn player-report-btn" id="playerReportBtn" type="button"
+      aria-label="Reportar canal" title="Reportar canal" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.5 2.7 17a2 2 0 0 0 1.8 3h15a2 2 0 0 0 1.8-3L13.7 3.5a2 2 0 0 0-3.4 0Z"></path></svg>
+    </button>
+
+    <button class="player-round-btn player-guide-btn" id="playerGuideBtn" type="button"
+      aria-label="Ver guía del canal" title="Ver guía" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg>
+    </button>
   </section>
+  <nav class="main-tabs" aria-label="Vista principal">
+    <button class="main-tab active" id="channelsMainTab" type="button">Canales</button>
+    <button class="main-tab" id="favoritesMainTab" type="button">Favoritos</button>
+  </nav>
 
-
-  <section class="epg-now-panel" id="epgNowPanel" aria-live="polite">
-    <div class="epg-copy">
-      <span class="epg-live">En vivo</span>
-      <div class="epg-program" id="epgNowTitle">Programación no disponible</div>
-      <div class="epg-times" id="epgNowTimes"></div>
-      <div class="epg-progress"><i id="epgProgressBar"></i></div>
-      <div class="epg-next" id="epgNextTitle"></div>
-    </div>
-    <button class="epg-guide-btn" id="epgGuideBtn" type="button">Ver programación</button>
-  </section>
-
-  <div class="tv-strip-shell"><button id="providersPrev" class="tv-strip-btn prev" type="button" aria-label="Servicios anteriores">‹</button><nav class="scroll-tabs provider-tabs" id="sectionTabs" aria-label="Servicios de TV"></nav><button id="providersNext" class="tv-strip-btn next" type="button" aria-label="Servicios siguientes">›</button></div>
-  <div class="tv-strip-shell"><button id="categoriesPrev" class="tv-strip-btn prev" type="button" aria-label="Categorías anteriores">‹</button><nav class="scroll-tabs category-tabs" id="categoryTabs" aria-label="Categorías"></nav><button id="categoriesNext" class="tv-strip-btn next" type="button" aria-label="Categorías siguientes">›</button></div>
+  <nav class="scroll-tabs provider-tabs" id="sectionTabs" aria-label="Servicios de TV"></nav>
+  <nav class="scroll-tabs category-tabs" id="categoryTabs" aria-label="Categorías"></nav>
 <div class="list-head">
     <span id="sectionInfo">Cargando canales...</span>
     <span id="countPill">0</span>
   </div>
 
-  <div class="channel-list-shell"><div class="channel-page-controls" aria-label="Desplazamiento de canales"><button id="channelsUp" class="channel-page-btn" type="button" aria-label="Canales anteriores">&#10094;</button><button id="channelsDown" class="channel-page-btn" type="button" aria-label="Canales siguientes">&#10095;</button></div><main class="channel-list" id="channelList"><div class="empty">Cargando canales...</div></main></div>
+  <main class="channel-list" id="channelList">
+    <div class="empty">Cargando canales...</div>
+  </main>
+</div>
+
+<!-- NOVA+ TV 2.0: drawer de proveedores -->
+<aside class="playlist-drawer" id="playlistDrawer" aria-hidden="true">
+  <div class="playlist-drawer-backdrop" id="playlistDrawerBackdrop"></div>
+  <section class="playlist-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="playlistDrawerTitle">
+    <header class="playlist-drawer-head">
+      <img class="playlist-drawer-logo" src="../assets/images/nova-plus-logo-dark.png" alt="NOVA+"
+           onerror="this.style.display='none';document.getElementById('playlistDrawerLogoFallback').style.display='block'">
+      <strong id="playlistDrawerLogoFallback" class="playlist-drawer-logo-fallback" style="display:none">NOVA+</strong>
+      <button class="drawer-close" id="playlistDrawerClose" type="button" aria-label="Cerrar">×</button>
+    </header>
+    <h2 id="playlistDrawerTitle">Listas de reproducción</h2>
+    <div class="drawer-provider-wrap">
+      <button class="drawer-scroll-btn drawer-up" id="drawerProvidersUp" type="button" aria-label="Listas anteriores">▲</button>
+      <nav class="drawer-provider-list" id="drawerProviderList" aria-label="Listas de reproducción"></nav>
+      <button class="drawer-scroll-btn drawer-down" id="drawerProvidersDown" type="button" aria-label="Listas siguientes">▼</button>
+    </div>
+  </section>
+</aside>
+
+<!-- La guía solo se usa para Canela.TV -->
+<div class="canela-guide-modal" id="canelaGuideModal" aria-hidden="true">
+  <div class="canela-guide-backdrop" id="canelaGuideBackdrop"></div>
+  <section class="canela-guide-dialog" role="dialog" aria-modal="true" aria-labelledby="canelaGuideTitle">
+    <header class="canela-guide-head">
+      <div>
+        <span>GUÍA OFICIAL</span>
+        <h2 id="canelaGuideTitle">Programación</h2>
+      </div>
+      <button id="canelaGuideClose" type="button" aria-label="Cerrar">×</button>
+    </header>
+    <div class="canela-guide-scroll" id="canelaGuideScroll">
+      <div class="canela-guide-loading">Cargando programación…</div>
+    </div>
+  </section>
 </div>
 
 <div class="legal-modal" id="legalModal" aria-hidden="true">
@@ -1326,299 +1188,11 @@ button:focus-visible,.icon-btn:focus-visible,.back-home-btn:focus-visible,.main-
   </section>
 </div>
 
-
-<div class="channel-report-modal" id="channelReportModal" aria-hidden="true">
-  <section class="channel-report-card" role="dialog" aria-modal="true" aria-labelledby="channelReportTitle">
-    <button class="channel-report-close" id="channelReportClose" type="button" aria-label="Cerrar">×</button>
-    <h2 id="channelReportTitle">Reportar canal</h2>
-    <div class="channel-report-summary">
-      <div class="channel-report-logo" id="channelReportLogo">TV</div>
-      <div><div class="channel-report-name" id="channelReportName">Canal</div><div class="channel-report-meta" id="channelReportMeta"></div></div>
-    </div>
-    <form id="channelReportForm">
-      <label for="channelReportReason">Problema</label>
-      <select id="channelReportReason">
-        <option>Canal no reproduce</option><option>Audio sin imagen</option><option>Imagen sin audio</option><option>Señal equivocada</option><option>Se corta constantemente</option><option>Otro problema</option>
-      </select>
-      <label for="channelReportDetails">Detalles (opcional)</label>
-      <textarea id="channelReportDetails" maxlength="800" placeholder="Describe el problema..."></textarea>
-      <label for="channelReportContact">Correo (opcional)</label>
-      <input id="channelReportContact" type="email" maxlength="160" autocomplete="email" placeholder="correo@ejemplo.com">
-      <div class="channel-report-actions"><button class="channel-report-cancel" id="channelReportCancel" type="button">Cancelar</button><button class="channel-report-send" id="channelReportSend" type="submit">Enviar reporte</button></div>
-      <div class="channel-report-status" id="channelReportStatus" aria-live="polite"></div>
-    </form>
-  </section>
-</div>
-
-
-<div class="epg-guide-modal" id="epgGuideModal" aria-hidden="true">
-  <section class="epg-guide-card canela-guide-card" role="dialog" aria-modal="true" aria-labelledby="epgGuideTitle">
-    <header class="epg-guide-head"><div><span class="epg-guide-kicker">Guía oficial</span><h2 id="epgGuideTitle">Programación del canal</h2></div><button class="epg-guide-close" id="epgGuideClose" type="button" aria-label="Cerrar">×</button></header>
-    <div class="canela-guide-layout single-channel-guide"><div class="canela-guide-schedule"><div class="canela-guide-date" id="epgGuideDate"></div><div class="epg-guide-list" id="epgGuideList"></div></div></div>
-  </section>
-</div>
-
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="./config.js?v=7.5"></script>
+<script src="./config.js"></script>
 <script>
 "use strict";
-
-/* ===== NOVA+ EPG 7.0.1: adaptador Canela.TV ===== */
-const EPG_REFRESH_MS = 5 * 60 * 1000;
-const epgState = {
-  channels:[],
-  byCid:new Map(),
-  byXmltvId:new Map(),
-  byExternalId:new Map(),
-  byCallSign:new Map(),
-  byName:new Map(),
-  loadedAt:0,
-  timer:null
-};
-
-const plutoState = {
-  channels:[],
-  byVideoId:new Map(),
-  byOriginId:new Map(),
-  bySlug:new Map(),
-  byName:new Map(),
-  loadedAt:0,
-  loading:null,
-  sync:{added:0,updated:0,missing:0,official:0,local:0}
-};
-function isPlutoChannel(channel){
-  if(!channel) return false;
-  const section=String(channel.section||"").toLowerCase();
-  const provider=String(channel.provider||"").toLowerCase();
-  const value=`${channel.name||""} ${channel.rawName||""} ${channel.url||""} ${channel.logo||""}`.toLowerCase();
-  return section==="pluto" || provider==="pluto" || value.includes("pluto.tv") || value.includes("plutotv") || value.includes("jmp2.uk/plu-");
-}
-function plutoNormalize(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/pluto\s*tv/g,"").replace(/[^a-z0-9]+/g,"").trim()}
-function indexPlutoEpg(payload){
-  const list=Array.isArray(payload?.channels)?payload.channels:Array.isArray(payload?.data?.channels?.channels)?payload.data.channels.channels:[];
-  plutoState.channels=list;
-  [plutoState.byVideoId,plutoState.byOriginId,plutoState.bySlug,plutoState.byName].forEach(m=>m.clear());
-  list.forEach(ch=>{
-    const video=String(ch.videoContentId||ch?.currentListing?.[0]?.videoContentId||ch?.currentListing?.[0]?.contentCANVideo?.contentId||"").trim();
-    const origin=String(ch.originId??ch.id??"").trim();
-    const slug=String(ch.slug||"").toLowerCase().trim();
-    const name=plutoNormalize(ch.name||ch.channelName||"");
-    if(video)plutoState.byVideoId.set(video,ch);
-    if(origin)plutoState.byOriginId.set(origin,ch);
-    if(slug)plutoState.bySlug.set(slug,ch);
-    if(name)plutoState.byName.set(name,ch);
-  });
-  plutoState.loadedAt=Date.now();
-}
-function findPlutoEpgChannel(channel){
-  if(!isPlutoChannel(channel)) return null;
-  const ids=[channel.epgId,channel.videoContentId,channel.id].map(x=>String(x||"").trim()).filter(Boolean);
-  for(const id of ids){if(plutoState.byVideoId.has(id))return plutoState.byVideoId.get(id);if(plutoState.byOriginId.has(id))return plutoState.byOriginId.get(id)}
-  const url=String(channel.url||"");
-  const m=url.match(/plu-([a-f0-9]{24})/i);if(m&&plutoState.byVideoId.has(m[1]))return plutoState.byVideoId.get(m[1]);
-  const slug=String(channel.slug||"").toLowerCase();if(slug&&plutoState.bySlug.has(slug))return plutoState.bySlug.get(slug);
-  const names=[channel.name,channel.rawName,channel.id].map(plutoNormalize).filter(Boolean);
-  for(const n of names)if(plutoState.byName.has(n))return plutoState.byName.get(n);
-  return plutoState.channels.find(ch=>{const n=plutoNormalize(ch.name||ch.channelName);return names.some(x=>x&&n&&(x.includes(n)||n.includes(x)))})||null;
-}
-function plutoPrograms(epg){
-  if(!epg)return[];
-  if(Array.isArray(epg.programs))return epg.programs.map(p=>({
-    title:p.title||p.episodeTitle||"Programación",description:p.description||"",start:p.start,end:p.end,live:Boolean(p.live),thumbnail:p.thumbnail||""
-  })).filter(p=>p.start&&p.end).sort((a,b)=>new Date(a.start)-new Date(b.start));
-  return [...(epg.currentListing||[]),...(epg.upcomingListing||[])].map(p=>({title:p.title||p.episodeTitle||"Programación",description:p.description||"",start:p.startTimeFormatted||new Date(p.startTimestamp).toISOString(),end:p.endTimeFormatted||new Date(p.endTimestamp).toISOString(),live:Boolean(p.isListingLive),thumbnail:p.resolvedfilePathThumb||""})).sort((a,b)=>new Date(a.start)-new Date(b.start));
-}
-async function fetchPlutoEpg(force=false){
-  if(!force&&Date.now()-plutoState.loadedAt<EPG_REFRESH_MS)return plutoState.channels;
-  if(plutoState.loading)return plutoState.loading;
-  const base=String(window.WATCH_TV_CONFIG?.API_URL||"").replace(/\/$/,"");
-  if(!base)return[];
-  plutoState.loading=(async()=>{
-    const response=await fetch(`${base}/api/pluto/epg?country=MX&upcoming=8`,{headers:{Accept:"application/json"},cache:"no-store"});
-    const data=await response.json().catch(()=>({}));
-    if(!response.ok||data?.ok===false||data?.success===false){
-      throw new Error(data?.error||`Pluto EPG ${response.status}`);
-    }indexPlutoEpg(data);syncPlutoOfficialChannels();updateCurrentEpg();renderChannels();return plutoState.channels;
-  })().catch(error=>{console.warn("No se pudo cargar la EPG de Pluto",error);return[]}).finally(()=>{plutoState.loading=null});
-  return plutoState.loading;
-}
-function plutoCategory(ch){const s=(ch.categories||ch.channelCategorySlugs||[]).join(" ").toLowerCase();if(s.includes("pelicula"))return"Películas";if(s.includes("serie"))return"Series";if(s.includes("noticia"))return"Noticias";if(s.includes("deporte"))return"Deportes";if(s.includes("kids"))return"Infantil";if(s.includes("musica"))return"Música";if(s.includes("comedia"))return"Comedia";if(s.includes("novela"))return"Novelas";return"Entretenimiento"}
-function syncPlutoOfficialChannels(){
-  const local=Array.isArray(channelsBySection?.pluto)?channelsBySection.pluto:[];
-  if(!local.length||!plutoState.channels.length)return;
-  const byId=new Map(local.map(c=>[String(c.epgId||c.videoContentId||"").trim(),c]).filter(x=>x[0]));let added=0,updated=0;
-  plutoState.channels.forEach((off,i)=>{
-    const video=String(off.videoContentId||off?.programs?.[0]?.videoContentId||"").trim();if(!video)return;
-    const name=off.name||off.channelName||"Pluto TV";const logo=off.logo||off.resolvedfilePathLogo||off.resolvedfilePathLogoSelected||"";
-    let c=byId.get(video);
-    if(c){let changed=false;if(name&&c.name!==name){c.name=name;c.rawName=name;changed=true}if(logo&&c.logo!==logo){c.logo=logo;changed=true}c.slug=off.slug||c.slug;c.originId=off.originId||c.originId;c.official=true;c.category=plutoCategory(off);if(changed)updated++;}
-    else{
-      c={id:`pluto-${video}`,epgId:video,videoContentId:video,name,rawName:name,logo,url:`https://jmp2.uk/plu-${video}.m3u8`,provider:"pluto",section:"pluto",sectionLabel:"Pluto TV",sectionIndex:local.length+1,channelNumber:String(local.length+1),favoriteKey:`pluto::https://jmp2.uk/plu-${video}.m3u8`,category:plutoCategory(off),slug:off.slug||"",originId:off.originId||null,official:true};local.push(c);allChannels.push(c);byId.set(video,c);added++;
-    }
-  });
-  const officialIds=new Set(plutoState.channels.map(x=>String(x.videoContentId||"")).filter(Boolean));
-  const missing=local.filter(c=>c.epgId&&!officialIds.has(String(c.epgId))).length;
-  plutoState.sync={added,updated,missing,official:plutoState.channels.length,local:local.length};
-  window.NOVA_PLUTO_SYNC=plutoState.sync;
-}
-
-const epgNowPanel = document.getElementById("epgNowPanel");
-const epgNowTitle = document.getElementById("epgNowTitle");
-const epgNowTimes = document.getElementById("epgNowTimes");
-const epgNextTitle = document.getElementById("epgNextTitle");
-const epgProgressBar = document.getElementById("epgProgressBar");
-const epgGuideBtn = document.getElementById("epgGuideBtn");
-const playerGuideBtn = document.getElementById("playerGuideBtn");
-const epgGuideModal = document.getElementById("epgGuideModal");
-const epgGuideClose = document.getElementById("epgGuideClose");
-const epgGuideTitle = document.getElementById("epgGuideTitle");
-const epgGuideList = document.getElementById("epgGuideList");
-const epgChannelList = document.getElementById("epgChannelList");
-const epgGuideDate = document.getElementById("epgGuideDate");
-
-function epgText(list, locale="es-MX"){
-  if(!Array.isArray(list)) return "";
-  return (list.find(x=>String(x?.lang||"").toLowerCase().startsWith("es")) || list[0] || {}).n || "";
-}
-function epgNormalize(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/canela\.?tv/g,"").replace(/[^a-z0-9]+/g,"").trim()}
-function epgFormatTime(value){try{return new Intl.DateTimeFormat("es-MX",{hour:"2-digit",minute:"2-digit"}).format(new Date(value))}catch(_){return ""}}
-function epgExternalIdFromChannel(channel){
-  const haystack=`${channel?.externalId||""} ${channel?.url||""} ${channel?.id||""} ${channel?.rawName||""}`;
-  const match=haystack.match(/amg\d+c\d+/i);
-  return match ? match[0].toLowerCase() : "";
-}
-function epgCidFromChannel(channel){
-  const explicit=String(channel?.cid||"").trim().toLowerCase();
-  if(explicit) return explicit;
-  const logo=String(channel?.logo||"");
-  const match=logo.match(/\/image\/([0-9a-f-]{36})(?:\/|$)/i);
-  return match ? match[1].toLowerCase() : "";
-}
-function isCanelaChannel(channel){
-  if(!channel) return false;
-  const section=String(channel.section||"").toLowerCase();
-  const provider=String(channel.provider||"").toLowerCase();
-  const name=String(channel.name||channel.rawName||"").toLowerCase();
-  return section.includes("canela") || provider.includes("canela") || name.includes("canela") || String(channel.logo||"").includes("canela.tv") || String(channel.url||"").includes("canelatv");
-}
-function indexCanelaEpg(data){
-  epgState.channels=Array.isArray(data?.data)?data.data:[];
-  epgState.byCid.clear();
-  epgState.byXmltvId.clear();
-  epgState.byExternalId.clear();
-  epgState.byCallSign.clear();
-  epgState.byName.clear();
-
-  epgState.channels.forEach(ch=>{
-    const airings=Array.isArray(ch?.airing)?ch.airing:[];
-    const first=airings[0]||{};
-    const cid=String(ch?.cid||first?.cid||"").toLowerCase();
-    if(cid) epgState.byCid.set(cid,ch);
-
-    airings.forEach(item=>{
-      const itemCid=String(item?.cid||"").toLowerCase();
-      if(itemCid) epgState.byCid.set(itemCid,ch);
-      const ext=String(item?.ch?.ex_id||"").toLowerCase();
-      if(ext) epgState.byExternalId.set(ext,ch);
-      const callSign=epgNormalize(item?.ch?.cs||"");
-      if(callSign) epgState.byCallSign.set(callSign,ch);
-      (Array.isArray(item?.ep)?item.ep:[]).forEach(ref=>{
-        if(String(ref?.n||"").toLowerCase()==="xmltv"){
-          const xmltv=String(ref?.id||"").toLowerCase().trim();
-          if(xmltv) epgState.byXmltvId.set(xmltv,ch);
-        }
-      });
-    });
-
-    const topCallSign=epgNormalize(ch?.cs||"");
-    if(topCallSign) epgState.byCallSign.set(topCallSign,ch);
-    [epgText(ch?.lon),ch?.cs].forEach(name=>{
-      const key=epgNormalize(name);
-      if(key) epgState.byName.set(key,ch);
-    });
-  });
-  epgState.loadedAt=Date.now();
-}
-function findCanelaEpgChannel(channel){
-  if(!isCanelaChannel(channel)) return null;
-
-  const cid=epgCidFromChannel(channel);
-  if(cid && epgState.byCid.has(cid)) return epgState.byCid.get(cid);
-
-  const xmltvId=String(channel?.epgId||channel?.id||"").toLowerCase().trim();
-  if(xmltvId && epgState.byXmltvId.has(xmltvId)) return epgState.byXmltvId.get(xmltvId);
-
-  const ext=epgExternalIdFromChannel(channel);
-  if(ext && epgState.byExternalId.has(ext)) return epgState.byExternalId.get(ext);
-
-  const callSign=epgNormalize(channel?.callSign||"");
-  if(callSign && epgState.byCallSign.has(callSign)) return epgState.byCallSign.get(callSign);
-
-  const names=[channel.name,channel.rawName,channel.id].map(epgNormalize).filter(Boolean);
-  for(const key of names){
-    if(epgState.byName.has(key)) return epgState.byName.get(key);
-    if(epgState.byCallSign.has(key)) return epgState.byCallSign.get(key);
-  }
-  return epgState.channels.find(item=>{
-    const candidates=[epgText(item?.lon),item?.cs,item?.airing?.[0]?.ch?.cs].map(epgNormalize).filter(Boolean);
-    return candidates.some(n=>names.some(k=>k.includes(n)||n.includes(k)));
-  })||null;
-}
-function currentAndNext(airings, now=Date.now()){
-  const items=(Array.isArray(airings)?airings:[]).filter(x=>x?.sc_st_dt&&x?.sc_ed_dt).sort((a,b)=>new Date(a.sc_st_dt)-new Date(b.sc_st_dt));
-  let current=items.find(x=>new Date(x.sc_st_dt).getTime()<=now&&new Date(x.sc_ed_dt).getTime()>now)||null;
-  let next=current?items.find(x=>new Date(x.sc_st_dt).getTime()>=new Date(current.sc_ed_dt).getTime()):items.find(x=>new Date(x.sc_st_dt).getTime()>now);
-  return {items,current,next};
-}
-async function fetchCanelaEpg(force=false){
-  if(!force && Date.now()-epgState.loadedAt<EPG_REFRESH_MS) return;
-  const start=new Date(); start.setMinutes(0,0,0); const end=new Date(start.getTime()+18*60*60*1000);
-  const params=new URLSearchParams({start:start.toISOString(),end:end.toISOString(),reg:"mx",acl:"en",dt:"web",ipr:"true",client:"canela-canela-web",pf:"main",locale:"es-419"});
-  const workerBase=String(window.WATCH_TV_CONFIG?.API_URL||"").replace(/\/$/,"");
-  const urls=[workerBase?`${workerBase}/api/canela/epg?${params}`:"",`https://catalog-service-cdn.cms.api.canela.tv/content/epg?${params}`].filter(Boolean);
-  let lastError;
-  for(const url of urls){try{const response=await fetch(url,{headers:{Accept:"application/json"},cache:"no-store"});if(!response.ok)throw new Error(`EPG ${response.status}`);const json=await response.json();if(json?.header?.code===0||json?.data){indexCanelaEpg(json);updateCurrentEpg();renderChannels();return}}catch(error){lastError=error}}
-  console.warn("No se pudo cargar la EPG de Canela",lastError);
-}
-function updateCurrentEpg(){
-  const supported=isCanelaChannel(currentChannel)||isPlutoChannel(currentChannel);
-  playerGuideBtn?.classList.toggle("visible",supported);
-  if(!supported){epgNowPanel?.classList.remove("visible");return}
-  epgNowPanel?.classList.add("visible");
-  let programs=[];
-  if(isCanelaChannel(currentChannel)){
-    const epg=findCanelaEpgChannel(currentChannel);programs=(Array.isArray(epg?.airing)?epg.airing:[]).map(x=>({title:epgText(x.pgm?.lon)||"Programación",description:epgText(x.pgm?.lod),start:x.sc_st_dt,end:x.sc_ed_dt}));
-  }else programs=plutoPrograms(findPlutoEpgChannel(currentChannel));
-  programs=programs.filter(x=>x.start&&x.end).sort((a,b)=>new Date(a.start)-new Date(b.start));
-  const now=Date.now(),current=programs.find(x=>new Date(x.start)<=now&&new Date(x.end)>now),next=current?programs.find(x=>new Date(x.start)>=new Date(current.end)):programs.find(x=>new Date(x.start)>now);
-  epgGuideBtn.disabled=!programs.length;
-  if(!programs.length){epgNowTitle.textContent="Cargando programación…";epgNowTimes.textContent="";epgNextTitle.textContent="";epgProgressBar.style.width="0%";return}
-  if(!current){epgNowTitle.textContent=next?`Próximamente: ${next.title}`:"Programación no disponible en este horario";epgNowTimes.textContent=next?`${epgFormatTime(next.start)} – ${epgFormatTime(next.end)}`:"";epgNextTitle.textContent="Presiona “Ver programación” para consultar la guía.";epgProgressBar.style.width="0%";return}
-  epgNowTitle.textContent=current.title;epgNowTimes.textContent=`${epgFormatTime(current.start)} – ${epgFormatTime(current.end)}`;epgNextTitle.textContent=next?`Siguiente: ${next.title} · ${epgFormatTime(next.start)}`:"";const a=new Date(current.start),b=new Date(current.end);epgProgressBar.style.width=`${Math.max(0,Math.min(100,((now-a)/(b-a))*100))}%`;
-}
-function guideChannelName(epg){return epgText(epg?.lon)||epg?.cs||epg?.airing?.[0]?.ch?.cs||"Canela.TV"}
-function guideChannelLogo(epg){const cid=String(epg?.cid||epg?.airing?.[0]?.cid||"");return cid?`https://image-resizer-cloud-cdn.cms.api.canela.tv/image/${encodeURIComponent(cid)}/0-16x9.jpg?width=300&updatedTime=0&dt=Web`:""}
-function renderGuideSchedule(epg,provider="canela"){
-  let items=[];
-  if(provider==="pluto")items=plutoPrograms(epg);
-  else items=(Array.isArray(epg?.airing)?epg.airing:[]).map(x=>({title:epgText(x.pgm?.lon)||"Programación",description:epgText(x.pgm?.lod)||"",start:x.sc_st_dt,end:x.sc_ed_dt}));
-  items=items.filter(x=>x.start&&x.end).sort((a,b)=>new Date(a.start)-new Date(b.start));const now=Date.now(),current=items.find(x=>new Date(x.start)<=now&&new Date(x.end)>now);
-  epgGuideList.innerHTML="";const name=provider==="pluto"?(epg?.name||epg?.channelName||currentChannel?.name||"Pluto TV"):guideChannelName(epg);epgGuideTitle.textContent=`Programación · ${name}`;epgGuideDate.textContent=new Intl.DateTimeFormat("es-MX",{weekday:"long",day:"numeric",month:"long"}).format(new Date());
-  if(!items.length){epgGuideList.innerHTML='<div class="epg-unavailable">Programación no disponible.</div>';return}
-  items.forEach(item=>{const node=document.createElement("article");node.className="epg-guide-item"+(item===current?" active":"");node.innerHTML=`<div class="epg-guide-time">${epgFormatTime(item.start)}<br>${epgFormatTime(item.end)}</div><div><div class="epg-guide-title">${escapeHtml(item.title)}${item===current?' <span class="epg-live">LIVE</span>':''}</div>${item.description?`<div class="epg-guide-desc">${escapeHtml(item.description)}</div>`:""}</div>`;epgGuideList.appendChild(node)});epgGuideList.querySelector('.active')?.scrollIntoView({block:'center'});
-}
-function renderGuideChannels(selected){if(epgChannelList)epgChannelList.innerHTML=""}
-async function openEpgGuide(channel=currentChannel){
-  if(isCanelaChannel(channel)){if(!epgState.channels.length)await fetchCanelaEpg(true);const epg=findCanelaEpgChannel(channel);if(epg)renderGuideSchedule(epg,"canela");else renderGuideSchedule(null,"canela")}
-  else if(isPlutoChannel(channel)){if(!plutoState.channels.length)await fetchPlutoEpg(true);const epg=findPlutoEpgChannel(channel);renderGuideSchedule(epg,"pluto")}
-  else return;
-  epgGuideModal.classList.add("open");epgGuideModal.setAttribute("aria-hidden","false")
-}
-function closeEpgGuide(){epgGuideModal.classList.remove("open");epgGuideModal.setAttribute("aria-hidden","true")}
-epgGuideBtn?.addEventListener("click",openEpgGuide);playerGuideBtn?.addEventListener("click",()=>openEpgGuide(currentChannel));epgGuideClose?.addEventListener("click",closeEpgGuide);epgGuideModal?.addEventListener("click",e=>{if(e.target===epgGuideModal)closeEpgGuide()});
-// La EPG se inicia después de declarar el estado principal de TV.
-
 
 const PROXY_BASE = "https://hls-proxy-tv-plus.mikimc-business.workers.dev/proxy?url=";
 const REPORT_API_URL = window.WATCH_TV_CONFIG.API_URL;
@@ -1631,118 +1205,19 @@ const MAX_RENDER_DEFAULT = 1200;
 const MAX_RENDER_WITH_SEARCH = 2500;
 const PLAYER_UI_HIDE_DELAY = 3500;
 const IS_IPHONE = /iPhone|iPod/i.test(navigator.userAgent);
-const PLAYER_FIX_VERSION = "2026-07-28-hls-proxy-v2";
-const STREAM_DEVICE_KEY = "watch_tv_plus_stream_device_id_v1";
-
-function setupSmartTvScrollControls(){
-  const bindHorizontal=(prevId,nextId,targetId)=>{const target=document.getElementById(targetId);document.getElementById(prevId)?.addEventListener('click',()=>target?.scrollBy({left:-Math.max(target.clientWidth*.78,260),behavior:'smooth'}));document.getElementById(nextId)?.addEventListener('click',()=>target?.scrollBy({left:Math.max(target.clientWidth*.78,260),behavior:'smooth'}))};
-  bindHorizontal('providersPrev','providersNext','sectionTabs');bindHorizontal('categoriesPrev','categoriesNext','categoryTabs');
-  document.getElementById('channelsUp')?.addEventListener('click',()=>channelList?.scrollBy({left:-Math.max(channelList.clientWidth*.78,520),behavior:'smooth'}));
-  document.getElementById('channelsDown')?.addEventListener('click',()=>channelList?.scrollBy({left:Math.max(channelList.clientWidth*.78,520),behavior:'smooth'}));
-}
-
-
-function getStreamDeviceId(){
-  let value = localStorage.getItem(STREAM_DEVICE_KEY);
-  if(value) return value;
-
-  try{
-    value = crypto.randomUUID();
-  }catch(error){
-    value = "wtp-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2);
-  }
-
-  localStorage.setItem(STREAM_DEVICE_KEY,value);
-  return value;
-}
-
-function normalizeStreamUrl(rawUrl){
-  let value = String(rawUrl || "").trim();
-  if(!value) return "";
-
-  // Corrige enlaces mal formados encontrados en algunas listas FAST.
-  value = value.replace(/\.m3u8\?\?+/i,".m3u8?");
-
-  const deviceId = getStreamDeviceId();
-  const replacements = {
-    "[UA]":navigator.userAgent,
-    "[DEVICE_ID]":deviceId,
-    "[IFA]":deviceId,
-    "[NONCE]":Date.now().toString(),
-    "[FCK]":deviceId,
-    "[COUNTRY]":"MX",
-    "[LMT]":"0",
-    "[DNS]":"0",
-    "[GDPR]":"0",
-    "[GDPR_CONSENT]":"",
-    "[US_PRIVACY]":"1YNN",
-    "[DEVICE_TYPE]":IS_IPHONE ? "mobile" : "web",
-    "[DEVICE_MAKE]":IS_IPHONE ? "Apple" : "Browser",
-    "[DEVICE_MODEL]":IS_IPHONE ? "iPhone" : "Desktop",
-    "[APP_NAME]":"NOVA+",
-    "[APP_VERSION]":"1.0",
-    "[APP_BUNDLE]":location.hostname || "watch-tv-plus",
-    "[APP_STOREURL]":location.origin,
-    "[VIEWSIZE]":"1280x720",
-    "[TARGETAD_ALLOWED]":"1",
-    "[IFA_TYPE]":"dpid",
-    "[HOTEL_TYPE]":"",
-    "[IP]":""
-  };
-
-  Object.entries(replacements).forEach(([token,replacement]) => {
-    value = value.split(token).join(encodeURIComponent(replacement));
-  });
-
-  return value;
-}
-
-function guessStreamMimeType(url){
-  let value = String(url || "").trim();
-
-  try{
-    const parsed = new URL(value,location.href);
-    const nested = parsed.searchParams.get("url");
-    if(nested) value = decodeURIComponent(nested);
-  }catch(error){}
-
-  const clean = value.split("?")[0].toLowerCase();
-
-  if(clean.endsWith(".mp4")) return "video/mp4";
-  if(clean.endsWith(".mp3")) return "audio/mpeg";
-  if(clean.endsWith(".aac")) return "audio/aac";
-
-  if(
-    clean.endsWith(".m3u8") ||
-    clean.endsWith(".m3u") ||
-    clean.includes("/hls/") ||
-    clean.includes("playlist") ||
-    clean.includes("/stitch/")
-  ){
-    return "application/vnd.apple.mpegurl";
-  }
-
-  /*
-    La mayoría de canales del catálogo son HLS aunque su URL termine en
-    /proxy, .php o no tenga extensión. Solo se excluyen formatos directos
-    reconocidos arriba.
-  */
-  return "application/vnd.apple.mpegurl";
-}
-
 
 const PLAYLISTS = [
-  { id:"mexico", label:"México", file:"./listas/mexico.m3u", logo:"./icons/providers/mexico.svg" },
-  { id:"pluto", label:"Pluto TV", file:"./listas/pluto.m3u", logo:"./icons/providers/pluto.svg" },
-  { id:"lg", label:"LG Channels", file:"./listas/LG_Channels_mx.m3u", logo:"./icons/providers/lg.svg" },
-  { id:"vix", label:"ViX", file:"./listas/vix.m3u", logo:"./icons/providers/vix.svg" },
-  { id:"tubi", label:"Tubi TV", file:"./listas/tubi.m3u", logo:"./icons/providers/tubi.svg" },
-  { id:"runtime", label:"Run Time", file:"./listas/runtime.m3u", logo:"./icons/providers/runtime.svg" },
-  { id:"plex", label:"Plex TV", file:"./listas/plex_mx.m3u", logo:"./icons/providers/plex.svg" },
-  { id:"roku", label:"Roku Channel", file:"./listas/roku_all.m3u", logo:"./icons/providers/roku.svg" },
-  { id:"rakuten", label:"Rakuten TV", file:"./listas/rakutentv.m3u", logo:"./icons/providers/rakuten.svg" },
-  { id:"canela", label:"Canela.TV", file:"./listas/canela-tv.m3u", logo:"./icons/providers/canela.svg" },
-  { id:"espanol", label:"Español", file:"./listas/espanol.m3u", logo:"./icons/providers/espanol.svg" }
+  { id:"mexico", label:"México", files:["./listas/mexico.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Mexico.png" },
+  { id:"pluto", label:"Pluto TV", files:["./listas/pluto.m3u"], logo:"https://upload.wikimedia.org/wikipedia/commons/c/c3/Pluto_TV_logo_2024.svg" },
+  { id:"lg", label:"LG Channels", files:["./listas/LG_Channels_Mexico_Oficial.m3u","./listas/LG_Channels_mx.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20LG%20Channels.png" },
+  { id:"vix", label:"ViX", files:["./listas/vix.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Vix.png" },
+  { id:"tubi", label:"Tubi TV", files:["./listas/tubi.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Tubi.png" },
+  { id:"runtime", label:"Run Time", files:["./listas/runtime.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20RunTime.png" },
+  { id:"plex", label:"Plex TV", files:["./listas/plex_mx.m3u","./listas/plex.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Plex%20TV.png" },
+  { id:"roku", label:"Roku Channel", files:["./listas/roku_all.m3u","./listas/roku.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Roku%20Channel.png" },
+  { id:"rakuten", label:"Rakuten TV", files:["./listas/rakutentv.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Rakuten%20TV.png" },
+  { id:"canela", label:"Canela.TV", files:["./listas/canela-tv.m3u","./listas/canela.m3u"], logo:"https://image-resizer-cloud-cdn.cms.api.canela.tv/image/3052A289-026D-43E2-A4E5-577140AAA877/0-16x9.jpg?width=320&updatedTime=0&dt=Web" },
+  { id:"espanol", label:"Español", files:["./listas/espanol.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Espa%C3%B1ol.png" }
 ];
 
 const playerStage = document.getElementById("playerStage");
@@ -1763,7 +1238,6 @@ const legalAccept = document.getElementById("legalAccept");
 const toast = document.getElementById("toast");
 const searchInput = document.getElementById("searchInput");
 const channelList = document.getElementById("channelList");
-setupSmartTvScrollControls();
 const sectionTabs = document.getElementById("sectionTabs");
 const categoryTabs = document.getElementById("categoryTabs");
 const sectionInfo = document.getElementById("sectionInfo");
@@ -1771,18 +1245,10 @@ const adultNotice = document.getElementById("adultNotice") || {style:{display:"n
 const channelsMainTab = document.getElementById("channelsMainTab");
 const favoritesMainTab = document.getElementById("favoritesMainTab");
 const playerFavoriteBtn = document.getElementById("playerFavoriteBtn");
-const playerReportBtn = document.getElementById("playerReportBtn");
 const playerChannelLogo = document.getElementById("playerChannelLogo");
 const playerChannelTitle = document.getElementById("playerChannelTitle");
 const playerChannelNumber = document.getElementById("playerChannelNumber");
 const playerChannelMeta = document.getElementById("playerChannelMeta");
-const channelReportModal = document.getElementById("channelReportModal");
-const channelReportForm = document.getElementById("channelReportForm");
-const channelReportClose = document.getElementById("channelReportClose");
-const channelReportCancel = document.getElementById("channelReportCancel");
-const channelReportSend = document.getElementById("channelReportSend");
-const channelReportStatus = document.getElementById("channelReportStatus");
-let channelReportTarget = null;
 
 let player = null;
 let currentChannel = null;
@@ -1802,19 +1268,9 @@ let toastTimer = null;
 let clapprControlObserver = null;
 let channelReportStates = new Map();
 let reportStateTimer = null;
-let playerAttemptToken = 0;
-
-function startEpgSystem(){
-  fetchCanelaEpg(true).catch(error=>console.warn("EPG Canela inicial",error));
-  fetchPlutoEpg(true).catch(error=>console.warn("EPG Pluto inicial",error));
-  setInterval(updateCurrentEpg,30000);
-  if(epgState.timer) clearInterval(epgState.timer);
-  epgState.timer=setInterval(()=>{fetchCanelaEpg(true);fetchPlutoEpg(true)},EPG_REFRESH_MS);
-}
 
 async function init(){
   buildSectionTabs();
-  startEpgSystem();
   bindEvents();
   registerPwaSupport();
   showPlayerUi();
@@ -1853,11 +1309,6 @@ function bindEvents(){
   legalClose.addEventListener("click", closeLegalModal);
   legalAccept.addEventListener("click", closeLegalModal);
   legalModal.querySelectorAll("[data-close-legal]").forEach(element => element.addEventListener("click", closeLegalModal));
-
-  channelReportClose.addEventListener("click",closeChannelReport);
-  channelReportCancel.addEventListener("click",closeChannelReport);
-  channelReportModal.addEventListener("click",event=>{if(event.target===channelReportModal)closeChannelReport()});
-  channelReportForm.addEventListener("submit",sendChannelReport);
 
   channelsMainTab.addEventListener("click", () => {
     if(activeSection === "favorites") setSection(lastNormalSection || "mexico");
@@ -1950,11 +1401,23 @@ async function loadAllPlaylists(){
   allChannels = [];
   channelsBySection = {};
 
-  const results = await Promise.all(PLAYLISTS.filter(pl => pl.file).map(async pl => {
+  const results = await Promise.all(PLAYLISTS.filter(pl => pl.file || (pl.files && pl.files.length)).map(async pl => {
     try{
-      const response = await fetch(pl.file + "?v=" + Date.now(), {cache:"no-store"});
-      if(!response.ok) throw new Error("HTTP " + response.status);
-      const text = await response.text();
+      const candidates = [...(pl.files || []), ...(pl.file ? [pl.file] : [])].filter(Boolean);
+      let text = "";
+      let lastError = null;
+      for(const playlistFile of candidates){
+        try{
+          const response = await fetch(playlistFile + "?v=" + Date.now(), {cache:"no-store"});
+          if(!response.ok) throw new Error("HTTP " + response.status);
+          text = await response.text();
+          pl.loadedFile = playlistFile;
+          break;
+        }catch(error){
+          lastError = error;
+        }
+      }
+      if(!text) throw lastError || new Error("No se encontró la lista");
       const channels = parseM3U(text).map((channel,index) => ({
         ...channel,
         section:pl.id,
@@ -1975,7 +1438,6 @@ async function loadAllPlaylists(){
     channelsBySection[result.playlist.id] = result.channels;
     allChannels.push(...result.channels);
   });
-  if(plutoState.channels.length) syncPlutoOfficialChannels();
 
   migrateLegacyFavorites();
 
@@ -1995,20 +1457,6 @@ async function loadAllPlaylists(){
   }
 }
 
-function normalizeLogoUrl(value){
-  let logo=String(value||"").trim().replace(/&amp;/g,"&");
-  if(!logo) return "";
-  try{return new URL(logo,location.href).href}catch(error){return logo.replace(/ /g,"%20")}
-}
-function findExtinfNameSeparator(line){
-  let quoted=false;
-  for(let i=0;i<line.length;i++){
-    const ch=line[i];
-    if(ch==='"') quoted=!quoted;
-    else if(ch==="," && !quoted) return i;
-  }
-  return -1;
-}
 function parseM3U(text){
   const lines = String(text || "").replace(/\r/g,"").split("\n");
   const channels = [];
@@ -2034,22 +1482,18 @@ function parseM3U(text){
 
     if(line.startsWith("#EXTINF")){
       const attrs = getAttributes(line);
-      const separator=findExtinfNameSeparator(line);
-      const rawName = separator>=0 ? line.substring(separator + 1).trim() : (attrs["tvg-name"] || "Canal sin nombre");
+      const rawName = line.includes(",") ? line.substring(line.indexOf(",") + 1).trim() : "Canal sin nombre";
       const parsed = parseChannelName(rawName);
       current = {
         id:attrs["tvg-id"] || attrs["channel-id"] || "",
-        epgId:attrs["epg-id"] || "",
-        externalId:attrs["ex-id"] || attrs["external-id"] || "",
-        cid:attrs["cid"] || "",
-        callSign:attrs["call-sign"] || "",
+        epgId:attrs["epg-id"] || attrs["tvg-id"] || attrs["channel-id"] || "",
         provider:attrs["provider"] || "",
         channelNumber:attrs["tvg-chno"] || "",
         rawName,
         name:parsed.name,
         quality:parsed.quality,
         note:parsed.note,
-        logo:normalizeLogoUrl(attrs["tvg-logo"] || ""),
+        logo:attrs["tvg-logo"] || "",
         category:attrs["group-title"] || guessCategory(rawName,attrs["tvg-id"] || ""),
         type:"video",
         url:"",
@@ -2061,7 +1505,7 @@ function parseM3U(text){
 
     if(current && (line.startsWith("http://") || line.startsWith("https://"))){
       const stream = parseStreamLine(line);
-      current.url = normalizeStreamUrl(stream.url);
+      current.url = stream.url;
       current.referrer = stream.referrer || current.referrer;
       current.userAgent = stream.userAgent || current.userAgent;
       current.type = guessType(current);
@@ -2083,9 +1527,47 @@ function getAttributes(line){
   return attrs;
 }
 
+
+function getNovaDeviceId(){
+  const key = "nova_tv_device_id_v1";
+  let id = localStorage.getItem(key);
+  if(!id){
+    id = (crypto && crypto.randomUUID) ? crypto.randomUUID() : "nova-" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    localStorage.setItem(key,id);
+  }
+  return id;
+}
+
+function expandStreamMacros(input){
+  let url = String(input || "").trim();
+  if(!url) return url;
+
+  const deviceId = getNovaDeviceId();
+  const replacements = {
+    "[DEVICE_ID]":deviceId, "[IFA]":deviceId, "[IFA_TYPE]":"rida",
+    "[LMT]":"1", "[DNS]":"1", "[DNT]":"1", "[COUNTRY]":"MX",
+    "[US_PRIVACY]":"1---", "[GDPR]":"0", "[GDPR_CONSENT]":"",
+    "[APP_BUNDLE]":"website.novaplus", "[APP_NAME]":"NOVA+ TV",
+    "[APP_VERSION]":"2.0", "[APP_STOREURL]":"https://novaplus.website/",
+    "[DEVICE_TYPE]":"web", "[DEVICE_MAKE]":"generic", "[DEVICE_MODEL]":"browser",
+    "[TARGETAD_ALLOWED]":"1", "[FCK]":deviceId, "[VIEWSIZE]":"1280x720",
+    "[NONCE]":Date.now().toString(), "[URL]":"https://novaplus.website/tv/",
+    "[CONTENT_LIVE]":"1", "[CONTENT_LIVESTREAM]":"1", "[COPPA]":"0",
+    "[IDTYPE]":"rida", "[PRODQ]":"high", "[INV_PARTNER_DOMAIN]":"novaplus.website",
+    "[SCHAIN]":"", "[GPP]":"", "[GPP_SID]":"", "[WEBOS_VERSION]":"web"
+  };
+
+  Object.entries(replacements).forEach(([token,value]) => {
+    url = url.split(token).join(encodeURIComponent(value));
+  });
+  url = url.split("[UA]").join(encodeURIComponent(navigator.userAgent));
+  url = url.split("[IP]").join("");
+  return url;
+}
+
 function parseStreamLine(line){
   const parts = String(line).split("|");
-  const url = parts.shift().trim();
+  const url = expandStreamMacros(parts.shift().trim());
   const options = parts.join("&");
   const result = {url,referrer:"",userAgent:""};
 
@@ -2180,10 +1662,19 @@ function setSection(section){
   updateMainTabs();
   buildCategories();
   renderChannels();
+
+  // Al cambiar de lista siempre empezar desde el canal 1.
+  if(activeSection !== "favorites"){
+    const firstChannel = getSectionChannels(false)[0];
+    if(firstChannel && getChannelKey(firstChannel) !== currentChannelKey){
+      loadChannel(firstChannel);
+    }
+  }
+
+  if(typeof closePlaylistDrawer === "function") closePlaylistDrawer();
   requestAnimationFrame(() => {
-    channelList.scrollTop = 0;
     channelList.scrollLeft = 0;
-    channelList.scrollTo({left:0,top:0,behavior:"auto"});
+    channelList.scrollTop = 0;
   });
 }
 
@@ -2233,14 +1724,6 @@ function buildCategories(){
     });
     categoryTabs.appendChild(button);
   });
-}
-
-
-function getChannelProgramSummary(channel){
-  if(!isCanelaChannel(channel)) return `${channel.sectionLabel} · ${channel.category}`;
-  const epg=findCanelaEpgChannel(channel); const {current,next}=currentAndNext(epg?.airing);
-  if(!current) return `${channel.sectionLabel} · ${channel.category}`;
-  const title=epgText(current.pgm?.lon)||"En vivo"; return next?`${title} · Después: ${epgText(next.pgm?.lon)||"Programación"}`:title;
 }
 
 function renderChannels(){
@@ -2307,11 +1790,11 @@ function createChannelItem(channel,index){
     <div class="channel-logo">${logoMarkup}</div>
     <div class="channel-number">${escapeHtml(displayNumber)}</div>
     <div class="channel-copy">
-      <div class="channel-name" title="${escapeHtml(channel.name)}">${escapeHtml(channel.name)}${getChannelReportBadge(channel)}</div>
-      <div class="program-text" data-epg-for="${escapeHtml(getChannelKey(channel))}">${escapeHtml(getChannelProgramSummary(channel))}</div>
+      <div class="channel-name">${escapeHtml(channel.name)}${getChannelReportBadge(channel)}</div>
+      <div class="program-text">${escapeHtml(channel.sectionLabel)} - ${escapeHtml(channel.category)}</div>
     </div>
-    ${isCanelaChannel(channel)?`<button class="channel-guide-btn" type="button" aria-label="Ver programación de ${escapeHtml(channel.name)}" title="Ver programación"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"></rect><path d="M7 3v4M17 3v4M3 10h18M7 14h3M13 14h4M7 17h5"></path></svg><span>Ver programación</span></button>`:""}
     <div class="row-actions">
+      ${channel.type === "video" ? `<button class="report-btn" type="button" aria-label="Reportar ${escapeHtml(channel.name)}" title="Reportar canal caído"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.5 2.7 17a2 2 0 0 0 1.8 3h15a2 2 0 0 0 1.8-3L13.7 3.5a2 2 0 0 0-3.4 0Z"></path></svg></button>` : ""}
       <button class="favorite-btn ${favorite ? "active" : ""}" type="button" aria-label="${favorite ? "Quitar de favoritos" : "Agregar a favoritos"}" title="${favorite ? "Quitar de favoritos" : "Agregar a favoritos"}">${favorite ? "★" : "☆"}</button>
     </div>
   `;
@@ -2325,8 +1808,14 @@ function createChannelItem(channel,index){
   }
 
   row.addEventListener("click",event => {
-    if(event.target.closest(".favorite-btn,.channel-guide-btn")) return;
+    if(event.target.closest(".favorite-btn,.report-btn")) return;
     loadChannel(channel);
+  });
+  row.addEventListener("keydown",event => {
+    if(event.key === "Enter" || event.key === " "){
+      event.preventDefault();
+      loadChannel(channel);
+    }
   });
 
   row.querySelector(".favorite-btn").addEventListener("click",event => {
@@ -2334,8 +1823,14 @@ function createChannelItem(channel,index){
     toggleFavorite(channel);
   });
 
-  const guideButton=row.querySelector(".channel-guide-btn");
-  if(guideButton)guideButton.addEventListener("click",async event=>{event.preventDefault();event.stopPropagation();await openEpgGuide(channel)});
+  const reportButton = row.querySelector(".report-btn");
+  if(reportButton){
+    reportButton.addEventListener("click",event => {
+      event.preventDefault();
+      event.stopPropagation();
+      openChannelReport(channel,displayNumber);
+    });
+  }
 
   return row;
 }
@@ -2389,69 +1884,29 @@ document.addEventListener("visibilitychange",() => {
 });
 
 function openChannelReport(channel,displayNumber){
-  channelReportTarget = {channel,displayNumber};
-  document.getElementById("channelReportName").textContent = channel.name || "Canal sin nombre";
-  document.getElementById("channelReportMeta").textContent = `Número ${displayNumber || "---"} · ${channel.sectionLabel || "TV"} · ${channel.category || "General"}`;
-  const logoBox=document.getElementById("channelReportLogo");
-  logoBox.textContent="TV";
-  if(channel.logo){const img=document.createElement("img");img.src=channel.logo;img.alt="";img.referrerPolicy="no-referrer";img.onerror=()=>{logoBox.textContent="TV"};logoBox.textContent="";logoBox.appendChild(img)}
-  document.getElementById("channelReportReason").selectedIndex=0;
-  document.getElementById("channelReportDetails").value="";
-  document.getElementById("channelReportContact").value="";
-  channelReportStatus.className="channel-report-status";
-  channelReportStatus.textContent="";
-  channelReportModal.classList.add("open");
-  channelReportModal.setAttribute("aria-hidden","false");
-  document.body.style.overflow="hidden";
-}
-function closeChannelReport(){
-  channelReportModal.classList.remove("open");
-  channelReportModal.setAttribute("aria-hidden","true");
-  document.body.style.overflow="";
-  channelReportTarget=null;
-}
-function setChannelReportStatus(message,type){channelReportStatus.textContent=message;channelReportStatus.className=`channel-report-status show ${type}`}
-async function sendChannelReport(event){
-  event.preventDefault();
-  if(!channelReportTarget)return;
-  const {channel,displayNumber}=channelReportTarget;
-  channelReportSend.disabled=true;channelReportSend.textContent="Enviando…";channelReportStatus.className="channel-report-status";
-  try{
-    const response=await fetch(REPORT_API_URL+"/api/report",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({canal:channel.name||"Canal sin nombre",numero:displayNumber||"---",seccion:channel.sectionLabel||"TV",categoria:channel.category||"General",logo:channel.logo||"",canalId:channel.id||"",stream:channel.url||"",motivo:document.getElementById("channelReportReason").value,detalles:document.getElementById("channelReportDetails").value.trim(),contacto:document.getElementById("channelReportContact").value.trim(),pagina:location.href,userAgent:navigator.userAgent})});
-    let result={};try{result=await response.json()}catch(_){throw new Error(`El servidor respondió ${response.status}.`)}
-    if(!response.ok||!result.ok)throw new Error(result.error||"No se pudo enviar el reporte.");
-    setChannelReportStatus(result.grouped?`Reporte recibido. Este canal suma ${result.cantidad} reportes.`:"Reporte enviado correctamente.","ok");
-    await loadPublicReportStates();
-    setTimeout(closeChannelReport,1400);
-  }catch(error){
-    const msg=error instanceof TypeError?"No se pudo conectar con el servidor. Revisa que novaplus.website esté autorizado en CORS.":(error.message||"No se pudo enviar el reporte.");
-    setChannelReportStatus(msg,"error");
-  }finally{channelReportSend.disabled=false;channelReportSend.textContent="Enviar reporte"}
+  const params = new URLSearchParams();
+
+  params.set("canal", channel.name || "Canal sin nombre");
+  params.set("numero", displayNumber || "---");
+  params.set("seccion", channel.sectionLabel || "TV");
+  params.set("categoria", channel.category || "General");
+
+  if(channel.logo) params.set("logo", channel.logo);
+  if(channel.id) params.set("id", channel.id);
+  if(channel.url) params.set("stream", channel.url);
+
+  params.set("volver", location.href);
+
+  location.href = `./reportar-canal.html?${params.toString()}`;
 }
 
-const TV_AD_CHANGE_KEY = "nova_tv_channel_changes_v1";
-async function loadChannel(channel){
-  const nextKey = getChannelKey(channel);
-  const isRealChange = Boolean(currentChannelKey && nextKey && nextKey !== currentChannelKey);
-  if(isRealChange && window.NOVA_ADS_CONFIG?.enabled && window.NOVA_ADS_CONFIG?.tv?.enabled){
-    const threshold = Math.max(1, Number(window.NOVA_ADS_CONFIG.tv.channelChangesPerAd) || 15);
-    let changes = Number(sessionStorage.getItem(TV_AD_CHANGE_KEY) || 0) + 1;
-    if(changes >= threshold){
-      sessionStorage.setItem(TV_AD_CHANGE_KEY,"0");
-      try{ await window.NOVA_ADS?.playPreroll?.(); }catch(error){ console.warn("Anuncio TV:",error); }
-    }else{
-      sessionStorage.setItem(TV_AD_CHANGE_KEY,String(changes));
-    }
-  }
-
-  playerAttemptToken += 1;
+function loadChannel(channel){
   currentChannel = channel;
   currentUrl = channel.url;
-  currentChannelKey = nextKey;
+  currentChannelKey = getChannelKey(channel);
   updatePlayerChannelCard(channel);
   updatePlayerFavoriteButton();
-  updateCurrentEpg();
-  if(isCanelaChannel(channel)) fetchCanelaEpg().finally(updateCurrentEpg);
+  if(typeof updateNovaPlayerActions === "function") updateNovaPlayerActions();
   showPlayerUi();
   renderChannels();
   destroyPlayer();
@@ -2460,9 +1915,7 @@ async function loadChannel(channel){
   playChannelCandidate(channel,candidates,0);
 }
 
-function playChannelCandidate(channel,candidates,index,attemptToken = playerAttemptToken){
-  if(attemptToken !== playerAttemptToken || currentChannelKey !== getChannelKey(channel)) return;
-
+function playChannelCandidate(channel,candidates,index){
   if(index >= candidates.length){
     showToast("No se pudo abrir este canal");
     showPlayerUi();
@@ -2470,34 +1923,10 @@ function playChannelCandidate(channel,candidates,index,attemptToken = playerAtte
   }
 
   const streamUrl = candidates[index];
-  const mimeType = guessStreamMimeType(streamUrl);
   const plugins = [];
-
-  if(window.HlsjsPlayback && mimeType === "application/vnd.apple.mpegurl"){
-    plugins.push(window.HlsjsPlayback);
-  }
-
+  if(window.HlsjsPlayback) plugins.push(window.HlsjsPlayback);
   let started = false;
   let fallbackTimer = null;
-  let errorTimer = null;
-  let fallbackStarted = false;
-
-  const tryNext = delay => {
-    if(fallbackStarted) return;
-    fallbackStarted = true;
-    clearTimeout(fallbackTimer);
-    clearTimeout(errorTimer);
-
-    setTimeout(() => {
-      if(
-        !started &&
-        attemptToken === playerAttemptToken &&
-        currentChannelKey === getChannelKey(channel)
-      ){
-        playChannelCandidate(channel,candidates,index + 1,attemptToken);
-      }
-    },delay);
-  };
 
   destroyPlayer();
   console.log(`Intento ${index + 1}/${candidates.length}:`,streamUrl);
@@ -2513,7 +1942,7 @@ function playChannelCandidate(channel,candidates,index,attemptToken = playerAtte
     height:"100%",
     hideMediaControl:false,
     hideMediaControlDelay:PLAYER_UI_HIDE_DELAY,
-    ...(mimeType ? {mimeType} : {}),
+    mimeType:"application/vnd.apple.mpegurl",
     hlsPlayback:{preload:true},
     playback:{
       playInline:true,
@@ -2521,58 +1950,40 @@ function playChannelCandidate(channel,candidates,index,attemptToken = playerAtte
         enableWorker:true,
         lowLatencyMode:false,
         liveSyncDurationCount:3,
-        liveMaxLatencyDurationCount:10,
-        maxBufferLength:30,
-        backBufferLength:15,
-        manifestLoadingTimeOut:15000,
-        manifestLoadingMaxRetry:8,
-        manifestLoadingRetryDelay:1200,
-        levelLoadingTimeOut:15000,
-        levelLoadingMaxRetry:8,
-        levelLoadingRetryDelay:1200,
-        fragLoadingTimeOut:20000,
-        fragLoadingMaxRetry:8,
-        fragLoadingRetryDelay:1200,
-        keyLoadingTimeOut:15000,
-        keyLoadingMaxRetry:5,
-        keyLoadingRetryDelay:1200
+        maxBufferLength:24,
+        manifestLoadingMaxRetry:5,
+        manifestLoadingRetryDelay:900,
+        levelLoadingMaxRetry:5,
+        levelLoadingRetryDelay:900,
+        fragLoadingMaxRetry:6,
+        fragLoadingRetryDelay:900,
+        keyLoadingMaxRetry:3,
+        keyLoadingRetryDelay:900
       }
     },
     events:{
       onReady(){
-        if(attemptToken !== playerAttemptToken) return;
         syncVideoEvents();
         prepareClapprControls();
         showPlayerUi();
-
-        /*
-          No abandonar demasiado pronto un canal válido. Los proveedores FAST
-          pueden tardar por redirecciones, publicidad SSAI o manifiestos anidados.
-        */
         fallbackTimer = setTimeout(() => {
-          if(!started) tryNext(0);
-        },12000);
+          if(!started && currentChannelKey === getChannelKey(channel)){
+            playChannelCandidate(channel,candidates,index + 1);
+          }
+        },9000);
       },
       onPlay(){
-        if(attemptToken !== playerAttemptToken) return;
         started = true;
         clearTimeout(fallbackTimer);
-        clearTimeout(errorTimer);
         showPlayerUi();
       },
       onPause(){showPlayerUi()},
       onError(error){
         console.log("Clappr error:",error);
-        if(attemptToken !== playerAttemptToken || started) return;
-
-        /*
-          Clappr/Hls.js emite errores recuperables durante cambios de nivel,
-          publicidad o recarga del manifiesto. Se espera antes de cambiar de URL.
-        */
-        clearTimeout(errorTimer);
-        errorTimer = setTimeout(() => {
-          if(!started) tryNext(0);
-        },3500);
+        clearTimeout(fallbackTimer);
+        if(!started && currentChannelKey === getChannelKey(channel)){
+          setTimeout(() => playChannelCandidate(channel,candidates,index + 1),350);
+        }
       }
     }
   });
@@ -2608,24 +2019,16 @@ function shouldUseProxy(channel){
   if(url.startsWith("http://") && location.protocol === "https:") return true;
 
   // Estos enlaces o cabeceras especiales sí necesitan el Worker.
-  if(url.includes("jmp2.uk/plu-")) return true;
+  if(url.includes("jmp2.uk/")) return true;
   if(channel.referrer || channel.userAgent) return true;
 
   return USE_PROXY_FOR_ALL;
 }
 
 function buildProxyUrl(channel,url = channel.url){
-  const normalizedUrl = normalizeStreamUrl(url);
-  let playable = PROXY_BASE + encodeURIComponent(normalizedUrl);
-
-  if(channel.referrer){
-    playable += "&ref=" + encodeURIComponent(channel.referrer);
-  }
-
-  if(channel.userAgent){
-    playable += "&ua=" + encodeURIComponent(channel.userAgent);
-  }
-
+  let playable = PROXY_BASE + encodeURIComponent(url);
+  if(channel.referrer) playable += "&ref=" + encodeURIComponent(channel.referrer);
+  if(channel.userAgent) playable += "&ua=" + encodeURIComponent(channel.userAgent);
   return playable;
 }
 
@@ -2637,45 +2040,45 @@ function getPlayableUrl(channel){
 function getStreamCandidates(channel){
   const candidates = [];
   const add = url => {
-    const value = String(url || "").trim();
-    if(value && !candidates.includes(value)) candidates.push(value);
+    if(url && !candidates.includes(url)) candidates.push(url);
   };
 
-  const original = normalizeStreamUrl(channel.url);
-  const proxied = buildProxyUrl(channel,original);
-  const isHttpMixed = original.startsWith("http://") && location.protocol === "https:";
-  const proxyFirstSections = new Set([
-    "pluto","tubi","runtime","plex","roku","rakuten"
-  ]);
+  const original = expandStreamMacros(String(channel.url || ""));
+  const proxied = buildProxyUrl(channel);
 
-  /*
-    Los hosts terminados en -onlymex necesitan la IP mexicana real del
-    visitante y no deben salir por Cloudflare.
-  */
   if(isMexicoGeoRestrictedAkamai(original)){
+    // Akamai restringido por país: directo primero.
     add(original);
-    return candidates;
-  }
 
-  /*
-    Pluto y otros servicios FAST suelen bloquear CORS o redirigir a
-    manifiestos/segmentos que también necesitan CORS. En ellos se usa primero
-    el Worker, y el enlace directo queda como respaldo.
-  */
-  if(proxyFirstSections.has(channel.section)){
+    try{
+      const parsed = new URL(original);
+      const genericHost = parsed.hostname.replace("-onlymex.akamaized.net",".akamaized.net");
+      if(genericHost !== parsed.hostname){
+        add(`${parsed.protocol}//${genericHost}${parsed.pathname}${parsed.search}`);
+      }
+    }catch(error){}
+
     add(proxied);
-    if(!isHttpMixed) add(original);
     return candidates;
   }
 
-  if(isHttpMixed || channel.referrer || channel.userAgent){
+  if(isPlutoStream(original)){
+    // Pluto y otros servicios con tokens firmados no deben alterarse.
+    add(original);
     add(proxied);
-    if(!isHttpMixed) add(original);
     return candidates;
   }
 
-  add(original);
-  add(proxied);
+  if(shouldUseProxy(channel)){
+    // Contenido HTTP o streams que requieren Referer/User-Agent.
+    add(proxied);
+    if(!original.startsWith("http://") || location.protocol !== "https:") add(original);
+  }else{
+    // Para la mayoría de HTTPS, directo primero y proxy como respaldo.
+    add(original);
+    add(proxied);
+  }
+
   return candidates;
 }
 
@@ -2929,8 +2332,8 @@ function closeLegalModal(){
 
 async function shareCurrentPage(){
   const shareData = {
-    title:"NOVA+ · TV en Vivo",
-    text:"Mira canales en vivo en NOVA+",
+    title:"NOVA+ TV",
+    text:"Mira canales en vivo en NOVA+ TV",
     url:location.href
   };
 
@@ -3011,8 +2414,10 @@ function updatePlayerFavoriteButton(){
   playerFavoriteBtn.classList.toggle("active",favorite);
   playerFavoriteBtn.textContent = favorite ? "★" : "☆";
   playerFavoriteBtn.title = favorite ? "Quitar de favoritos" : "Agregar a favoritos";
-  playerFavoriteBtn.setAttribute("aria-label",favorite ? "Quitar canal actual de favoritos" : "Agregar canal actual a favoritos");
-  if(playerReportBtn)playerReportBtn.disabled=!available;
+  playerFavoriteBtn.setAttribute(
+    "aria-label",
+    favorite ? "Quitar canal actual de favoritos" : "Agregar canal actual a favoritos"
+  );
 }
 function toggleFavorite(channel){
   const key = getChannelKey(channel);
@@ -3025,36 +2430,265 @@ function toggleFavorite(channel){
 function getInitials(name){return String(name || "TV").split(" ").filter(Boolean).slice(0,2).map(word => word[0]).join("").toUpperCase()}
 function escapeHtml(text){return String(text || "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
 
+
+/* ===========================
+   NOVA+ TV 2.0
+   =========================== */
+const playerReportBtn = document.getElementById("playerReportBtn");
+const playerGuideBtn = document.getElementById("playerGuideBtn");
+const playlistDrawer = document.getElementById("playlistDrawer");
+const playlistDrawerOpen = document.getElementById("playlistDrawerOpen");
+const playlistDrawerClose = document.getElementById("playlistDrawerClose");
+const playlistDrawerBackdrop = document.getElementById("playlistDrawerBackdrop");
+const drawerProviderList = document.getElementById("drawerProviderList");
+const canelaGuideModal = document.getElementById("canelaGuideModal");
+const canelaGuideBackdrop = document.getElementById("canelaGuideBackdrop");
+const canelaGuideClose = document.getElementById("canelaGuideClose");
+const canelaGuideScroll = document.getElementById("canelaGuideScroll");
+const canelaGuideTitle = document.getElementById("canelaGuideTitle");
+const CANELA_EPG_URL = (window.WATCH_TV_CONFIG && window.WATCH_TV_CONFIG.CANELA_EPG_URL)
+  || "https://watch-tv-plus-api.mikimc-business.workers.dev/api/canela/epg";
+
+function openPlaylistDrawer(){
+  playlistDrawer.classList.add("open");
+  playlistDrawer.setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
+  renderProviderDrawer();
+}
+function closePlaylistDrawer(){
+  playlistDrawer.classList.remove("open");
+  playlistDrawer.setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+}
+playlistDrawerOpen?.addEventListener("click",openPlaylistDrawer);
+playlistDrawerClose?.addEventListener("click",closePlaylistDrawer);
+playlistDrawerBackdrop?.addEventListener("click",closePlaylistDrawer);
+document.addEventListener("keydown",event => {
+  if(event.key === "Escape"){
+    if(playlistDrawer.classList.contains("open")) closePlaylistDrawer();
+    if(canelaGuideModal.classList.contains("open")) closeCanelaGuide();
+  }
+});
+
+function renderProviderDrawer(){
+  if(!drawerProviderList) return;
+  drawerProviderList.innerHTML = "";
+  PLAYLISTS.forEach(pl => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "drawer-provider-item" + (activeSection === pl.id ? " active" : "");
+    button.innerHTML = `
+      <span>${pl.logo ? `<img src="${escapeHtml(pl.logo)}" alt="" referrerpolicy="no-referrer">` : "TV"}</span>
+      <span class="drawer-provider-copy"><b>${escapeHtml(pl.label)}</b><small>Cambiar lista de canales</small></span>
+      <span class="drawer-provider-chevron">›</span>`;
+    button.addEventListener("click",() => setSection(pl.id));
+    drawerProviderList.appendChild(button);
+  });
+}
+document.getElementById("drawerProvidersUp")?.addEventListener("click",() => drawerProviderList.scrollBy({top:-260,behavior:"smooth"}));
+document.getElementById("drawerProvidersDown")?.addEventListener("click",() => drawerProviderList.scrollBy({top:260,behavior:"smooth"}));
+
+function installNovaRails(){
+  // categorías
+  if(categoryTabs && !categoryTabs.parentElement.classList.contains("category-rail-shell")){
+    const shell = document.createElement("div");
+    shell.className = "category-rail-shell";
+    categoryTabs.parentNode.insertBefore(shell,categoryTabs);
+    shell.appendChild(categoryTabs);
+    shell.insertAdjacentHTML("afterbegin",'<button class="nova-rail-btn prev" type="button" aria-label="Categorías anteriores">◀</button>');
+    shell.insertAdjacentHTML("beforeend",'<button class="nova-rail-btn next" type="button" aria-label="Categorías siguientes">▶</button>');
+    shell.querySelector(".prev").addEventListener("click",()=>categoryTabs.scrollBy({left:-430,behavior:"smooth"}));
+    shell.querySelector(".next").addEventListener("click",()=>categoryTabs.scrollBy({left:430,behavior:"smooth"}));
+  }
+
+  // canales
+  if(channelList && !channelList.parentElement.classList.contains("channel-rail-shell")){
+    const shell = document.createElement("div");
+    shell.className = "channel-rail-shell";
+    channelList.parentNode.insertBefore(shell,channelList);
+    shell.appendChild(channelList);
+    shell.insertAdjacentHTML("afterbegin",'<button class="nova-rail-btn prev" type="button" aria-label="Canales anteriores">◀</button>');
+    shell.insertAdjacentHTML("beforeend",'<button class="nova-rail-btn next" type="button" aria-label="Canales siguientes">▶</button>');
+    shell.querySelector(".prev").addEventListener("click",()=>channelList.scrollBy({left:-620,behavior:"smooth"}));
+    shell.querySelector(".next").addEventListener("click",()=>channelList.scrollBy({left:620,behavior:"smooth"}));
+  }
+
+  // Canales/Favoritos pasan al encabezado.
+  const mainTabs = document.querySelector(".main-tabs");
+  if(mainTabs && topbar && mainTabs.parentElement !== topbar){
+    topbar.insertBefore(mainTabs,topbar.querySelector(".top-actions"));
+  }
+}
+installNovaRails();
+
+function updateNovaPlayerActions(){
+  const available = Boolean(currentChannel && currentChannel.url);
+  if(playerReportBtn){
+    playerReportBtn.disabled = !available || currentChannel?.type !== "video";
+  }
+  if(playerGuideBtn){
+    // La guía aparece únicamente para Canela.TV.
+    const isCanela = available && currentChannel?.section === "canela";
+    playerGuideBtn.hidden = !isCanela;
+    playerGuideBtn.disabled = !isCanela;
+  }
+}
+playerReportBtn?.addEventListener("click",() => {
+  if(!currentChannel) return;
+  const displayNumber = String(currentChannel.channelNumber || currentChannel.sectionIndex || "---").padStart(3,"0");
+  openChannelReport(currentChannel,displayNumber);
+});
+playerGuideBtn?.addEventListener("click",openCanelaGuide);
+
+function closeCanelaGuide(){
+  canelaGuideModal.classList.remove("open");
+  canelaGuideModal.setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+}
+canelaGuideClose?.addEventListener("click",closeCanelaGuide);
+canelaGuideBackdrop?.addEventListener("click",closeCanelaGuide);
+
+function epgNorm(value){
+  return String(value || "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase().replace(/canela\.?\s*tv/g,"")
+    .replace(/[^a-z0-9]+/g,"")
+    .trim();
+}
+function epgText(list){
+  if(!Array.isArray(list)) return "";
+  const es = list.find(item => String(item?.lang || "").toLowerCase().startsWith("es"));
+  return String((es || list[0] || {}).n || "");
+}
+function toCanelaPrograms(payload,channel){
+  const wanted = new Set([
+    epgNorm(channel?.epgId),
+    epgNorm(channel?.id),
+    epgNorm(channel?.name),
+    epgNorm(channel?.rawName)
+  ].filter(Boolean));
+
+  // Worker normalizado, si existe.
+  if(Array.isArray(payload?.channels)){
+    const matched = payload.channels.find(item => {
+      const keys = [item.id,item.slug,item.name,item.externalId].map(epgNorm).filter(Boolean);
+      return keys.some(key => wanted.has(key) || [...wanted].some(w => w && (key.includes(w) || w.includes(key))));
+    });
+    if(matched){
+      return (matched.programs || []).map(p => ({
+        title:p.title || p.name || "Programa",
+        description:p.description || "",
+        start:p.start || p.startTime || p.sc_st_dt,
+        end:p.end || p.endTime || p.sc_ed_dt
+      })).filter(p => p.start);
+    }
+  }
+
+  // Respuesta oficial/raw de Canela.
+  const airings = [];
+  (Array.isArray(payload?.data) ? payload.data : []).forEach(group => {
+    (group?.airing || []).forEach(a => airings.push(a));
+  });
+
+  let matchedAirings = airings.filter(a => {
+    const keys = [
+      a?.id,a?.key,a?.pgm_id,a?.ch?.cs,a?.ch?.ex_id,
+      ...(a?.ep || []).map(x => x?.id)
+    ].map(epgNorm).filter(Boolean);
+    return keys.some(key => wanted.has(key) || [...wanted].some(w => w && (key.includes(w) || w.includes(key))));
+  });
+
+  // Si el M3U usa "Canela.TV Novelas y Dramas", permitir coincidencia por palabras del nombre.
+  if(!matchedAirings.length){
+    const words = String(channel?.name || "").toLowerCase()
+      .replace(/canela\.?\s*tv/g,"").split(/[^a-záéíóúñ0-9]+/i).filter(w => w.length >= 4);
+    matchedAirings = airings.filter(a => {
+      const blob = [
+        a?.id,a?.key,a?.ch?.cs,
+        ...(a?.ep || []).map(x => x?.id),
+        epgText(a?.pgm?.lon)
+      ].join(" ").toLowerCase();
+      return words.length && words.some(word => blob.includes(word));
+    });
+  }
+
+  return matchedAirings.map(a => ({
+    title:epgText(a?.pgm?.lon) || epgText(a?.pgm?.lod) || "Programa",
+    description:epgText(a?.pgm?.lod) || epgText(a?.pgm?.lold) || "",
+    start:a?.sc_st_dt,
+    end:a?.sc_ed_dt
+  })).filter(p => p.start);
+}
+function formatGuideTime(value){
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return "";
+  return date.toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"});
+}
+function formatGuideDay(value){
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("es-MX",{weekday:"long",day:"numeric",month:"long"});
+}
+async function openCanelaGuide(){
+  if(!currentChannel || currentChannel.section !== "canela") return;
+  canelaGuideTitle.textContent = `Programación · ${currentChannel.name}`;
+  canelaGuideScroll.innerHTML = '<div class="canela-guide-loading">Cargando programación…</div>';
+  canelaGuideModal.classList.add("open");
+  canelaGuideModal.setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
+
+  try{
+    const response = await fetch(CANELA_EPG_URL + "?v=" + Date.now(),{cache:"no-store"});
+    if(!response.ok) throw new Error("HTTP " + response.status);
+    const payload = await response.json();
+    const programs = toCanelaPrograms(payload,currentChannel)
+      .sort((a,b) => new Date(a.start) - new Date(b.start));
+
+    if(!programs.length){
+      canelaGuideScroll.innerHTML = '<div class="canela-guide-empty">Programación no disponible para este canal.</div>';
+      return;
+    }
+
+    const now = Date.now();
+    let lastDay = "";
+    const html = [];
+    programs.forEach(program => {
+      const day = formatGuideDay(program.start);
+      if(day !== lastDay){
+        lastDay = day;
+        html.push(`<div class="guide-day">${escapeHtml(day)}</div>`);
+      }
+      const start = new Date(program.start).getTime();
+      const end = program.end ? new Date(program.end).getTime() : start;
+      const live = start <= now && now < end;
+      html.push(`
+        <article class="guide-program ${live ? "live" : ""}">
+          <div class="guide-time">${escapeHtml(formatGuideTime(program.start))}<br>${program.end ? escapeHtml(formatGuideTime(program.end)) : ""}</div>
+          <div>
+            <div class="guide-title">${escapeHtml(program.title)}${live ? '<span class="guide-live">LIVE</span>' : ""}</div>
+            ${program.description ? `<div class="guide-desc">${escapeHtml(program.description)}</div>` : ""}
+          </div>
+        </article>`);
+    });
+    canelaGuideScroll.innerHTML = html.join("");
+    const liveCard = canelaGuideScroll.querySelector(".guide-program.live");
+    if(liveCard) liveCard.scrollIntoView({block:"center"});
+  }catch(error){
+    console.error("Canela EPG:",error);
+    canelaGuideScroll.innerHTML = '<div class="canela-guide-empty">No se pudo cargar la programación en este momento.</div>';
+  }
+}
+
+// Sincronizar drawer/acciones después de renders y cambios.
+const originalRenderChannelsNova = renderChannels;
+renderChannels = function(){
+  originalRenderChannelsNova();
+  renderProviderDrawer();
+  updateNovaPlayerActions();
+};
+
+
 init();
 </script>
-
-<script id="nova-tv-guide-v73-js">
-(() => {
-  "use strict";
-  const after=fn=>setTimeout(fn,0), PX_PER_MINUTE=170/30, WINDOW_MINUTES=360;
-  function fmt(d){try{return new Intl.DateTimeFormat('es-MX',{hour:'2-digit',minute:'2-digit'}).format(new Date(d))}catch{return ''}}
-  function floorHalfHour(date=new Date()){const d=new Date(date);d.setSeconds(0,0);d.setMinutes(d.getMinutes()<30?0:30);return d}
-  function activeFilteredChannels(){const search=(document.getElementById('searchInput')?.value||'').trim().toLowerCase();let source=search?allChannels.filter(c=>!c.isAdult):getSectionChannels(true);let result=source.filter(c=>{const text=`${c.name} ${c.rawName} ${c.id} ${c.category} ${c.sectionLabel}`.toLowerCase();return(!search||text.includes(search))&&(selectedCategory==='all'||c.category===selectedCategory)});if(sortPopular)result=[...result].sort((a,b)=>Number(isFavorite(b))-Number(isFavorite(a))||a.name.localeCompare(b.name,'es'));return result.slice(0,activeSection==='favorites'?140:100)}
-  function createUi(){
-    const brandGroup=document.querySelector('.topbar-brand-group');if(!brandGroup||document.getElementById('tvMenuBtn'))return;
-    const menu=document.createElement('button');menu.id='tvMenuBtn';menu.className='tv-menu-btn';menu.type='button';menu.setAttribute('aria-label','Abrir listas de reproducción');menu.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';brandGroup.insertBefore(menu,brandGroup.firstChild);
-    const drawer=document.createElement('div');drawer.id='providerDrawer';drawer.className='provider-drawer';drawer.setAttribute('aria-hidden','true');drawer.innerHTML='<div class="provider-drawer-backdrop" data-provider-close></div><aside class="provider-drawer-panel" role="dialog" aria-modal="true"><div class="provider-drawer-head"><div><span class="universal-guide-kicker">NOVA+ TV</span><h2>Listas de reproducción</h2></div><button class="provider-drawer-close" type="button" data-provider-close>×</button></div><div class="provider-drawer-list" id="providerDrawerList"></div></aside><div class="drawer-scroll-controls"><button class="drawer-scroll-btn" data-drawer-scroll="up" aria-label="Subir">↑</button><button class="drawer-scroll-btn" data-drawer-scroll="down" aria-label="Bajar">↓</button></div>';
-    document.body.appendChild(drawer);const panel=drawer.querySelector('.provider-drawer-panel'),list=drawer.querySelector('#providerDrawerList');
-    (typeof PLAYLISTS!=='undefined'?PLAYLISTS:[]).forEach(item=>{const b=document.createElement('button');b.type='button';b.className='provider-drawer-item';b.dataset.provider=item.id;b.innerHTML=`<img src="${escapeHtml(item.logo||'')}" alt=""><span><strong>${escapeHtml(item.label)}</strong><br><span>Cambiar lista de canales</span></span><i>›</i>`;b.addEventListener('click',()=>{setSection(item.id);closeDrawer()});list.appendChild(b)});
-    function sync(){drawer.querySelectorAll('.provider-drawer-item').forEach(x=>x.classList.toggle('active',x.dataset.provider===activeSection))}function openDrawer(){drawer.classList.add('open');drawer.setAttribute('aria-hidden','false');sync()}function closeDrawer(){drawer.classList.remove('open');drawer.setAttribute('aria-hidden','true')}
-    menu.addEventListener('click',openDrawer);drawer.addEventListener('click',e=>{if(e.target.closest('[data-provider-close]'))closeDrawer();const dir=e.target.closest('[data-drawer-scroll]')?.dataset.drawerScroll;if(dir)panel.scrollBy({top:dir==='up'?-360:360,behavior:'smooth'})});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});window.__novaSyncProviderDrawer=sync;
-    const categoryShell=document.querySelector('.tv-strip-shell:has(#categoryTabs)');const guide=document.createElement('section');guide.className='universal-guide';guide.id='universalGuide';guide.innerHTML='<header class="universal-guide-head"><div><span class="universal-guide-kicker">Guía oficial</span><h2 class="universal-guide-title" id="universalGuideTitle">Programación · TV</h2></div><span class="universal-guide-count" id="universalGuideCount">0 canales</span></header><div class="guide-shell"><div class="guide-scroll" id="guideScroll"><div class="guide-grid" id="universalGuideGrid"></div></div><div class="guide-controls"><button class="guide-nav-btn" data-dir="left" aria-label="Izquierda">‹</button><button class="guide-nav-btn" data-dir="right" aria-label="Derecha">›</button><button class="guide-nav-btn" data-dir="up" aria-label="Arriba">↑</button><button class="guide-nav-btn" data-dir="down" aria-label="Abajo">↓</button></div></div>';
-    if(categoryShell)categoryShell.insertAdjacentElement('afterend',guide);else document.querySelector('.player-stage')?.insertAdjacentElement('afterend',guide);
-    guide.querySelector('.guide-controls').addEventListener('click',e=>{const dir=e.target.closest('[data-dir]')?.dataset.dir;if(!dir)return;const sc=document.getElementById('guideScroll');const map={left:{left:-510},right:{left:510},up:{top:-310},down:{top:310}};sc.scrollBy({...map[dir],behavior:'smooth'})});
-  }
-  function getPrograms(channel){if(isCanelaChannel(channel)){const epg=findCanelaEpgChannel(channel);return (Array.isArray(epg?.airing)?epg.airing:[]).map(x=>({title:epgText(x.pgm?.lon)||'Programación',start:x.sc_st_dt,end:x.sc_ed_dt,description:epgText(x.pgm?.lod)})).sort((a,b)=>new Date(a.start)-new Date(b.start))}if(isPlutoChannel(channel))return plutoPrograms(findPlutoEpgChannel(channel));return[]}
-  function makeRow(channel,index,base,end){const row=document.createElement('div');row.className='guide-channel-row';const num=String(channel.channelNumber||index+1).padStart(3,'0');const logo=channel.logo?`<img src="${escapeHtml(channel.logo)}" alt="">`:escapeHtml(getInitials(channel.name));const left=document.createElement('div');left.className='guide-channel-cell';left.innerHTML=`<button class="guide-logo-btn" type="button" aria-label="Reproducir ${escapeHtml(channel.name)}">${logo}</button><div><div class="guide-channel-name">${escapeHtml(channel.name)}</div><div class="guide-channel-meta">${escapeHtml(num)} · ${escapeHtml(channel.sectionLabel||channel.category||'TV')}</div></div>`;left.querySelector('button').addEventListener('click',()=>loadChannel(channel));left.querySelector('img')?.addEventListener('error',e=>{e.currentTarget.parentElement.textContent=getInitials(channel.name)});row.appendChild(left);
-    const timeline=document.createElement('div');timeline.className='guide-timeline';const programs=getPrograms(channel).filter(p=>new Date(p.end)>base&&new Date(p.start)<end);if(!programs.length){timeline.innerHTML='<div class="guide-unavailable">Programación no disponible</div>'}else programs.forEach(it=>{const st=Math.max(base.getTime(),new Date(it.start).getTime()),ed=Math.min(end.getTime(),new Date(it.end).getTime());const box=document.createElement('div');const current=Date.now()>=new Date(it.start)&&Date.now()<new Date(it.end);box.className='guide-program'+(current?' current':'');box.style.left=`${((st-base)/60000)*PX_PER_MINUTE}px`;box.style.width=`${Math.max(78,((ed-st)/60000)*PX_PER_MINUTE)}px`;const title=it.title||'Programación';box.innerHTML=`<div class="guide-program-title" title="${escapeHtml(title)}">${escapeHtml(title)}${current?'<span class="guide-live-pill">LIVE</span>':''}</div><div class="guide-program-time">${fmt(it.start)} – ${fmt(it.end)}</div>`;timeline.appendChild(box)});row.appendChild(timeline);return row}
-  function renderUniversalGuide(){const grid=document.getElementById('universalGuideGrid');if(!grid)return;const channels=activeFilteredChannels(),provider=activeSection==='favorites'?'Favoritos':(PLAYLISTS.find(x=>x.id===activeSection)?.label||'TV');document.getElementById('universalGuideTitle').textContent=`Programación · ${provider}`;document.getElementById('universalGuideCount').textContent=`${channels.length} canales`;window.__novaSyncProviderDrawer?.();const base=floorHalfHour(),end=new Date(base.getTime()+WINDOW_MINUTES*60000);const slots=Array.from({length:13},(_,i)=>new Date(base.getTime()+i*30*60000));grid.innerHTML='<div class="guide-time-row"><div class="guide-day">Hoy ▾</div><div class="guide-timeline-head">'+slots.map((x,i)=>`<div class="guide-time-label" style="left:${i*170}px">${fmt(x)}</div>`).join('')+'</div></div>';if(!channels.length){grid.insertAdjacentHTML('beforeend','<div class="guide-empty">No se encontraron canales.</div>');return}const nowOffset=(Date.now()-base.getTime())/60000;if(nowOffset>=0&&nowOffset<=WINDOW_MINUTES){const line=document.createElement('div');line.className='guide-now-line';line.style.left=`${150+nowOffset*PX_PER_MINUTE}px`;const dot=document.createElement('div');dot.className='guide-now-dot';dot.style.left=`${150+nowOffset*PX_PER_MINUTE}px`;grid.append(line,dot)}const frag=document.createDocumentFragment();channels.forEach((c,i)=>frag.appendChild(makeRow(c,i,base,end)));grid.appendChild(frag);const sc=document.getElementById('guideScroll');if(sc&&!sc.dataset.initialized){sc.dataset.initialized='1';sc.scrollLeft=Math.max(0,nowOffset*PX_PER_MINUTE-240)}}
-  createUi();const originalRender=renderChannels;renderChannels=function(){try{originalRender()}catch(e){console.warn(e)}after(renderUniversalGuide)};const originalSetSection=setSection;setSection=async function(section){const r=await originalSetSection(section);after(()=>{const sc=document.getElementById('guideScroll');if(sc){sc.dataset.initialized='';sc.scrollTop=0}renderUniversalGuide()});return r};document.getElementById('searchInput')?.addEventListener('input',()=>after(renderUniversalGuide));document.getElementById('categoryTabs')?.addEventListener('click',()=>after(()=>{document.getElementById('guideScroll')?.scrollTo({top:0,behavior:'smooth'});renderUniversalGuide()}));after(()=>{renderUniversalGuide();Promise.all([fetchCanelaEpg(false),fetchPlutoEpg(false)]).then(renderUniversalGuide).catch(()=>{})});setInterval(renderUniversalGuide,60000);
-})();
-</script>
-
-<script src="/assets/js/pwa.js?v=6.0"></script><script src="/assets/js/ads-config.js?v=7.1.2"></script><script src="/assets/js/ads.js?v=7.1.2"></script></body>
+</body>
 </html>
-

@@ -1007,6 +1007,22 @@ body{background:#000}
   .main-tab{min-width:80px;padding:0 8px;font-size:12px}
   .player-stage{min-height:205px}
 }
+
+/* NOVA+ TV 2.1 ajustes de espacio */
+.list-head{display:none!important}
+.channel-rail-shell{padding-top:14px!important;padding-bottom:14px!important}
+.channel-list{min-height:226px!important}
+.channel-row{height:220px!important}
+.channel-logo{height:158px!important}
+.channel-copy{min-height:58px!important;padding:10px 11px 12px!important;display:flex;align-items:center}
+.channel-name{white-space:normal!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.22;max-height:34px;overflow:hidden}
+.category-tabs .tab-chip:first-child{font-weight:900}
+@media(max-width:720px),(hover:none) and (pointer:coarse){
+  .channel-list{min-height:192px!important}
+  .channel-row{height:188px!important;flex-basis:144px!important;width:144px!important;min-width:144px!important}
+  .channel-logo{height:132px!important}
+  .channel-copy{min-height:52px!important;padding:8px 9px 9px!important}
+}
 </style>
 
 </head>
@@ -1207,17 +1223,17 @@ const PLAYER_UI_HIDE_DELAY = 3500;
 const IS_IPHONE = /iPhone|iPod/i.test(navigator.userAgent);
 
 const PLAYLISTS = [
-  { id:"mexico", label:"México", files:["./listas/mexico.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Mexico.png" },
+  { id:"mexico", label:"México", files:["./listas/mexico.m3u"], logo:"https://png.pngtree.com/png-vector/20240301/ourmid/pngtree-mexico-flag-text-vector-transparent-png-image_11884268.png" },
   { id:"pluto", label:"Pluto TV", files:["./listas/pluto.m3u"], logo:"https://upload.wikimedia.org/wikipedia/commons/c/c3/Pluto_TV_logo_2024.svg" },
-  { id:"lg", label:"LG Channels", files:["./listas/LG_Channels_Mexico_Oficial.m3u","./listas/LG_Channels_mx.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20LG%20Channels.png" },
-  { id:"vix", label:"ViX", files:["./listas/vix.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Vix.png" },
-  { id:"tubi", label:"Tubi TV", files:["./listas/tubi.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Tubi.png" },
-  { id:"runtime", label:"Run Time", files:["./listas/runtime.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20RunTime.png" },
-  { id:"plex", label:"Plex TV", files:["./listas/plex_mx.m3u","./listas/plex.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Plex%20TV.png" },
-  { id:"roku", label:"Roku Channel", files:["./listas/roku_all.m3u","./listas/roku.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Roku%20Channel.png" },
-  { id:"rakuten", label:"Rakuten TV", files:["./listas/rakutentv.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Rakuten%20TV.png" },
-  { id:"canela", label:"Canela.TV", files:["./listas/canela-tv.m3u","./listas/canela.m3u"], logo:"https://image-resizer-cloud-cdn.cms.api.canela.tv/image/3052A289-026D-43E2-A4E5-577140AAA877/0-16x9.jpg?width=320&updatedTime=0&dt=Web" },
-  { id:"espanol", label:"Español", files:["./listas/espanol.m3u"], logo:"https://raw.githubusercontent.com/mikiflores711/Watch-TV-Plus/refs/heads/main/Icono%20Espa%C3%B1ol.png" }
+  { id:"lg", label:"LG Channels", files:["./listas/LG_Channels_Mexico_Oficial.m3u","./listas/LG_Channels_mx.m3u"], logo:"https://www.lg.com/us/images/LGchannels.png" },
+  { id:"vix", label:"ViX", files:["./listas/vix.m3u"], logo:"https://upload.wikimedia.org/wikipedia/commons/6/6a/ViX_Logo.svg" },
+  { id:"tubi", label:"Tubi TV", files:["./listas/tubi.m3u"], logo:"https://upload.wikimedia.org/wikipedia/commons/9/97/Tubi_logo_2024.svg" },
+  { id:"runtime", label:"Run Time", files:["./listas/runtime.m3u"], logo:"https://www.runtime.tv/themes/custom/run/runtime/logo.png" },
+  { id:"plex", label:"Plex TV", files:["./listas/plex_mx.m3u","./listas/plex.m3u"], logo:"https://commons.wikimedia.org/wiki/Special:Redirect/file/Plex_logo_2022.svg" },
+  { id:"roku", label:"Roku Channel", files:["./listas/roku_all.m3u","./listas/roku.m3u"], logo:"https://commons.wikimedia.org/wiki/Special:Redirect/file/The_Roku_Channel_Logo.svg" },
+  { id:"rakuten", label:"Rakuten TV", files:["./listas/rakutentv.m3u"], logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Rakuten_TV_logo.svg/3840px-Rakuten_TV_logo.svg.png" },
+  { id:"canela", label:"Canela.TV", files:["./listas/canela-tv.m3u","./listas/canela.m3u"], logo:"https://style.shockvisual.net/wp-content/uploads/2021/11/logo.png" },
+  { id:"espanol", label:"Español", files:["./listas/espanol.m3u"], logo:"https://www.shutterstock.com/image-vector/speaking-spanish-word-on-flag-260nw-2413776681.jpg" }
 ];
 
 const playerStage = document.getElementById("playerStage");
@@ -1251,6 +1267,7 @@ const playerChannelNumber = document.getElementById("playerChannelNumber");
 const playerChannelMeta = document.getElementById("playerChannelMeta");
 
 let player = null;
+let nativeHls = null;
 let currentChannel = null;
 let currentUrl = "";
 let currentChannelKey = "";
@@ -1666,9 +1683,7 @@ function setSection(section){
   // Al cambiar de lista siempre empezar desde el canal 1.
   if(activeSection !== "favorites"){
     const firstChannel = getSectionChannels(false)[0];
-    if(firstChannel && getChannelKey(firstChannel) !== currentChannelKey){
-      loadChannel(firstChannel);
-    }
+    if(firstChannel) loadChannel(firstChannel);
   }
 
   if(typeof closePlaylistDrawer === "function") closePlaylistDrawer();
@@ -1700,10 +1715,10 @@ function buildCategories(){
 
   categoryTabs.innerHTML = "";
 
+  const availableCount = source.length;
   const choices = [
-    {value:"all",label:"Lista de canales"},
-    ...categories.map(category => ({value:category,label:category})),
-    {value:"popular",label:"Más popular"}
+    {value:"all",label:`Lista de ${availableCount} Canales disponibles`},
+    ...categories.map(category => ({value:category,label:category}))
   ];
 
   choices.forEach(choice => {
@@ -1921,72 +1936,140 @@ function playChannelCandidate(channel,candidates,index){
     showPlayerUi();
     return;
   }
+  playClapprCandidate(channel,candidates,index);
+}
 
+function playClapprCandidate(channel,candidates,index){
   const streamUrl = candidates[index];
   const plugins = [];
   if(window.HlsjsPlayback) plugins.push(window.HlsjsPlayback);
   let started = false;
   let fallbackTimer = null;
+  let failed = false;
+
+  const failToNative = () => {
+    if(failed || started || currentChannelKey !== getChannelKey(channel)) return;
+    failed = true;
+    clearTimeout(fallbackTimer);
+    playNativeHlsCandidate(channel,candidates,index);
+  };
 
   destroyPlayer();
-  console.log(`Intento ${index + 1}/${candidates.length}:`,streamUrl);
+  console.log(`Clappr ${index + 1}/${candidates.length}:`,streamUrl);
 
-  player = new Clappr.Player({
-    source:streamUrl,
-    parentId:"#player",
-    plugins,
-    autoPlay:true,
-    mute:false,
-    playInline:true,
-    width:"100%",
-    height:"100%",
-    hideMediaControl:false,
-    hideMediaControlDelay:PLAYER_UI_HIDE_DELAY,
-    mimeType:"application/vnd.apple.mpegurl",
-    hlsPlayback:{preload:true},
-    playback:{
+  try{
+    player = new Clappr.Player({
+      source:streamUrl,
+      parentId:"#player",
+      plugins,
+      autoPlay:true,
+      mute:false,
       playInline:true,
-      hlsjsConfig:{
-        enableWorker:true,
-        lowLatencyMode:false,
-        liveSyncDurationCount:3,
-        maxBufferLength:24,
-        manifestLoadingMaxRetry:5,
-        manifestLoadingRetryDelay:900,
-        levelLoadingMaxRetry:5,
-        levelLoadingRetryDelay:900,
-        fragLoadingMaxRetry:6,
-        fragLoadingRetryDelay:900,
-        keyLoadingMaxRetry:3,
-        keyLoadingRetryDelay:900
-      }
-    },
-    events:{
-      onReady(){
-        syncVideoEvents();
-        prepareClapprControls();
-        showPlayerUi();
-        fallbackTimer = setTimeout(() => {
-          if(!started && currentChannelKey === getChannelKey(channel)){
-            playChannelCandidate(channel,candidates,index + 1);
-          }
-        },9000);
+      width:"100%",
+      height:"100%",
+      hideMediaControl:false,
+      hideMediaControlDelay:PLAYER_UI_HIDE_DELAY,
+      mimeType:"application/vnd.apple.mpegurl",
+      hlsPlayback:{preload:true},
+      playback:{
+        playInline:true,
+        hlsjsConfig:{
+          enableWorker:true,
+          lowLatencyMode:false,
+          liveSyncDurationCount:3,
+          maxBufferLength:24,
+          manifestLoadingMaxRetry:3,
+          manifestLoadingRetryDelay:650,
+          levelLoadingMaxRetry:3,
+          levelLoadingRetryDelay:650,
+          fragLoadingMaxRetry:4,
+          fragLoadingRetryDelay:650,
+          keyLoadingMaxRetry:2,
+          keyLoadingRetryDelay:650
+        }
       },
-      onPlay(){
-        started = true;
-        clearTimeout(fallbackTimer);
-        showPlayerUi();
-      },
-      onPause(){showPlayerUi()},
-      onError(error){
-        console.log("Clappr error:",error);
-        clearTimeout(fallbackTimer);
-        if(!started && currentChannelKey === getChannelKey(channel)){
-          setTimeout(() => playChannelCandidate(channel,candidates,index + 1),350);
+      events:{
+        onReady(){
+          syncVideoEvents();
+          prepareClapprControls();
+          showPlayerUi();
+          fallbackTimer = setTimeout(failToNative,5500);
+        },
+        onPlay(){
+          started = true;
+          clearTimeout(fallbackTimer);
+          showPlayerUi();
+        },
+        onPause(){showPlayerUi()},
+        onError(error){
+          console.log("Clappr error:",error);
+          failToNative();
         }
       }
-    }
-  });
+    });
+  }catch(error){
+    console.log("Clappr init error:",error);
+    failToNative();
+  }
+}
+
+function playNativeHlsCandidate(channel,candidates,index){
+  if(index >= candidates.length){
+    showToast("No se pudo abrir este canal");
+    return;
+  }
+  const streamUrl = candidates[index];
+  destroyPlayer();
+  console.log(`Hls.js ${index + 1}/${candidates.length}:`,streamUrl);
+
+  const host = document.getElementById("player");
+  const video = document.createElement("video");
+  video.controls = true;
+  video.autoplay = true;
+  video.playsInline = true;
+  video.setAttribute("playsinline","");
+  video.setAttribute("webkit-playsinline","");
+  video.style.cssText = "width:100%;height:100%;object-fit:contain;background:#000";
+  host.appendChild(video);
+
+  let started = false;
+  let timer = null;
+  const next = () => {
+    clearTimeout(timer);
+    if(started || currentChannelKey !== getChannelKey(channel)) return;
+    playChannelCandidate(channel,candidates,index + 1);
+  };
+  video.addEventListener("playing",()=>{started=true;clearTimeout(timer);showPlayerUi()},{once:true});
+  video.addEventListener("error",next,{once:true});
+
+  if(video.canPlayType("application/vnd.apple.mpegurl")){
+    video.src = streamUrl;
+    video.play().catch(()=>{});
+    timer=setTimeout(next,6500);
+    return;
+  }
+
+  if(window.Hls && Hls.isSupported()){
+    nativeHls = new Hls({
+      enableWorker:true,
+      lowLatencyMode:false,
+      liveSyncDurationCount:3,
+      maxBufferLength:24,
+      manifestLoadingMaxRetry:3,
+      levelLoadingMaxRetry:3,
+      fragLoadingMaxRetry:4
+    });
+    nativeHls.on(Hls.Events.ERROR,(event,data)=>{
+      if(data && data.fatal) next();
+    });
+    nativeHls.loadSource(streamUrl);
+    nativeHls.attachMedia(video);
+    nativeHls.on(Hls.Events.MANIFEST_PARSED,()=>video.play().catch(()=>{}));
+    timer=setTimeout(next,6500);
+    return;
+  }
+
+  next();
 }
 
 function isMexicoGeoRestrictedAkamai(url){
@@ -2019,7 +2102,8 @@ function shouldUseProxy(channel){
   if(url.startsWith("http://") && location.protocol === "https:") return true;
 
   // Estos enlaces o cabeceras especiales sí necesitan el Worker.
-  if(url.includes("jmp2.uk/")) return true;
+  // Los redirectores jmp2 funcionan mejor directos primero; el proxy queda como respaldo.
+  if(url.includes("jmp2.uk/")) return false;
   if(channel.referrer || channel.userAgent) return true;
 
   return USE_PROXY_FOR_ALL;
@@ -2044,7 +2128,7 @@ function getStreamCandidates(channel){
   };
 
   const original = expandStreamMacros(String(channel.url || ""));
-  const proxied = buildProxyUrl(channel);
+  const proxied = buildProxyUrl(channel,original);
 
   if(isMexicoGeoRestrictedAkamai(original)){
     // Akamai restringido por país: directo primero.
@@ -2083,6 +2167,10 @@ function getStreamCandidates(channel){
 }
 
 function destroyPlayer(){
+  if(nativeHls){
+    try{nativeHls.destroy()}catch(error){}
+    nativeHls = null;
+  }
   if(clapprControlObserver){
     clapprControlObserver.disconnect();
     clapprControlObserver = null;

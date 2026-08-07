@@ -1,4 +1,4 @@
-const CACHE_NAME = "nova-tv-2.0.0";
+const CACHE_NAME = "nova-tv-2.1.0";
 const CORE = ["./","./index.html"];
 
 self.addEventListener("install",event=>{

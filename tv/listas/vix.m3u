@@ -1,4 +1,14 @@
 #EXTM3U
+#EXTINF:-1 channel-id="US4000069ML-us" tvg-id="US4000069ML" tvg-chno="3951" tvg-name="Una Familia de Diez" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/US4000069ML_20260528T041904SQUARE.png" group-title="United States",Una Familia de Diez
+https://jmp2.uk/stvp-US4000069ML
+#EXTINF:-1 channel-id="US40000683A-us" tvg-id="US40000683A" tvg-chno="3953" tvg-name="La Fea Mas Bella" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/US40000683A_20260505T062516SQUARE.png" group-title="United States",La Fea Mas Bella
+https://jmp2.uk/stvp-US40000683A
+#EXTINF:-1 channel-id="US1800002UQ-us" tvg-id="US1800002UQ" tvg-chno="3855" tvg-name="El Señor de los Cielos" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/US1800002UQ_20260721T032643SQUARE.png" group-title="United States",El Señor de los Cielos
+https://jmp2.uk/stvp-US1800002UQ
+#EXTINF:-1 channel-id="USBD2700004ME-us" tvg-id="USBD2700004ME" tvg-chno="3975" tvg-name="Como Dice el Dicho" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/USBD2700004ME_20260421T142145SQUARE.png" group-title="United States",Como Dice el Dicho
+https://jmp2.uk/stvp-USBD2700004ME
+#EXTINF:-1 channel-id="US4000064JE-us" tvg-id="US4000064JE" tvg-chno="3952" tvg-name="40 y 20" tvg-logo="https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/US4000064JE_20260421T141724SQUARE.png" group-title="United States",40 y 20
+https://jmp2.uk/stvp-US4000064JE
 #EXTINF:-1 tvg-id="vix-001" tvg-name="Cine de Oro" group-title="Cine" provider="vix" tvg-logo="https://images.vix.com/prd/channel/62274abded9b67e9806eef58/e589cadaabcf0bf7291bd08048006fd2?tr=q-30&w=1280",Cine de Oro
 https://d1f9aixb302mui.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-21at0gff14h91/server/distrib/AzX9XeTnwbXQSax7/zuvPJYoOOdEMDNF2j2mvmg.XD-5XW7bmDpD5yWfV328oU9NWPX1Y7dhiYqJY3ymkerRKjKvBm9YaKmRu09CS8ak3vKkgVwPUO3_k0fGhRTEqhx7uA5SoqnEkvVF8Xc2klxvPh_8pLoZJQ6bUeBfeoEXUOMZPkGL3N7UL3Ye8Vh6526hIXmxr62MQO1GVsuI7AYFDeywl4h6aNgo6cf2Sn3v_3Y-vYD6Ou69J8uZypiuDsZq5g3fAlaRvzvcJGkJP1dyh0UCeoF3F_OeM3ixeuwqeYPSDFwCuuJkYrm9qlT1IQ/manifest.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.us_privacy=1YNY&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.ssai_vendor=SSSLIVE&ads.afsdk_params=%7BAFSDK_VALUE%7D&ads.service_id=USBD2700005KL
 #EXTINF:-1 tvg-id="vix-002" tvg-name="Cine Retro" group-title="Cine" provider="vix" tvg-logo="https://images.vix.com/prd/channel/62274e72ed9b67bf206f1a5e/239fe6fbfe883777cfb427e23256f1fc?tr=q-30&w=1280",Cine Retro

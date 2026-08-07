@@ -1435,9 +1435,11 @@ async function fetchPlutoEpg(force=false){
   const base=String(window.WATCH_TV_CONFIG?.API_URL||"").replace(/\/$/,"");
   if(!base)return[];
   plutoState.loading=(async()=>{
-    const response=await fetch(`${base}/api/pluto/epg?country=MX&upcoming=30`,{headers:{Accept:"application/json"},cache:"no-store"});
-    if(!response.ok)throw new Error(`Pluto EPG ${response.status}`);
-    const data=await response.json();indexPlutoEpg(data);syncPlutoOfficialChannels();updateCurrentEpg();renderChannels();return plutoState.channels;
+    const response=await fetch(`${base}/api/pluto/epg?country=MX&upcoming=8`,{headers:{Accept:"application/json"},cache:"no-store"});
+    const data=await response.json().catch(()=>({}));
+    if(!response.ok||data?.ok===false||data?.success===false){
+      throw new Error(data?.error||`Pluto EPG ${response.status}`);
+    }indexPlutoEpg(data);syncPlutoOfficialChannels();updateCurrentEpg();renderChannels();return plutoState.channels;
   })().catch(error=>{console.warn("No se pudo cargar la EPG de Pluto",error);return[]}).finally(()=>{plutoState.loading=null});
   return plutoState.loading;
 }

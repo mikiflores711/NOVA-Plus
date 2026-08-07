@@ -37,7 +37,7 @@ export default {
         return json(request, env, {
           ok: true,
           service: "Watch TV Plus Cloudflare API",
-          version: "7.5"
+          version: "7.5.1"
         });
       }
 
@@ -149,17 +149,318 @@ async function proxyCanelaEpg(request, env) {
 
 const PLUTO_GRAPHQL_URL = "https://pluto.tv/api/tn/video/graphql/";
 const PLUTO_HASH = "a8c66dc403e590458bf86eff582a5541a7e1986d75ca7543ae2d6fd1e60b2b3a";
-function buildPlutoUpstream(country="MX", upcoming=30){
-  const extensions={tnPersistedDocumentHash:PLUTO_HASH};
-  const variables={params:{userRegistrationCountry:country,userState:"ANONYMOUS",packageCode:"NEW_FREE_PACKAGE",userProfileType:"ADULT",billingVendor:"cbscomp",dma:0,stationId:null,channelCategorySlug:null,platformType:"Desktop",showListing:true,hideChannelsWithoutListings:true,rows:500,numOfUpcomingListings:upcoming,filterLockedChannels:false,start:0}};
-  const u=new URL(PLUTO_GRAPHQL_URL);u.searchParams.set("extensions",JSON.stringify(extensions));u.searchParams.set("variables",JSON.stringify(variables));u.searchParams.set("operationName","ChannelsMany");return u;
+const PLUTO_CACHE_VERSION = "v2";
+const PLUTO_MAX_UPCOMING = 12;
+
+function buildPlutoUpstream(country = "MX", upcoming = 8) {
+  const safeCountry = /^[A-Z]{2}$/.test(country) ? country : "MX";
+  const safeUpcoming = Math.min(
+    PLUTO_MAX_UPCOMING,
+    Math.max(1, Number.isFinite(Number(upcoming)) ? Number(upcoming) : 8)
+  );
+
+  const extensions = { tnPersistedDocumentHash: PLUTO_HASH };
+  const variables = {
+    params: {
+      userRegistrationCountry: safeCountry,
+      userState: "ANONYMOUS",
+      packageCode: "NEW_FREE_PACKAGE",
+      userProfileType: "ADULT",
+      billingVendor: "cbscomp",
+      dma: 0,
+      stationId: null,
+      channelCategorySlug: null,
+      platformType: "Desktop",
+      showListing: true,
+      hideChannelsWithoutListings: true,
+      rows: 500,
+      numOfUpcomingListings: safeUpcoming,
+      filterLockedChannels: false,
+      start: 0
+    }
+  };
+
+  const upstream = new URL(PLUTO_GRAPHQL_URL);
+  upstream.searchParams.set("extensions", JSON.stringify(extensions));
+  upstream.searchParams.set("variables", JSON.stringify(variables));
+  upstream.searchParams.set("operationName", "ChannelsMany");
+  return upstream;
 }
-function normalizePlutoProgram(p={}){return{id:String(p.id||p.ptvId||""),title:p.title||p.episodeTitle||"Programación",description:p.description||"",start:p.startTimeFormatted||(p.startTimestamp?new Date(p.startTimestamp).toISOString():null),end:p.endTimeFormatted||(p.endTimestamp?new Date(p.endTimestamp).toISOString():null),live:Boolean(p.isListingLive),rating:p.rating||"",genre:p.associatedContentVideo?.genre||"",thumbnail:p.resolvedfilePathThumb||"",videoContentId:p.videoContentId||p.contentCANVideo?.contentId||""}}
-function normalizePlutoChannel(ch={}){const current=Array.isArray(ch.currentListing)?ch.currentListing:[],upcoming=Array.isArray(ch.upcomingListing)?ch.upcomingListing:[];const videoContentId=String(ch.videoContentId||current[0]?.videoContentId||current[0]?.contentCANVideo?.contentId||"");return{id:String(ch.originId||ch.id||""),originId:ch.originId??null,internalId:ch.id??null,videoContentId,slug:ch.slug||"",name:ch.channelName||"Canal Pluto TV",logo:ch.resolvedfilePathLogo||ch.resolvedfilePathLogoSelected||"",selectedLogo:ch.resolvedfilePathLogoSelected||"",background:ch.resolvedfilepathDefaultBackground||"",description:ch.description||"",categories:Array.isArray(ch.channelCategorySlugs)?ch.channelCategorySlugs:[],programs:[...current,...upcoming].map(normalizePlutoProgram).filter(p=>p.start&&p.end).sort((a,b)=>Date.parse(a.start)-Date.parse(b.start))}}
-async function fetchPlutoOfficial(country="MX",upcoming=30){const upstream=buildPlutoUpstream(country,upcoming);const cache=caches.default,cacheKey=new Request(upstream.toString(),{method:"GET"});let response=await cache.match(cacheKey);if(!response){response=await fetch(upstream,{headers:{Accept:"application/json","Content-Type":"application/json","Request-Source":"live-tv-channels",Referer:"https://pluto.tv/latam/watch/live-tv/","User-Agent":"NOVAPlus-TV/7.5"},cf:{cacheEverything:true,cacheTtl:300}});if(!response.ok)throw new Error(`Pluto respondió ${response.status}`);await cache.put(cacheKey,response.clone())}const payload=await response.json();const raw=payload?.data?.channels?.channels;if(!Array.isArray(raw))throw new Error("Pluto no devolvió canales");return raw.map(normalizePlutoChannel).filter(c=>c.videoContentId&&c.name)}
-async function proxyPlutoEpg(request,env){checkPublicOrigin(request,env);const u=new URL(request.url),country=(u.searchParams.get("country")||"MX").toUpperCase().slice(0,2),upcoming=Math.min(100,Math.max(1,Number(u.searchParams.get("upcoming")||30)));const channels=await fetchPlutoOfficial(country,upcoming);return json(request,env,{success:true,provider:"pluto",country,updatedAt:new Date().toISOString(),count:channels.length,channels},200,{"Cache-Control":"public, max-age=120, s-maxage=300"})}
-function m3uEscape(v){return String(v||"").replace(/"/g,"'").replace(/[\r\n]+/g," ").trim()}
-async function generatePlutoM3u(request,env){checkPublicOrigin(request,env);const u=new URL(request.url),country=(u.searchParams.get("country")||"MX").toUpperCase().slice(0,2);const channels=await fetchPlutoOfficial(country,5);const lines=["#EXTM3U"];for(const ch of channels){const category=m3uEscape(ch.categories?.[0]||"Pluto TV");lines.push(`#EXTINF:-1 tvg-id="${m3uEscape(ch.slug||ch.videoContentId)}" tvg-name="${m3uEscape(ch.name)}" group-title="${category}" provider="pluto" epg-id="${ch.videoContentId}" origin-id="${ch.originId||""}" tvg-logo="${m3uEscape(ch.logo)}",${m3uEscape(ch.name)}`);lines.push(`https://jmp2.uk/plu-${ch.videoContentId}.m3u8`)}return corsResponse(request,env,lines.join("\n"),200,{"Content-Type":"audio/x-mpegurl; charset=utf-8","Content-Disposition":"attachment; filename=pluto-oficial-mx.m3u","Cache-Control":"public, max-age=300"})}
+
+function normalizePlutoProgram(program = {}) {
+  const start = program.startTimeFormatted || (
+    Number.isFinite(Number(program.startTimestamp))
+      ? new Date(Number(program.startTimestamp)).toISOString()
+      : null
+  );
+  const end = program.endTimeFormatted || (
+    Number.isFinite(Number(program.endTimestamp))
+      ? new Date(Number(program.endTimestamp)).toISOString()
+      : null
+  );
+
+  return {
+    id: String(program.id || program.ptvId || ""),
+    title: program.title || program.episodeTitle || "Programación",
+    episodeTitle: program.episodeTitle || "",
+    description: program.description || "",
+    start,
+    end,
+    startTimestamp: Number(program.startTimestamp || Date.parse(start || "")) || null,
+    endTimestamp: Number(program.endTimestamp || Date.parse(end || "")) || null,
+    duration: Number(program.durationMins || 0),
+    live: Boolean(program.isListingLive),
+    rating: program.rating || "",
+    genre: program.associatedContentVideo?.genre || "",
+    season: program.seasonNumber ?? null,
+    episode: program.episodeNumber ?? null,
+    thumbnail: program.resolvedfilePathThumb || "",
+    videoContentId: String(
+      program.videoContentId ||
+      program.contentCANVideo?.contentId ||
+      ""
+    )
+  };
+}
+
+function normalizePlutoChannel(channel = {}) {
+  const current = Array.isArray(channel.currentListing)
+    ? channel.currentListing
+    : Array.isArray(channel.currentListings)
+      ? channel.currentListings
+      : [];
+  const upcoming = Array.isArray(channel.upcomingListing)
+    ? channel.upcomingListing
+    : Array.isArray(channel.upcomingListings)
+      ? channel.upcomingListings
+      : [];
+
+  const videoContentId = String(
+    channel.videoContentId ||
+    current[0]?.videoContentId ||
+    current[0]?.contentCANVideo?.contentId ||
+    upcoming[0]?.videoContentId ||
+    upcoming[0]?.contentCANVideo?.contentId ||
+    ""
+  );
+
+  const deduplicated = new Map();
+  for (const rawProgram of [...current, ...upcoming]) {
+    const program = normalizePlutoProgram(rawProgram);
+    if (!program.start || !program.end) continue;
+    const key = program.id || `${program.start}|${program.end}|${program.title}`;
+    if (!deduplicated.has(key)) deduplicated.set(key, program);
+  }
+
+  return {
+    id: String(channel.originId || channel.id || videoContentId || ""),
+    originId: channel.originId ?? null,
+    internalId: channel.id ?? null,
+    videoContentId,
+    slug: channel.slug || channel.channelSlug || "",
+    name: channel.channelName || channel.name || "Canal Pluto TV",
+    logo:
+      channel.resolvedfilePathLogo ||
+      channel.resolvedfilePathLogoSelected ||
+      channel.filePathLogo ||
+      "",
+    selectedLogo: channel.resolvedfilePathLogoSelected || "",
+    background: channel.resolvedfilepathDefaultBackground || "",
+    description: channel.description || "",
+    categories: Array.isArray(channel.channelCategorySlugs)
+      ? channel.channelCategorySlugs
+      : [],
+    programs: [...deduplicated.values()].sort(
+      (a, b) => Date.parse(a.start) - Date.parse(b.start)
+    )
+  };
+}
+
+function extractPlutoChannels(payload) {
+  const candidates = [
+    payload?.data?.channels?.channels,
+    payload?.data?.channels?.items,
+    payload?.channels,
+    payload?.data?.channels
+  ];
+
+  for (const candidate of candidates) {
+    if (Array.isArray(candidate)) return candidate;
+  }
+
+  const graphErrors = Array.isArray(payload?.errors)
+    ? payload.errors.map(item => item?.message || String(item)).join(" | ")
+    : "";
+  throw httpError(
+    502,
+    graphErrors
+      ? `Pluto GraphQL rechazó la consulta: ${graphErrors}`
+      : "Pluto TV respondió con una estructura de canales desconocida."
+  );
+}
+
+function plutoCacheKey(country, upcoming) {
+  return new Request(
+    `https://nova-plus-cache.invalid/pluto/${PLUTO_CACHE_VERSION}/${country}/${upcoming}`,
+    { method: "GET" }
+  );
+}
+
+async function fetchPlutoOfficial(country = "MX", upcoming = 8) {
+  const safeCountry = String(country || "MX").toUpperCase().slice(0, 2);
+  const safeUpcoming = Math.min(
+    PLUTO_MAX_UPCOMING,
+    Math.max(1, Number(upcoming) || 8)
+  );
+  const cache = caches.default;
+  const cacheKey = plutoCacheKey(safeCountry, safeUpcoming);
+  const cached = await cache.match(cacheKey);
+
+  if (cached) {
+    try {
+      const cachedPayload = await cached.json();
+      if (Array.isArray(cachedPayload?.channels)) return cachedPayload.channels;
+    } catch (error) {
+      console.warn("Caché Pluto inválida; se solicitará nuevamente.", error);
+    }
+  }
+
+  const upstream = buildPlutoUpstream(safeCountry, safeUpcoming);
+  let upstreamResponse;
+  try {
+    upstreamResponse = await fetch(upstream.toString(), {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Accept-Language": "es-419,es;q=0.9",
+        "Request-Source": "live-tv-channels",
+        Referer: "https://pluto.tv/latam/watch/live-tv/",
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+          "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36"
+      },
+      redirect: "follow",
+      cf: { cacheTtl: 0, cacheEverything: false }
+    });
+  } catch (error) {
+    throw httpError(502, `No se pudo conectar con Pluto TV: ${error?.message || error}`);
+  }
+
+  const responseText = await upstreamResponse.text();
+  if (!upstreamResponse.ok) {
+    throw httpError(
+      502,
+      `Pluto TV respondió HTTP ${upstreamResponse.status}: ${responseText.slice(0, 280)}`
+    );
+  }
+
+  let payload;
+  try {
+    payload = JSON.parse(responseText);
+  } catch {
+    throw httpError(
+      502,
+      `Pluto TV no devolvió JSON válido: ${responseText.slice(0, 280)}`
+    );
+  }
+
+  const rawChannels = extractPlutoChannels(payload);
+  const channels = rawChannels
+    .map(normalizePlutoChannel)
+    .filter(channel => channel.id && channel.videoContentId && channel.name);
+
+  if (!channels.length) {
+    throw httpError(502, "Pluto TV no devolvió canales utilizables para México.");
+  }
+
+  // Se guarda una respuesta limpia. No se intenta almacenar la respuesta original
+  // de Pluto porque contiene Set-Cookie y Cloudflare Cache API puede rechazarla.
+  const cleanCacheResponse = new Response(
+    JSON.stringify({ channels, cachedAt: new Date().toISOString() }),
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "public, max-age=300"
+      }
+    }
+  );
+  try {
+    await cache.put(cacheKey, cleanCacheResponse);
+  } catch (error) {
+    // La EPG continúa funcionando aunque el almacenamiento en caché falle.
+    console.warn("No se pudo guardar la caché normalizada de Pluto.", error);
+  }
+
+  return channels;
+}
+
+async function proxyPlutoEpg(request, env) {
+  checkPublicOrigin(request, env);
+  const incoming = new URL(request.url);
+  const country = (incoming.searchParams.get("country") || "MX")
+    .toUpperCase()
+    .slice(0, 2);
+  const upcoming = Math.min(
+    PLUTO_MAX_UPCOMING,
+    Math.max(1, Number(incoming.searchParams.get("upcoming") || 8))
+  );
+  const channels = await fetchPlutoOfficial(country, upcoming);
+
+  return json(
+    request,
+    env,
+    {
+      ok: true,
+      success: true,
+      provider: "pluto",
+      source: "Pluto TV ChannelsMany",
+      country,
+      requestedUpcoming: upcoming,
+      updatedAt: new Date().toISOString(),
+      count: channels.length,
+      channels
+    },
+    200,
+    { "Cache-Control": "public, max-age=120, s-maxage=300" }
+  );
+}
+
+function m3uEscape(value) {
+  return String(value || "")
+    .replace(/"/g, "'")
+    .replace(/[\r\n]+/g, " ")
+    .trim();
+}
+
+async function generatePlutoM3u(request, env) {
+  checkPublicOrigin(request, env);
+  const incoming = new URL(request.url);
+  const country = (incoming.searchParams.get("country") || "MX")
+    .toUpperCase()
+    .slice(0, 2);
+  const channels = await fetchPlutoOfficial(country, 1);
+  const lines = ["#EXTM3U"];
+
+  for (const channel of channels) {
+    const category = m3uEscape(channel.categories?.[0] || "Pluto TV");
+    const streamUrl = `https://jmp2.uk/plu-${channel.videoContentId}.m3u8`;
+    lines.push(
+      `#EXTINF:-1 tvg-id="${m3uEscape(channel.slug || channel.videoContentId)}" ` +
+      `tvg-name="${m3uEscape(channel.name)}" group-title="${category}" ` +
+      `provider="pluto" epg-id="${channel.videoContentId}" ` +
+      `origin-id="${channel.originId || ""}" tvg-logo="${m3uEscape(channel.logo)}",` +
+      `${m3uEscape(channel.name)}`
+    );
+    lines.push(streamUrl);
+  }
+
+  return corsResponse(request, env, lines.join("\n"), 200, {
+    "Content-Type": "audio/x-mpegurl; charset=utf-8",
+    "Content-Disposition": `attachment; filename=pluto-oficial-${country.toLowerCase()}.m3u`,
+    "Cache-Control": "public, max-age=300"
+  });
+}
 
 function validIso(value){ if(!value) return ""; const d=new Date(value); return Number.isNaN(d.getTime())?"":d.toISOString(); }
 

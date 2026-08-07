@@ -1,4 +1,4 @@
-const CACHE_NAME = "nova-tv-v7.5-pluto-auto-epg";
+const CACHE_NAME = "nova-tv-v7.5.1-pluto-worker-fix";
 const SHELL_FILES = [
   "./",
   "./index.html",
